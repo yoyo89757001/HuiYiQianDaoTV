@@ -1,14 +1,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/video_root"
+    android:background="@drawable/xuxuaibg"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
     <RelativeLayout
-        android:background="@drawable/jkjk"
-        android:layout_above="@+id/recyclerView2"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:background="@color/touming22"
+        android:layout_height="120dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -19,15 +20,15 @@
             <TextView
                 android:id="@+id/t1"
                 android:textColor="@color/write"
-                android:textSize="60sp"
+                android:textSize="50sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/t2"
                 android:textColor="@color/write"
-                android:textSize="92sp"
-                android:layout_marginTop="@dimen/dp_10"
+                android:textSize="30sp"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -35,6 +36,7 @@
                 android:id="@+id/t3"
                 android:textColor="@color/write"
                 android:textSize="46sp"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -42,35 +44,32 @@
         </LinearLayout>
 
 
-
-
-
     </RelativeLayout>
 
-
-
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_marginLeft="2dp"
+        android:layout_toLeftOf="@+id/recyclerView2"
+        android:layout_marginRight="2dp"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 
     <!--弹窗-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView2"
-        android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="2dp"
+        android:background="@color/touming22"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="2dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <!--弹窗-->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_centerInParent="true"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
 
 
     <Button

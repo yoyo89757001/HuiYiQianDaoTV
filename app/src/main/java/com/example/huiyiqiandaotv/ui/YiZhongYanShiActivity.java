@@ -8,8 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -26,7 +24,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
-import android.view.ViewGroup;;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
@@ -36,8 +34,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.baidu.tts.client.SpeechError;
-import com.baidu.tts.client.SpeechSynthesizerListener;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -59,6 +55,7 @@ import com.example.huiyiqiandaotv.beans.WBBean;
 import com.example.huiyiqiandaotv.beans.WeiShiBieBean;
 import com.example.huiyiqiandaotv.interfaces.RecytviewCash;
 import com.example.huiyiqiandaotv.media.IjkVideoView;
+import com.example.huiyiqiandaotv.sample.BiliDanmukuParser;
 import com.example.huiyiqiandaotv.service.AlarmReceiver;
 import com.example.huiyiqiandaotv.utils.GsonUtil;
 import com.example.huiyiqiandaotv.utils.Utils;
@@ -67,6 +64,7 @@ import com.example.huiyiqiandaotv.view.WrapContentLinearLayoutManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sdsmdg.tastytoast.TastyToast;
+
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.videolan.libvlc.IVLCVout;
@@ -78,6 +76,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -98,13 +97,14 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import sun.misc.BASE64Decoder;
-import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 
-public class VlcVideoActivity extends BaseActivity implements RecytviewCash, SpeechSynthesizerListener {
+;
+
+
+public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash {
 	private final static String TAG = "WebsocketPushMsg";
-	private IjkVideoView ijkVideoView;
+//	private IjkVideoView ijkVideoView;
 	private MyReceiver myReceiver=null;
 	//private SurfaceView surfaceview;
 	private RecyclerView recyclerView;
@@ -113,16 +113,15 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 	private MyAdapter2 adapter2=null;
 	private MoShengRenBeanDao daoSession=null;
 	//private SpeechSynthesizer mSpeechSynthesizer;
-	private String mSampleDirPath;
 	private WrapContentLinearLayoutManager manager;
 	private WrapContentLinearLayoutManager manager2;
 	private static  WebSocketClient webSocketClient=null;
 	private MediaPlayer mediaPlayer=null;
-	private IVLCVout vlcVout=null;
-	private IVLCVout.Callback callback;
-	private LibVLC libvlc;
-	private Media media;
-	private SurfaceHolder mSurfaceHolder;
+	//private IVLCVout vlcVout=null;
+	//private IVLCVout.Callback callback;
+//	private LibVLC libvlc;
+//	private Media media;
+//	private SurfaceHolder mSurfaceHolder;
 	private String zhuji=null;
 	private static final String zhuji2="http://121.46.3.20";
 	private static Vector<TanChuangBean> lingdaoList=null;
@@ -133,43 +132,43 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 	private NetWorkStateReceiver netWorkStateReceiver=null;
 	private TextView wangluo;
 	private boolean isLianJie=false;
-	private List<AllUserBean.DataBean> dataBeanList=new ArrayList<>();
+	//private List<AllUserBean.DataBean> dataBeanList=new ArrayList<>();
 	private RelativeLayout top_rl;
 	private TextView t1,t2,t3;
 	private TanChuangBeanDao tanChuangBeanDao=null;
 
 
-//	private TextView xiaoshi,riqi,xingqi,tianqi,wendu;
 
 
 	public  Handler handler=new Handler(new Handler.Callback() {
 
 		@Override
 		public boolean handleMessage(final Message msg) {
-			switch (msg.what){
+			switch (msg.what) {
 				case 111:
 					//更新地址
 
 					break;
 				case 110:
-					if (lingdaoList.size()>1) {
+					if (lingdaoList.size() > 1) {
 
-						AnimatorSet animatorSet = new AnimatorSet();
-						animatorSet.playTogether(
-								ObjectAnimator.ofFloat(adapter2.getViewByPosition(recyclerView2,1,R.id.ffflll),"scaleY",1f,0f),
-								ObjectAnimator.ofFloat(adapter2.getViewByPosition(recyclerView2,1,R.id.ffflll),"scaleX",1f,0f)
-								//	ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
-						);
-						animatorSet.setDuration(200);
-						animatorSet.setInterpolator(new AccelerateInterpolator());
-						animatorSet.addListener(new AnimatorListenerAdapter(){
-							@Override public void onAnimationEnd(Animator animation) {
-								adapter2.notifyItemRemoved(1);
-								lingdaoList.remove(1);
-
-							}
-						});
-						animatorSet.start();
+//						AnimatorSet animatorSet = new AnimatorSet();
+//						animatorSet.playTogether(
+//								ObjectAnimator.ofFloat(adapter2.getViewByPosition(recyclerView2, 1, R.id.ffflll), "scaleY", 1f, 0f),
+//								ObjectAnimator.ofFloat(adapter2.getViewByPosition(recyclerView2, 1, R.id.ffflll), "scaleX", 1f, 0f)
+//								//	ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
+//						);
+//						animatorSet.setDuration(200);
+//						animatorSet.setInterpolator(new AccelerateInterpolator());
+//						animatorSet.addListener(new AnimatorListenerAdapter() {
+//							@Override
+//							public void onAnimationEnd(Animator animation) {
+//								adapter2.notifyItemRemoved(1);
+//								lingdaoList.remove(1);
+//
+//							}
+//						});
+//						animatorSet.start();
 
 					}
 
@@ -177,50 +176,34 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 					break;
 				case 999:
 
-					if (yuangongList.size()>1) {
+					if (yuangongList.size() > 1) {
 
-						AnimatorSet animatorSet = new AnimatorSet();
-						animatorSet.playTogether(
-								ObjectAnimator.ofFloat(adapter.getViewByPosition(recyclerView,1,R.id.ffflll),"scaleY",1f,0f),
-								ObjectAnimator.ofFloat(adapter.getViewByPosition(recyclerView,1,R.id.ffflll),"scaleX",1f,0f)
-								//	ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
-						);
-						animatorSet.setDuration(200);
-						animatorSet.setInterpolator(new AccelerateInterpolator());
-						animatorSet.addListener(new AnimatorListenerAdapter(){
-							@Override public void onAnimationEnd(Animator animation) {
-								final long isis=yuangongList.get(1).getId();
-								new Thread(new Runnable() {
-									@Override
-									public void run() {
-										int ii=lingdaoList.size();
-										for (int i=0;i<ii;i++){
-											if (isis==lingdaoList.get(i).getId()){
-												lingdaoList.get(i).setIsLight(true);
-												adapter2.notifyDataSetChanged();
-											}
-
-										}
-
-
-									}
-								}).start();
-
-								adapter.notifyItemRemoved(1);
-								yuangongList.remove(1);
-								if (yuangongList.size()<=1){
-									recyclerView.setBackgroundResource(R.color.transparent);
-								}
-							}
-						});
-						animatorSet.start();
+//						AnimatorSet animatorSet = new AnimatorSet();
+//						animatorSet.playTogether(
+//								ObjectAnimator.ofFloat(adapter.getViewByPosition(recyclerView,1,R.id.ffflll),"scaleY",1f,0f),
+//								ObjectAnimator.ofFloat(adapter.getViewByPosition(recyclerView,1,R.id.ffflll),"scaleX",1f,0f)
+//								//	ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
+//						);
+//						animatorSet.setDuration(200);
+//						animatorSet.setInterpolator(new AccelerateInterpolator());
+//						animatorSet.addListener(new AnimatorListenerAdapter(){
+//							@Override public void onAnimationEnd(Animator animation) {
+//
+//
+//							}
+//						});
+//						animatorSet.start();
 
 						//adapter.notifyItemChanged(0);
-					//	adapter.notifyItemRangeChanged(0,yuangongList.size()+1);
+						//	adapter.notifyItemRangeChanged(0,yuangongList.size()+1);
 						//adapter.notifyDataSetChanged();
 						//manager.scrollToPosition(yuangongList.size() - 1);
-					}
 
+
+
+					adapter.notifyItemRemoved(1);
+					yuangongList.remove(1);
+			}
 
 
 					break;
@@ -252,42 +235,6 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 						case 0: //员工
 							//Log.d(TAG, "员工k");
 
-							if (dataBean.getRemark().equals("员工") && dataBean.getDepartment()!=null && dataBean.getDepartment().equals("领导")) {
-								int a = 0;
-								for (int i2 = 0; i2 < lingdaoList.size(); i2++) {
-									if (Objects.equals(lingdaoList.get(i2).getId(), bean.getId())) {
-										a = 1;
-									}
-								}
-								if (a==0){
-
-								lingdaoList.add(bean);
-								int i1 = lingdaoList.size();
-								adapter2.notifyItemInserted(i1);
-								manager2.scrollToPosition(i1 - 1);
-								new Thread(new Runnable() {
-									@Override
-									public void run() {
-
-										try {
-											Thread.sleep(10000);
-
-											Message message = Message.obtain();
-											message.what = 110;
-											handler.sendMessage(message);
-
-
-										} catch (InterruptedException e) {
-											e.printStackTrace();
-										}
-
-									}
-								}).start();
-
-								}
-
-							}else {
-								Log.d(TAG, "非领导");
 								int a = 0;
 								for (int i2 = 0; i2 < yuangongList.size(); i2++) {
 									if (Objects.equals(yuangongList.get(i2).getId(), bean.getId())) {
@@ -296,10 +243,14 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 								}
 								if (a==0){
 									yuangongList.add(bean);
+									lingdaoList.add(bean);
 									int i1 = yuangongList.size();
+									int i2 = lingdaoList.size();
 									adapter.notifyItemInserted(i1);
 									manager.scrollToPosition(i1 - 1);
-									recyclerView.setBackgroundResource(R.color.touming22);
+
+									adapter2.notifyItemInserted(i2);
+									manager2.scrollToPosition(i2 - 1);
 
 									new Thread(new Runnable() {
 										@Override
@@ -320,7 +271,6 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 
 										}
 									}).start();
-								}
 
 					}
 							break;
@@ -384,136 +334,65 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 				}
 
 
-			}else if (msg.arg1==2) {
-
-			final WeiShiBieBean dataBean = (WeiShiBieBean) msg.obj;
-
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-
-						try {
-
-							BASE64Decoder decoder = new BASE64Decoder();
-							// Base64解码
-							final byte[][] b;
-
-							b = new byte[][]{decoder.decodeBuffer(dataBean.getFace().getImage())};
-							for (int i = 0; i < b[0].length; ++i) {
-								if (b[0][i] < 0) {// 调整异常数据
-									b[0][i] += 256;
-								}
-							}
-
-							TanChuangBean bean = new TanChuangBean();
-							bean.setBytes(b[0]);
-							bean.setName("陌生人");
-							bean.setType(-1);
-							bean.setTouxiang(null);
-							yuangongList.add(bean);
-							final int i3=yuangongList.size();
-							runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-
-									adapter.notifyItemInserted(i3);
-									manager.scrollToPosition(i3 - 1);
-								}
-							});
-
-							Thread.sleep(10000);
-
-							Message message = Message.obtain();
-							message.what = 999;
-							handler.sendMessage(message);
-
-
-						} catch (Exception e) {
-
-							Log.d(TAG, e.getMessage() + "陌生人解码");
-						}
-
-					}
-				}).start();
 			}
+			//else if (msg.arg1==2) {
+
+//			final WeiShiBieBean dataBean = (WeiShiBieBean) msg.obj;
+//
+//				new Thread(new Runnable() {
+//					@Override
+//					public void run() {
+//
+//						try {
+//
+//							BASE64Decoder decoder = new BASE64Decoder();
+//							// Base64解码
+//							final byte[][] b;
+//
+//							b = new byte[][]{decoder.decodeBuffer(dataBean.getFace().getImage())};
+//							for (int i = 0; i < b[0].length; ++i) {
+//								if (b[0][i] < 0) {// 调整异常数据
+//									b[0][i] += 256;
+//								}
+//							}
+//
+//							TanChuangBean bean = new TanChuangBean();
+//							bean.setBytes(b[0]);
+//							bean.setName("陌生人");
+//							bean.setType(-1);
+//							bean.setTouxiang(null);
+//							yuangongList.add(bean);
+//							final int i3=yuangongList.size();
+//							runOnUiThread(new Runnable() {
+//								@Override
+//								public void run() {
+//
+//									adapter.notifyItemInserted(i3);
+//									manager.scrollToPosition(i3 - 1);
+//								}
+//							});
+//
+//							Thread.sleep(10000);
+//
+//							Message message = Message.obtain();
+//							message.what = 999;
+//							handler.sendMessage(message);
+//
+//
+//						} catch (Exception e) {
+//
+//							Log.d(TAG, e.getMessage() + "陌生人解码");
+//						}
+//
+//					}
+//				}).start();
+//			}
 
 			return false;
 		}
 	});
 
-//	/*
-//     * @param arg0
-//     */
-//	@Override
-//	public void onSynthesizeStart(String utteranceId) {
-//	//	toPrint("onSynthesizeStart utteranceId=" + utteranceId);
-//	}
-//
-//	/**
-//	 * 合成数据和进度的回调接口，分多次回调
-//	 *
-//	 * @param
-//	 * @param data 合成的音频数据。该音频数据是采样率为16K，2字节精度，单声道的pcm数据。
-//	 * @param progress 文本按字符划分的进度，比如:你好啊 进度是0-3
-//	 */
-//	@Override
-//	public void onSynthesizeDataArrived(String utteranceId, byte[] data, int progress) {
-//		// toPrint("onSynthesizeDataArrived");
-//		//mHandler.sendMessage(mHandler.obtainMessage(UI_CHANGE_SYNTHES_TEXT_SELECTION, progress, 0));
-//	}
-//
-//	/**
-//	 * 合成正常结束，每句合成正常结束都会回调，如果过程中出错，则回调onError，不再回调此接口
-//	 *
-//	 * @param
-//	 */
-//	@Override
-//	public void onSynthesizeFinish(String utteranceId) {
-//		//toPrint("onSynthesizeFinish utteranceId=" + utteranceId);
-//	}
-//
-//	/**
-//	 * 播放开始，每句播放开始都会回调
-//	 *
-//	 * @param
-//	 */
-//	@Override
-//	public void onSpeechStart(String utteranceId) {
-//		//toPrint("onSpeechStart utteranceId=" + utteranceId);
-//	}
-//
-//	/**
-//	 * 播放进度回调接口，分多次回调
-//	 *
-//	 * @param
-//	 * @param progress 文本按字符划分的进度，比如:你好啊 进度是0-3
-//	 */
-//	@Override
-//	public void onSpeechProgressChanged(String utteranceId, int progress) {
-//		// toPrint("onSpeechProgressChanged");
-//		//mHandler.sendMessage(mHandler.obtainMessage(UI_CHANGE_INPUT_TEXT_SELECTION, progress, 0));
-//	}
-//
-//	/**
-//	 * 播放正常结束，每句播放正常结束都会回调，如果过程中出错，则回调onError,不再回调此接口
-//	 *
-//	 * @param utteranceId
-//	 */
-//	@Override
-//	public void onSpeechFinish(String utteranceId) {
-//		//toPrint("onSpeechFinish utteranceId=" + utteranceId);
-//	}
-//
-//	/**
-//	 * 当合成或者播放过程中出错时回调此接口
-//	 *
-//	 * @param utteranceId
-//	 * @param error 包含错误码和错误信息
-//	 */
-//	@Override
-//	public void onError(String utteranceId, SpeechError error) {
-//	//	toPrint("onError error=" + "(" + error.code + ")" + error.description + "--utteranceId=" + utteranceId);
-//	}
+
 
 	@Override
 	public void reset() {
@@ -581,42 +460,20 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
 		//DisplayMetrics dm = getResources().getDisplayMetrics();
-		dw = Utils.getDisplaySize(VlcVideoActivity.this).x;
-		dh = Utils.getDisplaySize(VlcVideoActivity.this).y;
+		dw = Utils.getDisplaySize(YiZhongYanShiActivity.this).x;
+		dh = Utils.getDisplaySize(YiZhongYanShiActivity.this).y;
 
-		setContentView(R.layout.activity_video_vlc);
+		setContentView(R.layout.yanshiactivity);
 		wangluo = (TextView) findViewById(R.id.wangluo);
 		t1= (TextView) findViewById(R.id.t1);
 		t2= (TextView) findViewById(R.id.t2);
 		t3= (TextView) findViewById(R.id.t3);
 		Typeface typeFace1 = Typeface.createFromAsset(getAssets(), "fonts/FZZYJW.TTF");
 		t1.setTypeface(typeFace1);
-		t1.setText("禾 本 智 能 科 技");
-
+		t1.setText("智 能 人 脸 识 别 系 统");
 		t2.setTypeface(typeFace1);
-		t2.setText("人 工 智 能 演 示 会 议");
+		t2.setText("INTELLIGENT FACE RECOGNITION SYSTEM");
 
-		t3.setTypeface(typeFace1);
-		t3.setText("deme  conference  of  artificial  intelligence");
-
-		//	surfaceview= (SurfaceView) findViewById(R.id.surfaceview);
-
-//		tianqi= (TextView) findViewById(R.id.tianqi);
-//		wendu= (TextView) findViewById(R.id.wendu);
-//
-//		xiaoshi= (TextView) findViewById(R.id.shijian);
-//		riqi= (TextView) findViewById(R.id.riqi);
-//		xingqi= (TextView) findViewById(R.id.xingqi);
-//		String time=(System.currentTimeMillis())+"";
-//		xiaoshi.setText(DateUtils.timeMinute(time));
-//		riqi.setText(DateUtils.timesTwo(time));
-//		xingqi.setText(DateUtils.getWeek(System.currentTimeMillis()));
-
-
-
-		IjkMediaPlayer.loadLibrariesOnce(null);
-		IjkMediaPlayer.native_setLogLevel(6);
-		IjkMediaPlayer.native_profileBegin("libijkplayer.so");
 
 		lingdaoList=new Vector<>();
 		yuangongList = new Vector<>();
@@ -630,21 +487,13 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 		yuangongList.add(bean);
 
 
-//		for (int i=0;i<20;i++){
-//			TanChuangBean bean=new TanChuangBean();
-//			bean.setName("aaaaaa");
-//			bean.setTouxiang("ds");
-//			lingdaoList.add(bean);
-//		}
-
-
 		Button button = (Button) findViewById(R.id.dddk);
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				chongzhi();
 
-				startActivity(new Intent(VlcVideoActivity.this, SheZhiActivity.class));
+				startActivity(new Intent(YiZhongYanShiActivity.this, SheZhiActivity.class));
 			}
 		});
 
@@ -709,11 +558,12 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 		//	mSurfaceView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 
-		manager = new WrapContentLinearLayoutManager(VlcVideoActivity.this,LinearLayoutManager.HORIZONTAL,false,this);
+		manager = new WrapContentLinearLayoutManager(YiZhongYanShiActivity.this,LinearLayoutManager.HORIZONTAL,false,this);
 		recyclerView.setLayoutManager(manager);
 
-	//	manager2 = new WrapContentLinearLayoutManager(VlcVideoActivity.this,LinearLayoutManager.VERTICAL,false,this);
-		recyclerView2.setLayoutManager(new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false));
+		manager2 = new WrapContentLinearLayoutManager(YiZhongYanShiActivity.this,LinearLayoutManager.VERTICAL,false,this);
+		//recyclerView2.setLayoutManager(new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false));
+		recyclerView2.setLayoutManager(manager2);
 		//recyclerView.addItemDecoration(new MyDecoration(VlcVideoActivity.this, LinearLayoutManager.VERTICAL,20,R.color.transparent));
 
 		adapter = new MyAdapter(R.layout.tanchuang_item, yuangongList);
@@ -723,59 +573,26 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 		recyclerView2.setAdapter(adapter2);
 
 		RelativeLayout.LayoutParams  params= (RelativeLayout.LayoutParams) recyclerView2.getLayoutParams();
-		params.height=dh/4;
+		params.width=dw/6;
+		params.height=dh;
 		recyclerView2.setLayoutParams(params);
 		recyclerView2.invalidate();
-		//recyclerView2.addItemDecoration(new GridDivider(VlcVideoActivity.this, 4, this.getResources().getColor(R.color.colorAccent)));
+
+		int si=dw/6;
+		//Log.d(TAG, "si:" + si);
+		RelativeLayout.LayoutParams  params2= (RelativeLayout.LayoutParams) recyclerView.getLayoutParams();
+		params2.width=dw-si;
+		params2.height=dh;
+		recyclerView.setLayoutParams(params2);
+		recyclerView.invalidate();
+
+	//	link_login();
 
 
-		//surfaceview.setKeepScreenOn(true);
 
-//		libvlc = new LibVLC(this);
-//		mediaPlayer = new MediaPlayer(libvlc);
-//		vlcVout = mediaPlayer.getVLCVout();
-//
-//		callback = new IVLCVout.Callback() {
-//			@Override
-//			public void onNewLayout(IVLCVout ivlcVout, int i, int i1, int i2, int i3, int i4, int i5) {
-//
-//			}
-//
-//			@Override
-//			public void onSurfacesCreated(IVLCVout ivlcVout) {
-//				try {
-//
-//					changeSurfaceSize();
-//
-//				} catch (Exception e) {
-//					Log.d("vlc-newlayout", e.toString());
-//				}
-//			}
-//
-//			@Override
-//			public void onSurfacesDestroyed(IVLCVout ivlcVout) {
-//
-//			}
-//
-//			@Override
-//			public void onHardwareAccelerationError(IVLCVout vlcVout) {
-//
-//			}
-//		};
-//
-//		vlcVout.addCallback(callback);
-//		vlcVout.setVideoView(surfaceview);
-//		vlcVout.attachViews();
-		link_login();
 	}
 
 
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-
-	}
 
 	//学生跟陌生人
 	public  class MyAdapter extends BaseQuickAdapter<TanChuangBean,BaseViewHolder> {
@@ -905,14 +722,14 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 							.load(zhuji2+item.getTouxiang())
 							//	.load("http://121.46.3.20/"+item.getTouxiang())
 							//.apply(myOptions2)
-							.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
+						//	.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
 						//	.transform(new GlideRoundTransform(MyApplication.getAppContext(), 6))
 							.into((ImageView) helper.getView(R.id.touxiang));
 				}else {
 					Glide.with(MyApplication.getAppContext())
 							.load(item.getBytes())
 							//.apply(myOptions)
-							.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
+						//	.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
 							//	.transform(new GlideRoundTransform(MyApplication.getAppContext(), 6))
 							.into((ImageView) helper.getView(R.id.touxiang));
 
@@ -920,13 +737,21 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 
 			}
 
+
+			LinearLayout.LayoutParams lp2 = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+
+			//弹窗的高宽
+			lp2.width=(dw-(dw/6))/5;
+			lp2.height=(dw-(dw/6))/5;
+			imageView.setLayoutParams(lp2);
+			imageView.invalidate();
+
 			RelativeLayout linearLayout_tanchuang = helper.getView(R.id.ffflll);
 				ViewGroup.LayoutParams lp =  linearLayout_tanchuang.getLayoutParams();
 
 			    //弹窗的高宽
-
-				lp.width=dw/3;
-				lp.height=dh;
+				lp.width=(dw-(dw/6))/3;
+				lp.height=(dh*8)/10;
 				linearLayout_tanchuang.setLayoutParams(lp);
 			    linearLayout_tanchuang.invalidate();
 
@@ -967,7 +792,9 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 
 			RelativeLayout toprl= helper.getView(R.id.ffflll);
 			TextView tt=helper.getView(R.id.test);
+			tt.setText(item.getName());
 			ImageView imageView=helper.getView(R.id.touxiang);
+
 			//tt.setText(item.getName());
 //
 //				switch (item.getType()){
@@ -1258,35 +1085,33 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 //				}
 //
 				if (item.getTouxiang()!=null ){
-					if (!item.getIsLight()){
+					if (item.getTouxiang()!=null){
 						Glide.with(MyApplication.getAppContext())
 								//	.load(R.drawable.vvv)
 								.load("http://121.46.3.20"+item.getTouxiang())
 								//.apply(myOptions)
-								//.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
-								.bitmapTransform(new BrightnessFilterTransformation(VlcVideoActivity.this,-0.7f))
+								.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
+							//	.bitmapTransform(new BrightnessFilterTransformation(YiZhongYanShiActivity.this,-0.7f))
 								//.bitmapTransform(new GrayscaleTransformation(VlcVideoActivity.this))
 								.into(imageView);
 					}else {
 						Glide.with(MyApplication.getAppContext())
-								//.load(R.drawable.vvv)
-								.load("http://121.46.3.20"+item.getTouxiang())
+								.load(R.drawable.zidonghuoqu1)
+								//.load("http://121.46.3.20"+item.getTouxiang())
 								//.apply(myOptions)
-								//.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
+								.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
 								//	.bitmapTransform(new GrayscaleTransformation(VlcVideoActivity.this))
 								.into(imageView);
 					}
 				}
 
-			GridLayoutManager.LayoutParams  ll= (GridLayoutManager.LayoutParams) toprl.getLayoutParams();
-			ll.width=(dw/10);
-			ll.height=(dh/8);
-			toprl.setLayoutParams(ll);
-			toprl.invalidate();
+			RelativeLayout.LayoutParams  ll= (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+			ll.width=(dw/13);
+			ll.height=(dw/13);
+			imageView.setLayoutParams(ll);
+			imageView.invalidate();
 
 			}
-
-
 
 
 	}
@@ -1422,32 +1247,6 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 					//Log.d(TAG, "收到更新地址广播");
 					String a = intent.getStringExtra("gxsp");
 					String b = intent.getStringExtra("gxzj");
-//					if (!a.equals("")) {
-//						shiping_string = a;
-//						media = new Media(libvlc, Uri.parse(shiping_string));
-//						mediaPlayer.setMedia(media);
-//						mediaPlayer.play();
-//						//mMediaPlayer.playMRL(shiping_string);
-//						startActivity(new Intent(VlcVideoActivity.this, ErWeiMaActivity.class));
-//					}
-//					if (!b.equals("")) {
-//
-//						zhuji_string = b;
-//						try {
-//							String[] a1=zhuji_string.split("//");
-//							String[] b1=a1[1].split(":");
-//							zhuji="http://"+b1[0];
-//
-//							WebsocketPushMsg websocketPushMsg = new WebsocketPushMsg();
-//							if (zhuji_string != null && shiping_string != null) {
-//								websocketPushMsg.startConnection(zhuji_string, shiping_string);
-//							}
-//						} catch (URISyntaxException e) {
-//							e.printStackTrace();
-//
-//						}
-//
-//					}
 
 				}
 				if (intent.getAction().equals("shoudongshuaxin")) {
@@ -1588,7 +1387,7 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 			Log.d(TAG, "按下菜单键 ");
 			chongzhi();
 			//isTiaoZhuang=false;
-			startActivity(new Intent(VlcVideoActivity.this, SheZhiActivity.class));
+			startActivity(new Intent(YiZhongYanShiActivity.this, SheZhiActivity.class));
 
 		}
 
@@ -1623,79 +1422,11 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 
 			}
 		}else {
-			TastyToast.makeText(VlcVideoActivity.this,"请先设置主机地址和摄像头IP",TastyToast.LENGTH_SHORT,TastyToast.INFO).show();
+			TastyToast.makeText(YiZhongYanShiActivity.this,"请先设置主机地址和摄像头IP",TastyToast.LENGTH_SHORT,TastyToast.INFO).show();
 		}
-		sendBroadcast(new Intent(VlcVideoActivity.this,AlarmReceiver.class));
+		sendBroadcast(new Intent(YiZhongYanShiActivity.this,AlarmReceiver.class));
 
 		super.onResume();
-//		if (baoCunBean!=null && baoCunBean.getIsHengOrShu()!=isHX){
-//			if (baoCunBean!=null && baoCunBean.getIsHengOrShu()){
-//				isHX=true;
-//				/**
-//				 * 设置为横屏
-//				 */
-//				if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-//					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-//				}
-//
-//			}else {
-//				isHX=false;
-//				/**
-//				 * 设置为竖屏
-//				 */
-//				if(this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT){
-//					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//
-//				}
-//			}
-//		}
-//		if (ijkVideoView!=null){
-//			if (!ijkVideoView.isPlaying()){
-//				ijkVideoView.start();
-//			}
-//		}
-
-//		if (mediaPlayer==null){
-//			Log.d(TAG, "onresume执行播放");
-//
-//			libvlc = LibVLCUtil.getLibVLC(VlcVideoActivity.this);
-//			mediaPlayer = new MediaPlayer(libvlc);
-//			vlcVout = mediaPlayer.getVLCVout();
-//
-//			callback = new IVLCVout.Callback() {
-//				@Override
-//				public void onNewLayout(IVLCVout ivlcVout, int i, int i1, int i2, int i3, int i4, int i5) {
-//
-//				}
-//
-//				@Override
-//				public void onSurfacesCreated(IVLCVout ivlcVout) {
-//					try {
-//
-//						changeSurfaceSize();
-//
-//					} catch (Exception e) {
-//					  Log.d("vlc-newlayout", e.toString());
-//					}
-//				}
-//
-//				@Override
-//				public void onSurfacesDestroyed(IVLCVout ivlcVout) {
-//
-//				}
-//
-//				@Override
-//				public void onHardwareAccelerationError(IVLCVout vlcVout) {
-//
-//				}
-//			};
-//
-//			vlcVout.addCallback(callback);
-//			vlcVout.setVideoView(mSurfaceView);
-//			vlcVout.attachViews();
-//		}
-
-	//	link_gengxing_erweima();
 	}
 
 
@@ -1711,154 +1442,37 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 	protected void onDestroy() {
 
 		handler.removeCallbacksAndMessages(null);
-		if (myReceiver!=null)
+		if (myReceiver != null)
 			unregisterReceiver(myReceiver);
 		unregisterReceiver(netWorkStateReceiver);
 		super.onDestroy();
 
+	}
 
+
+//	private void changeSurfaceSize() {
+//		// get screen size
+//		int dw = Utils.getDisplaySize(getApplicationContext()).x;
+//		int dh = Utils.getDisplaySize(getApplicationContext()).y;
+//
+////		RelativeLayout.LayoutParams re1 = (RelativeLayout.LayoutParams)surfaceview.getLayoutParams();
+////
+////		  re1.width=dw/3;
+////		  re1.height = dh/5;
+////
+////		surfaceview.setLayoutParams(re1);
+////		surfaceview.invalidate();
+//		Log.d(TAG, baoCunBean.getShipingIP()+"hhhhh");
 //		if (mediaPlayer != null) {
-//			mediaPlayer.stop();
-//			mediaPlayer.release();
-//			mediaPlayer=null;
-//			vlcVout=null;
-//			libvlc.release();
+//			Log.d(TAG, baoCunBean.getShipingIP()+"gggg");
+//
+//			media = new Media(libvlc, Uri.parse("rtsp://"+baoCunBean.getShipingIP()+"/user=admin&password=&channel=1&stream=0.sdp"));
+//			mediaPlayer.setMedia(media);
+//			mediaPlayer.play();
+//
 //		}
-
-		//ijkVideoView.pause();
-		//ijkVideoView.stopPlayback();
-//		this.mSpeechSynthesizer.release();
-
-		//unregisterReceiver(myReceiverFile);
-	}
-
-//	@Override
-//	public void onConfigurationChanged(Configuration newConfig) {
-//		setSurfaceSize(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
-//		super.onConfigurationChanged(newConfig);
-//}
-
-//	@Override
-//	public void surfaceCreated(SurfaceHolder holder) {
-//		if (mMediaPlayer != null) {
-//			mSurfaceHolder = holder;
-//			mMediaPlayer.attachSurface(holder.getSurface(), this);
-//		}
+//
 //	}
-//
-//	@Override
-//	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-//		mSurfaceHolder = holder;
-//		if (mMediaPlayer != null) {
-//			mMediaPlayer.attachSurface(holder.getSurface(), this);//, width, height
-//		}
-//		if (width > 0) {
-//			mVideoHeight = height;
-//			mVideoWidth = width;
-//		}
-//	}
-//
-//	@Override
-//	public void surfaceDestroyed(SurfaceHolder holder) {
-//		if (mMediaPlayer != null) {
-//			mMediaPlayer.detachSurface();
-//		}
-//	}
-//
-//	@Override
-//	public void setSurfaceSize(int width, int height, int visible_width, int visible_height, int sar_num, int sar_den) {
-//
-//		mVideoHeight = height;
-//		mVideoWidth = width;
-//		mVideoVisibleHeight = visible_height;
-//		mVideoVisibleWidth = visible_width;
-//		mSarNum = sar_num;
-//		mSarDen = sar_den;
-//		mHandler.removeMessages(HANDLER_SURFACE_SIZE);
-//		mHandler.sendEmptyMessage(HANDLER_SURFACE_SIZE);
-//	}
-
-	//private static final int HANDLER_BUFFER_START = 1;
-//	private static final int HANDLER_BUFFER_END = 2;
-	//private static final int HANDLER_SURFACE_SIZE = 3;
-
-//	private static final int SURFACE_BEST_FIT = 0;
-//	private static final int SURFACE_FIT_HORIZONTAL = 1;
-//	private static final int SURFACE_FIT_VERTICAL = 2;
-//	private static final int SURFACE_FILL = 3;
-//	private static final int SURFACE_16_9 = 4;
-//	private static final int SURFACE_4_3 = 5;
-	//private static final int SURFACE_ORIGINAL = 6;
-//	private int mCurrentSize = SURFACE_BEST_FIT;
-
-//	private Handler mVlcHandler = new Handler() {
-//		@Override
-//		public void handleMessage(Message msg) {
-//			if (msg == null || msg.getData() == null)
-//				return;
-//
-//			switch (msg.getData().getInt("event")) {
-//			case EventHandler.MediaPlayerTimeChanged:
-//				break;
-//			case EventHandler.MediaPlayerPositionChanged:
-//				break;
-//			case EventHandler.MediaPlayerPlaying:
-//				mHandler.removeMessages(HANDLER_BUFFER_END);
-//				mHandler.sendEmptyMessage(HANDLER_BUFFER_END);
-//				break;
-//			case EventHandler.MediaPlayerBuffering:
-//				break;
-//			case EventHandler.MediaPlayerLengthChanged:
-//				break;
-//			case EventHandler.MediaPlayerEndReached:
-//				//播放完成
-//				break;
-//			}
-//
-//		}
-//	};
-
-//	private Handler mHandler = new Handler() {
-//		@Override
-//		public void handleMessage(Message msg) {
-//			switch (msg.what) {
-//			case HANDLER_BUFFER_START:
-//                showLoading();
-//				break;
-//			case HANDLER_BUFFER_END:
-//                hideLoading();
-//				break;
-//			case HANDLER_SURFACE_SIZE:
-//				changeSurfaceSize();
-//				break;
-//			}
-//		}
-//	};
-
-
-	private void changeSurfaceSize() {
-		// get screen size
-		int dw = Utils.getDisplaySize(getApplicationContext()).x;
-		int dh = Utils.getDisplaySize(getApplicationContext()).y;
-
-//		RelativeLayout.LayoutParams re1 = (RelativeLayout.LayoutParams)surfaceview.getLayoutParams();
-//
-//		  re1.width=dw/3;
-//		  re1.height = dh/5;
-//
-//		surfaceview.setLayoutParams(re1);
-//		surfaceview.invalidate();
-		Log.d(TAG, baoCunBean.getShipingIP()+"hhhhh");
-		if (mediaPlayer != null) {
-			Log.d(TAG, baoCunBean.getShipingIP()+"gggg");
-
-			media = new Media(libvlc, Uri.parse("rtsp://"+baoCunBean.getShipingIP()+"/user=admin&password=&channel=1&stream=0.sdp"));
-			mediaPlayer.setMedia(media);
-			mediaPlayer.play();
-
-		}
-
-	}
 //	/**
 //	 * websocket接口返回face.image
 //	 * image为base64编码的字符串
@@ -2022,43 +1636,43 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 
 
 					}
-             else if (wbBean.getType().equals("unrecognized")) {
-						Log.d("WebsocketPushMsg", "识别出了陌生人");
-
-						JsonObject jsonObject1 = jsonObject.get("data").getAsJsonObject();
-
-						final WeiShiBieBean dataBean = gson.fromJson(jsonObject1, WeiShiBieBean.class);
-
-
-						try {
-
-							MoShengRenBean bean = new MoShengRenBean(dataBean.getTrack(), "sss");
-
-							daoSession.insert(bean);
-
-							Message message = new Message();
-							message.arg1 = 2;
-							message.obj = dataBean;
-							handler.sendMessage(message);
-
-
-						} catch (Exception e) {
-							Log.d("WebsocketPushMsg", e.getMessage());
-							//e.printStackTrace();
-						}finally {
-							try {
-								Thread.sleep(300);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							try {
-								daoSession.deleteByKey(dataBean.getTrack());
-								//Log.d("WebsocketPushMsg", "删除");
-							}catch (Exception e){
-								Log.d("WebsocketPushMsg", e.getMessage());
-							}
-						}
-					}
+//             else if (wbBean.getType().equals("unrecognized")) {
+//						Log.d("WebsocketPushMsg", "识别出了陌生人");
+//
+//						JsonObject jsonObject1 = jsonObject.get("data").getAsJsonObject();
+//
+//						final WeiShiBieBean dataBean = gson.fromJson(jsonObject1, WeiShiBieBean.class);
+//
+//
+//						try {
+//
+//							MoShengRenBean bean = new MoShengRenBean(dataBean.getTrack(), "sss");
+//
+//							daoSession.insert(bean);
+//
+//							Message message = new Message();
+//							message.arg1 = 2;
+//							message.obj = dataBean;
+//							handler.sendMessage(message);
+//
+//
+//						} catch (Exception e) {
+//							Log.d("WebsocketPushMsg", e.getMessage());
+//							//e.printStackTrace();
+//						}finally {
+//							try {
+//								Thread.sleep(300);
+//							} catch (InterruptedException e) {
+//								e.printStackTrace();
+//							}
+//							try {
+//								daoSession.deleteByKey(dataBean.getTrack());
+//								//Log.d("WebsocketPushMsg", "删除");
+//							}catch (Exception e){
+//								Log.d("WebsocketPushMsg", e.getMessage());
+//							}
+//						}
+//					}
 				}
 
 				@Override
@@ -2069,7 +1683,7 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 					runOnUiThread( new Runnable() {
 						@Override
 						public void run() {
-							TastyToast.makeText(VlcVideoActivity.this,"连接已断开,20秒后重新连接", Toast.LENGTH_LONG,TastyToast.ERROR).show();
+							TastyToast.makeText(YiZhongYanShiActivity.this,"连接已断开,20秒后重新连接", Toast.LENGTH_LONG,TastyToast.ERROR).show();
 						}
 					});
 //
@@ -2283,7 +1897,7 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 
 				}
 				//删除照片
-				Log.d("VlcVideoActivity", "删除照片:" + VlcVideoActivity.this.deleteFile(fname));
+				Log.d("VlcVideoActivity", "删除照片:" + YiZhongYanShiActivity.this.deleteFile(fname));
 
 				}catch (Exception e){
 					Log.d("WebsocketPushMsg", e.getMessage());
@@ -2561,7 +2175,7 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 								lingdaoList.clear();
 							}
 							lingdaoList.addAll(tanChuangBeanDao.loadAll());
-							adapter2.notifyDataSetChanged();
+							//adapter2.notifyDataSetChanged();
 						}
 					});
 
@@ -2637,79 +2251,6 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 
 	}
 
-	/*
-     * @param arg0
-     */
-	@Override
-	public void onSynthesizeStart(String utteranceId) {
-		//toPrint("onSynthesizeStart utteranceId=" + utteranceId);
-	}
-
-	/**
-	 * 合成数据和进度的回调接口，分多次回调
-	 *
-	 * @param utteranceId
-	 * @param data 合成的音频数据。该音频数据是采样率为16K，2字节精度，单声道的pcm数据。
-	 * @param progress 文本按字符划分的进度，比如:你好啊 进度是0-3
-	 */
-	@Override
-	public void onSynthesizeDataArrived(String utteranceId, byte[] data, int progress) {
-		// toPrint("onSynthesizeDataArrived");
-		//mHandler.sendMessage(mHandler.obtainMessage(UI_CHANGE_SYNTHES_TEXT_SELECTION, progress, 0));
-	}
-
-	/**
-	 * 合成正常结束，每句合成正常结束都会回调，如果过程中出错，则回调onError，不再回调此接口
-	 *
-	 * @param utteranceId
-	 */
-	@Override
-	public void onSynthesizeFinish(String utteranceId) {
-		//toPrint("onSynthesizeFinish utteranceId=" + utteranceId);
-	}
-
-	/**
-	 * 播放开始，每句播放开始都会回调
-	 *
-	 * @param utteranceId
-	 */
-	@Override
-	public void onSpeechStart(String utteranceId) {
-		//toPrint("onSpeechStart utteranceId=" + utteranceId);
-	}
-
-	/**
-	 * 播放进度回调接口，分多次回调
-	 *
-	 * @param utteranceId
-	 * @param progress 文本按字符划分的进度，比如:你好啊 进度是0-3
-	 */
-	@Override
-	public void onSpeechProgressChanged(String utteranceId, int progress) {
-		// toPrint("onSpeechProgressChanged");
-		//mHandler.sendMessage(mHandler.obtainMessage(UI_CHANGE_INPUT_TEXT_SELECTION, progress, 0));
-	}
-
-	/**
-	 * 播放正常结束，每句播放正常结束都会回调，如果过程中出错，则回调onError,不再回调此接口
-	 *
-	 * @param utteranceId
-	 */
-	@Override
-	public void onSpeechFinish(String utteranceId) {
-		//toPrint("onSpeechFinish utteranceId=" + utteranceId);
-	}
-
-	/**
-	 * 当合成或者播放过程中出错时回调此接口
-	 *
-	 * @param utteranceId
-	 * @param error 包含错误码和错误信息
-	 */
-	@Override
-	public void onError(String utteranceId, SpeechError error) {
-		//toPrint("onError error=" + "(" + error.code + ")" + error.description + "--utteranceId=" + utteranceId);
-	}
 
 
 //	private class DownloadReceiver extends ResultReceiver {

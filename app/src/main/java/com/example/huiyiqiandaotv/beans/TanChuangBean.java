@@ -1,10 +1,19 @@
 package com.example.huiyiqiandaotv.beans;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.Generated;
+
 /**
  * Created by chenjun on 2017/5/16.
  */
 
+@Entity
 public class TanChuangBean {
+    @Id
+    @NotNull
+    private Long id;
     private String name;
     private String touxiang;
     private String remark;
@@ -12,60 +21,78 @@ public class TanChuangBean {
     private int type;
     private long idid;
     private String bumen;
-
-    public String getBumen() {
-        return bumen;
-    }
-
-    public void setBumen(String bumen) {
-        this.bumen = bumen;
-    }
-
-    public long getIdid() {
-        return idid;
-    }
-
-    public void setIdid(long idid) {
-        this.idid = idid;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
+    private boolean isLight;
+    @Generated(hash = 2079428615)
+    public TanChuangBean(@NotNull Long id, String name, String touxiang,
+            String remark, byte[] bytes, int type, long idid, String bumen,
+            boolean isLight) {
+        this.id = id;
+        this.name = name;
+        this.touxiang = touxiang;
         this.remark = remark;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
+        this.bytes = bytes;
         this.type = type;
+        this.idid = idid;
+        this.bumen = bumen;
+        this.isLight = isLight;
     }
-
+    @Generated(hash = 884899701)
+    public TanChuangBean() {
+    }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getName() {
-        return name;
+        return this.name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getTouxiang() {
-        return touxiang;
+        return this.touxiang;
     }
-
     public void setTouxiang(String touxiang) {
         this.touxiang = touxiang;
     }
-
-    public byte[] getBytes() {
-        return bytes;
+    public String getRemark() {
+        return this.remark;
     }
-
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+    public byte[] getBytes() {
+        return this.bytes;
+    }
     public void setBytes(byte[] bytes) {
         this.bytes = bytes;
     }
+    public int getType() {
+        return this.type;
+    }
+    public void setType(int type) {
+        this.type = type;
+    }
+    public long getIdid() {
+        return this.idid;
+    }
+    public void setIdid(long idid) {
+        this.idid = idid;
+    }
+    public String getBumen() {
+        return this.bumen;
+    }
+    public void setBumen(String bumen) {
+        this.bumen = bumen;
+    }
+    public boolean getIsLight() {
+        return this.isLight;
+    }
+    public void setIsLight(boolean isLight) {
+        this.isLight = isLight;
+    }
+
+  
 }
