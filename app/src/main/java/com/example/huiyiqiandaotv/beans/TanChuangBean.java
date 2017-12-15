@@ -22,10 +22,12 @@ public class TanChuangBean {
     private long idid;
     private String bumen;
     private boolean isLight;
-    @Generated(hash = 2079428615)
+    private String gonghao;
+    private String zhiwei;
+    @Generated(hash = 1100116737)
     public TanChuangBean(@NotNull Long id, String name, String touxiang,
             String remark, byte[] bytes, int type, long idid, String bumen,
-            boolean isLight) {
+            boolean isLight, String gonghao, String zhiwei) {
         this.id = id;
         this.name = name;
         this.touxiang = touxiang;
@@ -35,6 +37,8 @@ public class TanChuangBean {
         this.idid = idid;
         this.bumen = bumen;
         this.isLight = isLight;
+        this.gonghao = gonghao;
+        this.zhiwei = zhiwei;
     }
     @Generated(hash = 884899701)
     public TanChuangBean() {
@@ -92,6 +96,18 @@ public class TanChuangBean {
     }
     public void setIsLight(boolean isLight) {
         this.isLight = isLight;
+    }
+    public String getGonghao() {
+        return this.gonghao;
+    }
+    public void setGonghao(String gonghao) {
+        this.gonghao = gonghao;
+    }
+    public String getZhiwei() {
+        return this.zhiwei;
+    }
+    public void setZhiwei(String zhiwei) {
+        this.zhiwei = zhiwei;
     }
 
   

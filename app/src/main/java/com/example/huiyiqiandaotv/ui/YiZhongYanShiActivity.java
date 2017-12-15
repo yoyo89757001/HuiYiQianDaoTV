@@ -13,16 +13,14 @@ import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.GridLayoutManager;
+import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -52,11 +50,9 @@ import com.example.huiyiqiandaotv.beans.TanChuangBeanDao;
 import com.example.huiyiqiandaotv.beans.TuPianBean;
 import com.example.huiyiqiandaotv.beans.User;
 import com.example.huiyiqiandaotv.beans.WBBean;
-import com.example.huiyiqiandaotv.beans.WeiShiBieBean;
 import com.example.huiyiqiandaotv.interfaces.RecytviewCash;
-import com.example.huiyiqiandaotv.media.IjkVideoView;
-import com.example.huiyiqiandaotv.sample.BiliDanmukuParser;
 import com.example.huiyiqiandaotv.service.AlarmReceiver;
+import com.example.huiyiqiandaotv.utils.DateUtils;
 import com.example.huiyiqiandaotv.utils.GsonUtil;
 import com.example.huiyiqiandaotv.utils.Utils;
 import com.example.huiyiqiandaotv.view.GlideCircleTransform;
@@ -64,19 +60,12 @@ import com.example.huiyiqiandaotv.view.WrapContentLinearLayoutManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sdsmdg.tastytoast.TastyToast;
-
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
-import org.videolan.libvlc.IVLCVout;
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.MediaPlayer;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -85,8 +74,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
-
-import jp.wasabeef.glide.transformations.gpu.BrightnessFilterTransformation;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -116,7 +103,7 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 	private WrapContentLinearLayoutManager manager;
 	private WrapContentLinearLayoutManager manager2;
 	private static  WebSocketClient webSocketClient=null;
-	private MediaPlayer mediaPlayer=null;
+//	private MediaPlayer mediaPlayer=null;
 	//private IVLCVout vlcVout=null;
 	//private IVLCVout.Callback callback;
 //	private LibVLC libvlc;
@@ -133,10 +120,10 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 	private TextView wangluo;
 	private boolean isLianJie=false;
 	//private List<AllUserBean.DataBean> dataBeanList=new ArrayList<>();
-	private RelativeLayout top_rl;
+	//private RelativeLayout top_rl;
 	private TextView t1,t2,t3;
 	private TanChuangBeanDao tanChuangBeanDao=null;
-
+	private Typeface typeFace1;
 
 
 
@@ -145,35 +132,35 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 		@Override
 		public boolean handleMessage(final Message msg) {
 			switch (msg.what) {
-				case 111:
-					//更新地址
-
-					break;
-				case 110:
-					if (lingdaoList.size() > 1) {
-
-//						AnimatorSet animatorSet = new AnimatorSet();
-//						animatorSet.playTogether(
-//								ObjectAnimator.ofFloat(adapter2.getViewByPosition(recyclerView2, 1, R.id.ffflll), "scaleY", 1f, 0f),
-//								ObjectAnimator.ofFloat(adapter2.getViewByPosition(recyclerView2, 1, R.id.ffflll), "scaleX", 1f, 0f)
-//								//	ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
-//						);
-//						animatorSet.setDuration(200);
-//						animatorSet.setInterpolator(new AccelerateInterpolator());
-//						animatorSet.addListener(new AnimatorListenerAdapter() {
-//							@Override
-//							public void onAnimationEnd(Animator animation) {
-//								adapter2.notifyItemRemoved(1);
-//								lingdaoList.remove(1);
+//				case 111:
+//					//更新地址
 //
-//							}
-//						});
-//						animatorSet.start();
-
-					}
-
-
-					break;
+//					break;
+//				case 110:
+//					if (lingdaoList.size() > 1) {
+//
+////						AnimatorSet animatorSet = new AnimatorSet();
+////						animatorSet.playTogether(
+////								ObjectAnimator.ofFloat(adapter2.getViewByPosition(recyclerView2, 1, R.id.ffflll), "scaleY", 1f, 0f),
+////								ObjectAnimator.ofFloat(adapter2.getViewByPosition(recyclerView2, 1, R.id.ffflll), "scaleX", 1f, 0f)
+////								//	ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
+////						);
+////						animatorSet.setDuration(200);
+////						animatorSet.setInterpolator(new AccelerateInterpolator());
+////						animatorSet.addListener(new AnimatorListenerAdapter() {
+////							@Override
+////							public void onAnimationEnd(Animator animation) {
+////								adapter2.notifyItemRemoved(1);
+////								lingdaoList.remove(1);
+////
+////							}
+////						});
+////						animatorSet.start();
+//
+//					}
+//
+//
+//					break;
 				case 999:
 
 					if (yuangongList.size() > 1) {
@@ -203,17 +190,23 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 
 					adapter.notifyItemRemoved(1);
 					yuangongList.remove(1);
+
+						if (lingdaoList.size()>10){
+							adapter2.notifyItemRemoved(0);
+							lingdaoList.remove(0);
+						}
+					//	Log.d(TAG, "lingdaoList.size():" + lingdaoList.size());
 			}
 
 
 					break;
-				case 19: //更新识别记录
-					Log.d(TAG, "19");
-
-					//adapter2.notifyItemInserted(size-1);
-					//manager2.smoothScrollToPosition(recyclerView2,null,size-1);
-
-					break;
+//				case 19: //更新识别记录
+//					//Log.d(TAG, "19");
+//
+//					//adapter2.notifyItemInserted(size-1);
+//					//manager2.smoothScrollToPosition(recyclerView2,null,size-1);
+//
+//					break;
 
 			}
 
@@ -226,8 +219,10 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 					bean.setBumen(dataBean.getDepartment()==null ? "":dataBean.getDepartment());
 					bean.setId(dataBean.getId());
 					bean.setType(dataBean.getSubject_type());
-					bean.setName(dataBean.getName());
+					bean.setName(dataBean.getName()==null ? "":dataBean.getName());
 					bean.setRemark(dataBean.getRemark());
+					bean.setZhiwei(dataBean.getTitle()==null ? "":dataBean.getTitle());
+					bean.setGonghao(dataBean.getJob_number()==null ? "":dataBean.getJob_number());
 					bean.setTouxiang(dataBean.getAvatar());
 					if (!(dataBean.getDepartment()!=null && dataBean.getDepartment().equals("黑名单"))){
 
@@ -257,14 +252,14 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 										public void run() {
 
 											try {
-												Thread.sleep(10000);
+												SystemClock.sleep(12000);
 
 												Message message = Message.obtain();
 												message.what = 999;
 												handler.sendMessage(message);
 
 
-											} catch (InterruptedException e) {
+											} catch (Exception e) {
 												e.printStackTrace();
 											}
 
@@ -468,7 +463,7 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 		t1= (TextView) findViewById(R.id.t1);
 		t2= (TextView) findViewById(R.id.t2);
 		t3= (TextView) findViewById(R.id.t3);
-		Typeface typeFace1 = Typeface.createFromAsset(getAssets(), "fonts/FZZYJW.TTF");
+		typeFace1 = Typeface.createFromAsset(getAssets(), "fonts/FZZYJW.TTF");
 		t1.setTypeface(typeFace1);
 		t1.setText("智 能 人 脸 识 别 系 统");
 		t2.setTypeface(typeFace1);
@@ -650,7 +645,7 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 				name.setText("");
 				zhuangtai.setText("");
 			}else {
-				Log.d(TAG, "jinlai");
+				//Log.d(TAG, "jinlai");
 				switch (item.getType()) {
 					case -1:
 						//陌生人
@@ -667,13 +662,10 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 						//员工
 
 						//toprl.setBackgroundResource(R.drawable.yg_bg);
+						name.setTypeface(typeFace1);
+						zhuangtai.setTypeface(typeFace1);
 						name.setText(item.getName());
-						if (item.getIsLight()){
-							zhuangtai.setText("已经签到");
-						}else {
-							zhuangtai.setText("签到成功");
-						}
-
+						zhuangtai.setText("识别成功");
 
 
 						//mSpeechSynthesizer.speak("欢迎"+item.getName()+"祝你出入平安.");
@@ -692,23 +684,21 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 					case 1:
 						//访客
 						//toprl.setBackgroundResource(R.drawable.zidonghuoqu15);
+						name.setTypeface(typeFace1);
+						zhuangtai.setTypeface(typeFace1);
 						name.setText(item.getName());
-						if (item.getIsLight()){
-							zhuangtai.setText("已经签到");
-						}else {
-							zhuangtai.setText("签到成功");
-						}
+						zhuangtai.setText("识别成功");
 						//richeng.setText("");
 						//name.setText(item.getName());
 						//autoScrollTextView.setText("欢迎你来本公司参观指导。");
 						break;
 					case 2:
+						name.setTypeface(typeFace1);
+						zhuangtai.setTypeface(typeFace1);
 						name.setText(item.getName());
-						if (item.getIsLight()){
-							zhuangtai.setText("已经签到");
-						}else {
-							zhuangtai.setText("签到成功");
-						}
+						zhuangtai.setText("识别成功");
+
+
 						//VIP访客
 						//	toprl.setBackgroundResource(R.drawable.ms_bg);
 						//	richeng.setText("");
@@ -791,8 +781,16 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 //					.start();
 
 			RelativeLayout toprl= helper.getView(R.id.ffflll);
-			TextView tt=helper.getView(R.id.test);
-			tt.setText(item.getName());
+			TextView t1=helper.getView(R.id.test);
+			TextView t2=helper.getView(R.id.test2);
+			TextView t3=helper.getView(R.id.test3);
+			t1.setTypeface(typeFace1);
+			t1.setText("学号");
+			t2.setTypeface(typeFace1);
+			t2.setText(item.getName()+"765743543");
+			t3.setTypeface(typeFace1);
+			t3.setText(DateUtils.time(System.currentTimeMillis()+""));
+
 			ImageView imageView=helper.getView(R.id.touxiang);
 
 			//tt.setText(item.getName());
@@ -1110,6 +1108,11 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 			ll.height=(dw/13);
 			imageView.setLayoutParams(ll);
 			imageView.invalidate();
+
+			RecyclerView.LayoutParams  ll2= (RecyclerView.LayoutParams) toprl.getLayoutParams();
+			ll2.height=(dw/13)+10;
+			toprl.setLayoutParams(ll2);
+			toprl.invalidate();
 
 			}
 

@@ -209,9 +209,8 @@ public class DateUtils {
         SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd HH:mm",Locale.CHINA);
         @SuppressWarnings("unused")
         long lcc = Long.valueOf(time);
-        int i = Integer.parseInt(time);
-        String times = sdr.format(new Date(i * 1000L));
-        return times;
+//        int i = Integer.parseInt(time);
+        return sdr.format(new Date(lcc));
     }
 
     // 调用此方法输入所要转换的时间戳例如（1402733340）输出（"2014年06月14日16时09分00秒"）
