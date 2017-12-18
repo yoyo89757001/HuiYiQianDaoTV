@@ -654,7 +654,7 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 						name.setTextColor(Color.RED);
 						zhuangtai.setText("陌生人");
 						name.setText("陌生人进入,请保安尽快到现场或短信保安预警.");
-
+						toprl.setBackgroundResource(R.drawable.tc_bgbg);
 						//mSpeechSynthesizer.speak("陌生人进入,请保安尽快到现场或短信保安预警");
 
 						break;
@@ -666,7 +666,7 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 						zhuangtai.setTypeface(typeFace1);
 						name.setText(item.getName());
 						zhuangtai.setText("识别成功");
-
+						toprl.setBackgroundResource(R.drawable.tc_bgbg);
 
 						//mSpeechSynthesizer.speak("欢迎"+item.getName()+"祝你出入平安.");
 //						String  zt=item.getRemark();
@@ -688,6 +688,7 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 						zhuangtai.setTypeface(typeFace1);
 						name.setText(item.getName());
 						zhuangtai.setText("识别成功");
+						toprl.setBackgroundResource(R.drawable.tc_bgbg);
 						//richeng.setText("");
 						//name.setText(item.getName());
 						//autoScrollTextView.setText("欢迎你来本公司参观指导。");
@@ -697,8 +698,7 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 						zhuangtai.setTypeface(typeFace1);
 						name.setText(item.getName());
 						zhuangtai.setText("识别成功");
-
-
+						toprl.setBackgroundResource(R.drawable.tc_bgbg);
 						//VIP访客
 						//	toprl.setBackgroundResource(R.drawable.ms_bg);
 						//	richeng.setText("");
@@ -722,7 +722,6 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 						//	.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
 							//	.transform(new GlideRoundTransform(MyApplication.getAppContext(), 6))
 							.into((ImageView) helper.getView(R.id.touxiang));
-
 				}
 
 			}
@@ -787,7 +786,7 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 			t1.setTypeface(typeFace1);
 			t1.setText("学号");
 			t2.setTypeface(typeFace1);
-			t2.setText(item.getName()+"765743543");
+			t2.setText(item.getName());
 			t3.setTypeface(typeFace1);
 			t3.setText(DateUtils.time(System.currentTimeMillis()+""));
 
@@ -1104,8 +1103,8 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 				}
 
 			RelativeLayout.LayoutParams  ll= (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-			ll.width=(dw/13);
-			ll.height=(dw/13);
+			ll.width=(dw/14);
+			ll.height=(dw/14);
 			imageView.setLayoutParams(ll);
 			imageView.invalidate();
 
@@ -1726,7 +1725,7 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 //			}
 			if (webSocketClient!=null){
 
-				webSocketClient.close();
+			//	webSocketClient.close();
 
 
 				webSocketClient=null;

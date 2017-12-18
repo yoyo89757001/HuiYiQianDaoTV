@@ -36,7 +36,9 @@
 
         <activity android:name=".ui.ErWeiMaActivity"/>
         <activity android:name=".ui.LogingActivity"/>
-        <activity android:name=".ui.SheZhiActivity"/>
+        <activity android:name=".ui.SheZhiActivity"
+            android:screenOrientation="landscape"
+            />
         <activity android:name=".ui.BaseActivity"/>
 
         <service android:name=".service.HorizonService"/>
