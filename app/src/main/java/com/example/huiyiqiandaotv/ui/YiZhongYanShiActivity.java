@@ -583,7 +583,14 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 
 	//	link_login();
 
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
 
+				SystemClock.sleep(10000);
+				sendBroadcast(new Intent(YiZhongYanShiActivity.this,AlarmReceiver.class));
+			}
+		}).start();
 
 	}
 
@@ -1426,7 +1433,7 @@ public class YiZhongYanShiActivity extends BaseActivity implements RecytviewCash
 		}else {
 			TastyToast.makeText(YiZhongYanShiActivity.this,"请先设置主机地址和摄像头IP",TastyToast.LENGTH_SHORT,TastyToast.INFO).show();
 		}
-		sendBroadcast(new Intent(YiZhongYanShiActivity.this,AlarmReceiver.class));
+
 
 		super.onResume();
 	}

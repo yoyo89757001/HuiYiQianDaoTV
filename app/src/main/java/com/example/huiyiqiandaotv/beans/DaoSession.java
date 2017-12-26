@@ -9,12 +9,14 @@ import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
 import com.example.huiyiqiandaotv.beans.BaoCunBean;
+import com.example.huiyiqiandaotv.beans.BenDiRenShuBean;
 import com.example.huiyiqiandaotv.beans.MoShengRenBean;
 import com.example.huiyiqiandaotv.beans.ShiBieJiLuBean;
 import com.example.huiyiqiandaotv.beans.ShiPingBean;
 import com.example.huiyiqiandaotv.beans.TanChuangBean;
 
 import com.example.huiyiqiandaotv.beans.BaoCunBeanDao;
+import com.example.huiyiqiandaotv.beans.BenDiRenShuBeanDao;
 import com.example.huiyiqiandaotv.beans.MoShengRenBeanDao;
 import com.example.huiyiqiandaotv.beans.ShiBieJiLuBeanDao;
 import com.example.huiyiqiandaotv.beans.ShiPingBeanDao;
@@ -30,12 +32,14 @@ import com.example.huiyiqiandaotv.beans.TanChuangBeanDao;
 public class DaoSession extends AbstractDaoSession {
 
     private final DaoConfig baoCunBeanDaoConfig;
+    private final DaoConfig benDiRenShuBeanDaoConfig;
     private final DaoConfig moShengRenBeanDaoConfig;
     private final DaoConfig shiBieJiLuBeanDaoConfig;
     private final DaoConfig shiPingBeanDaoConfig;
     private final DaoConfig tanChuangBeanDaoConfig;
 
     private final BaoCunBeanDao baoCunBeanDao;
+    private final BenDiRenShuBeanDao benDiRenShuBeanDao;
     private final MoShengRenBeanDao moShengRenBeanDao;
     private final ShiBieJiLuBeanDao shiBieJiLuBeanDao;
     private final ShiPingBeanDao shiPingBeanDao;
@@ -47,6 +51,9 @@ public class DaoSession extends AbstractDaoSession {
 
         baoCunBeanDaoConfig = daoConfigMap.get(BaoCunBeanDao.class).clone();
         baoCunBeanDaoConfig.initIdentityScope(type);
+
+        benDiRenShuBeanDaoConfig = daoConfigMap.get(BenDiRenShuBeanDao.class).clone();
+        benDiRenShuBeanDaoConfig.initIdentityScope(type);
 
         moShengRenBeanDaoConfig = daoConfigMap.get(MoShengRenBeanDao.class).clone();
         moShengRenBeanDaoConfig.initIdentityScope(type);
@@ -61,12 +68,14 @@ public class DaoSession extends AbstractDaoSession {
         tanChuangBeanDaoConfig.initIdentityScope(type);
 
         baoCunBeanDao = new BaoCunBeanDao(baoCunBeanDaoConfig, this);
+        benDiRenShuBeanDao = new BenDiRenShuBeanDao(benDiRenShuBeanDaoConfig, this);
         moShengRenBeanDao = new MoShengRenBeanDao(moShengRenBeanDaoConfig, this);
         shiBieJiLuBeanDao = new ShiBieJiLuBeanDao(shiBieJiLuBeanDaoConfig, this);
         shiPingBeanDao = new ShiPingBeanDao(shiPingBeanDaoConfig, this);
         tanChuangBeanDao = new TanChuangBeanDao(tanChuangBeanDaoConfig, this);
 
         registerDao(BaoCunBean.class, baoCunBeanDao);
+        registerDao(BenDiRenShuBean.class, benDiRenShuBeanDao);
         registerDao(MoShengRenBean.class, moShengRenBeanDao);
         registerDao(ShiBieJiLuBean.class, shiBieJiLuBeanDao);
         registerDao(ShiPingBean.class, shiPingBeanDao);
@@ -75,6 +84,7 @@ public class DaoSession extends AbstractDaoSession {
     
     public void clear() {
         baoCunBeanDaoConfig.clearIdentityScope();
+        benDiRenShuBeanDaoConfig.clearIdentityScope();
         moShengRenBeanDaoConfig.clearIdentityScope();
         shiBieJiLuBeanDaoConfig.clearIdentityScope();
         shiPingBeanDaoConfig.clearIdentityScope();
@@ -83,6 +93,10 @@ public class DaoSession extends AbstractDaoSession {
 
     public BaoCunBeanDao getBaoCunBeanDao() {
         return baoCunBeanDao;
+    }
+
+    public BenDiRenShuBeanDao getBenDiRenShuBeanDao() {
+        return benDiRenShuBeanDao;
     }
 
     public MoShengRenBeanDao getMoShengRenBeanDao() {

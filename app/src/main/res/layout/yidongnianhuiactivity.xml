@@ -1,0 +1,418 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/video_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:background="@drawable/nianhui_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:src="@drawable/yidong_logo"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_height="wrap_content"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/top_rl"
+        android:layout_marginTop="40dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/t1"
+                android:textColor="@color/write"
+                android:textSize="54sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/t2"
+                android:textColor="@color/write"
+                android:textSize="150sp"
+                android:layout_marginTop="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/t3"
+                android:textColor="@color/write"
+                android:textSize="30sp"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            
+        </LinearLayout>
+
+
+    </RelativeLayout>
+    
+    
+    <LinearLayout
+        android:layout_below="@+id/top_rl"
+        android:orientation="vertical"
+        android:id="@+id/dddd"
+        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="已签到人数:"
+                android:textSize="50sp"
+                android:gravity="right"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="2 9 9 9"
+                android:textSize="70sp"
+                android:id="@+id/y1"
+                android:paddingLeft="4dp"
+                android:background="@drawable/shuzi_bg"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_weight="0.4"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textSize="16sp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="省公司领导:"
+                android:textSize="26sp"
+                android:gravity="right"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="222"
+                android:textSize="26sp"
+                android:paddingLeft="4dp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:id="@+id/y2"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_weight="0.4"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="16sp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="市公司领导:"
+                android:textSize="26sp"
+                android:gravity="right"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="222"
+                android:textSize="26sp"
+                android:paddingLeft="4dp"
+                android:id="@+id/y3"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_weight="0.4"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="16sp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="特邀嘉宾:"
+                android:textSize="26sp"
+                android:gravity="right"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="222"
+                android:textSize="26sp"
+                android:paddingLeft="4dp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:id="@+id/y4"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_weight="0.4"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="16sp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/dddd"
+        android:orientation="vertical"
+        android:layout_marginTop="160dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="未签到人数:"
+                android:textSize="50sp"
+                android:gravity="right"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="2 9 9 9"
+                android:textSize="70sp"
+                android:id="@+id/n1"
+                android:paddingLeft="4dp"
+                android:background="@drawable/shuzi_bg"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_weight="0.4"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textSize="16sp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="省公司领导:"
+                android:textSize="26sp"
+                android:gravity="right"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="222"
+                android:textSize="26sp"
+                android:paddingLeft="4dp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:id="@+id/n2"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_weight="0.4"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="16sp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="市公司领导:"
+                android:textSize="26sp"
+                android:gravity="right"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="222"
+                android:textSize="26sp"
+                android:paddingLeft="4dp"
+                android:id="@+id/n3"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_weight="0.4"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="16sp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="特邀嘉宾:"
+                android:textSize="26sp"
+                android:gravity="right"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="222"
+                android:textSize="26sp"
+                android:paddingLeft="4dp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:id="@+id/n4"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_weight="0.4"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="16sp"
+                android:textColor="@color/write"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_below="@+id/top_rl"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+    <!--弹窗-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView2"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_below="@+id/recyclerView"
+        android:layout_marginEnd="2dp"
+        android:background="@color/touming22"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!--弹窗-->
+
+
+
+    <Button
+        android:layout_width="30dp"
+        android:id="@+id/dddk"
+        android:background="@color/img_full_opaque"
+        android:layout_height="30dp" />
+
+    <TextView
+        android:background="@drawable/zidonghuoqu8"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:id="@+id/wangluo"
+        android:visibility="gone"
+        android:text="网络已断开连接,请检查网络"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:padding="12dp"
+        android:layout_height="wrap_content" />
+
+
+
+</RelativeLayout>

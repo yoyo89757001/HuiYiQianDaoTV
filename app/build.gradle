@@ -53,4 +53,7 @@ dependencies {
     compile 'com.github.ctiao:ndkbitmap-armv7a:0.9.16'
     compile 'com.github.ctiao:ndkbitmap-armv5:0.9.16'
 
+    compile "com.badlogicgames.gdx:gdx-backend-android:1.9.8"
+    compile "com.badlogicgames.gdx:gdx-box2d:1.9.8"
+
 }

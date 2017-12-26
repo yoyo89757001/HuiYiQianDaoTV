@@ -58,24 +58,24 @@ public class SheZhiActivity extends BaseActivity implements View.OnClickListener
             moban=baoCunBean.getMoban();
         }
 
-        if (baoCunBean!=null && baoCunBean.getIsHengOrShu()){
-            /**
-             * 设置为横屏
-             */
-            if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            }
-
-        }else {
-            /**
-             * 设置为竖屏
-             */
-            if(this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT){
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-            }
-
-        }
+//        if (baoCunBean!=null && baoCunBean.getIsHengOrShu()){
+//            /**
+//             * 设置为横屏
+//             */
+//            if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+//                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//            }
+//
+//        }else {
+//            /**
+//             * 设置为竖屏
+//             */
+//            if(this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT){
+//                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//
+//            }
+//
+//        }
 
 
         bt1= (Button) findViewById(R.id.bt1);

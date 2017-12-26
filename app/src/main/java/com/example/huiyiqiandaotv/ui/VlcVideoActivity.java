@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -767,6 +768,15 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 //		vlcVout.setVideoView(surfaceview);
 //		vlcVout.attachViews();
 		link_login();
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+
+				SystemClock.sleep(10000);
+				sendBroadcast(new Intent(VlcVideoActivity.this,AlarmReceiver.class));
+			}
+		}).start();
 	}
 
 
@@ -1625,7 +1635,7 @@ public class VlcVideoActivity extends BaseActivity implements RecytviewCash, Spe
 		}else {
 			TastyToast.makeText(VlcVideoActivity.this,"请先设置主机地址和摄像头IP",TastyToast.LENGTH_SHORT,TastyToast.INFO).show();
 		}
-		sendBroadcast(new Intent(VlcVideoActivity.this,AlarmReceiver.class));
+
 
 		super.onResume();
 //		if (baoCunBean!=null && baoCunBean.getIsHengOrShu()!=isHX){

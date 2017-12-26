@@ -24,7 +24,7 @@
     <color name="lanse">#D20011</color>
     <color name="lanse22">#380000</color>
     <color name="lanse33">#1b37d6</color>
-    <color name="caolv">#039C6E</color>
+    <color name="caolv">#1EAE3C</color>
     <color name="img_soft_opaque2">#30FFFFFF</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
@@ -67,7 +67,7 @@
     <color name="tabtextcolo">#b7868686</color>
     <color name="write">#ffffffff</color>
     <color name="blake">#ff111111</color>
-    <color name="blake2">#4e4e4e</color>
+    <color name="blake2">#04627c</color>
     <color name="control_background">#cc4285f4</color>
     <color name="testdi">#4f050505</color>
     <color name="textcolor">#8c050505</color>
