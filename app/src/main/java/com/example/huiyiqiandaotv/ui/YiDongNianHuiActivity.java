@@ -226,16 +226,16 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 						//manager.scrollToPosition(yuangongList.size() - 1);
 
 
-					adapter.notifyItemRemoved(0);
-					yuangongList.remove(0);
+					if (yuangongList.size()>0){
+						adapter.notifyItemRemoved(0);
+						yuangongList.remove(0);
+					}
 
-						if (lingdaoList.size()>10){
-							adapter2.notifyItemRemoved(0);
-							lingdaoList.remove(0);
-						}
-					//	Log.d(TAG, "lingdaoList.size():" + lingdaoList.size());
-	//		}
-//
+					if (lingdaoList.size()>6){
+						adapter2.notifyItemRemoved(0);
+						lingdaoList.remove(0);
+					}
+
 					break;
 //				case 19: //更新识别记录
 //					//Log.d(TAG, "19");
@@ -273,6 +273,7 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 										a = 1;
 									}
 								}
+
 							int b = 0;
 							for (int i2 = 0; i2 < lingdaoList.size(); i2++) {
 								if (Objects.equals(lingdaoList.get(i2).getId(), bean.getId())) {
@@ -300,11 +301,9 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 											try {
 
 												SystemClock.sleep(12000);
-
 												Message message = Message.obtain();
 												message.what = 999;
 												handler.sendMessage(message);
-
 
 											} catch (Exception e) {
 												e.printStackTrace();
@@ -555,9 +554,9 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 		t3= (TextView) findViewById(R.id.t3);
 		typeFace1 = Typeface.createFromAsset(getAssets(), "fonts/xk.TTF");
 		t1.setTypeface(typeFace1);
-		t1.setText("辽宁移动公司年底");
+		t1.setText("辽宁移动公司");
 		t2.setTypeface(typeFace1);
-		t2.setText("市场工作会议");
+		t2.setText("年底市场工作会议");
 		y1= (TextView) findViewById(R.id.y1);
 		y2= (TextView) findViewById(R.id.y2);
 		y3= (TextView) findViewById(R.id.y3);
@@ -744,7 +743,7 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 			}
 		}).start();
 
-
+		link_login();
 
 	}
 
@@ -867,17 +866,16 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 							toprl.setBackgroundResource(R.drawable.lingdao_bg);
 							name.setTypeface(typeFace1);
 							zhuangtai.setTypeface(typeFace1);
-							name.setVisibility(View.GONE);
-							zhuangtai.setText("欢迎领导莅临会议");
+							name.setText(item.getName());
+							zhuangtai.setText("欢迎您莅临会议");
 							imageView.setBackgroundResource(R.drawable.yuanquan);
-							synthesizer.speak("欢迎领导莅临会议");
+							synthesizer.speak(item.getName()+"欢迎您莅临会议");
 						}else {
 							imageView.setBackgroundColor(Color.parseColor("#00000000"));
 							toprl.setBackgroundResource(R.drawable.yuangongbg);
 							name.setTypeface(typeFace1);
 							zhuangtai.setTypeface(typeFace1);
 							name.setText(item.getName());
-							name.setVisibility(View.VISIBLE);
 							zhuangtai.setText("签到成功");
 							synthesizer.speak(item.getName()+"签到成功");
 						}
@@ -1628,7 +1626,7 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 					WBBean wbBean= gson.fromJson(jsonObject, WBBean.class);
 
 					if (wbBean.getType().equals("recognized")) { //识别
-						Log.d("WebsocketPushMsg", "识别出了");
+					//	Log.d("WebsocketPushMsg", "识别出了");
 
 						final ShiBieBean dataBean = gson.fromJson(jsonObject, ShiBieBean.class);
 
@@ -2269,7 +2267,7 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 				//.post(requestBody)
 				.get()
 				//.post(body)
-				.url("http://192.166.2.109:8082/subjectDeptCount.do?accountId=10000014");
+				.url("http://ly.huifnet.com/subjectDeptCount.do?accountId=10000038");
 
 		// step 3：创建 Call 对象
 		Call call = okHttpClient.newCall(requestBuilder.build());
@@ -2344,6 +2342,8 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 							n2.setText(benDiRenShuBean.getNShen()+"");
 							n3.setText(benDiRenShuBean.getNShi()+"");
 							n4.setText(benDiRenShuBean.getNTeyao()+"");
+
+							TastyToast.makeText(YiDongNianHuiActivity.this,"更新总人数成功",TastyToast.LENGTH_SHORT,TastyToast.INFO).show();
 
 						}
 					});

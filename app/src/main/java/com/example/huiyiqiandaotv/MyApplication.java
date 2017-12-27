@@ -58,7 +58,7 @@ public class MyApplication extends Application {
 //				//x5内核初始化接口
 //				QbSdk.initX5Environment(getApplicationContext(),  cb);
 
-				Bugly.init(getApplicationContext(), "1171fe5b0b", false);
+				Bugly.init(getApplicationContext(), "2f898c1f0e", false);
 
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -33,7 +33,7 @@
             <TextView
                 android:id="@+id/t1"
                 android:textColor="@color/write"
-                android:textSize="54sp"
+                android:textSize="140sp"
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -41,7 +41,7 @@
             <TextView
                 android:id="@+id/t2"
                 android:textColor="@color/write"
-                android:textSize="150sp"
+                android:textSize="78sp"
                 android:layout_marginTop="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -65,7 +65,7 @@
         android:layout_below="@+id/top_rl"
         android:orientation="vertical"
         android:id="@+id/dddd"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="180dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
