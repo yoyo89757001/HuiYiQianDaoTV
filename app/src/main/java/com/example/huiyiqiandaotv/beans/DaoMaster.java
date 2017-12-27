@@ -24,6 +24,7 @@ public class DaoMaster extends AbstractDaoMaster {
         BaoCunBeanDao.createTable(db, ifNotExists);
         BenDiRenShuBeanDao.createTable(db, ifNotExists);
         MoShengRenBeanDao.createTable(db, ifNotExists);
+        QianDaoIdDao.createTable(db, ifNotExists);
         ShiBieJiLuBeanDao.createTable(db, ifNotExists);
         ShiPingBeanDao.createTable(db, ifNotExists);
         TanChuangBeanDao.createTable(db, ifNotExists);
@@ -34,6 +35,7 @@ public class DaoMaster extends AbstractDaoMaster {
         BaoCunBeanDao.dropTable(db, ifExists);
         BenDiRenShuBeanDao.dropTable(db, ifExists);
         MoShengRenBeanDao.dropTable(db, ifExists);
+        QianDaoIdDao.dropTable(db, ifExists);
         ShiBieJiLuBeanDao.dropTable(db, ifExists);
         ShiPingBeanDao.dropTable(db, ifExists);
         TanChuangBeanDao.dropTable(db, ifExists);
@@ -58,6 +60,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(BaoCunBeanDao.class);
         registerDaoClass(BenDiRenShuBeanDao.class);
         registerDaoClass(MoShengRenBeanDao.class);
+        registerDaoClass(QianDaoIdDao.class);
         registerDaoClass(ShiBieJiLuBeanDao.class);
         registerDaoClass(ShiPingBeanDao.class);
         registerDaoClass(TanChuangBeanDao.class);

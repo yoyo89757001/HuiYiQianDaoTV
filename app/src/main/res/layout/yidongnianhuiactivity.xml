@@ -9,6 +9,7 @@
         android:layout_height="match_parent" />
 
     <ImageView
+        android:id="@+id/yidong"
         android:src="@drawable/yidong_logo"
         android:layout_width="wrap_content"
         android:layout_marginTop="30dp"

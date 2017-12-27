@@ -11,6 +11,7 @@ import org.greenrobot.greendao.internal.DaoConfig;
 import com.example.huiyiqiandaotv.beans.BaoCunBean;
 import com.example.huiyiqiandaotv.beans.BenDiRenShuBean;
 import com.example.huiyiqiandaotv.beans.MoShengRenBean;
+import com.example.huiyiqiandaotv.beans.QianDaoId;
 import com.example.huiyiqiandaotv.beans.ShiBieJiLuBean;
 import com.example.huiyiqiandaotv.beans.ShiPingBean;
 import com.example.huiyiqiandaotv.beans.TanChuangBean;
@@ -18,6 +19,7 @@ import com.example.huiyiqiandaotv.beans.TanChuangBean;
 import com.example.huiyiqiandaotv.beans.BaoCunBeanDao;
 import com.example.huiyiqiandaotv.beans.BenDiRenShuBeanDao;
 import com.example.huiyiqiandaotv.beans.MoShengRenBeanDao;
+import com.example.huiyiqiandaotv.beans.QianDaoIdDao;
 import com.example.huiyiqiandaotv.beans.ShiBieJiLuBeanDao;
 import com.example.huiyiqiandaotv.beans.ShiPingBeanDao;
 import com.example.huiyiqiandaotv.beans.TanChuangBeanDao;
@@ -34,6 +36,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig baoCunBeanDaoConfig;
     private final DaoConfig benDiRenShuBeanDaoConfig;
     private final DaoConfig moShengRenBeanDaoConfig;
+    private final DaoConfig qianDaoIdDaoConfig;
     private final DaoConfig shiBieJiLuBeanDaoConfig;
     private final DaoConfig shiPingBeanDaoConfig;
     private final DaoConfig tanChuangBeanDaoConfig;
@@ -41,6 +44,7 @@ public class DaoSession extends AbstractDaoSession {
     private final BaoCunBeanDao baoCunBeanDao;
     private final BenDiRenShuBeanDao benDiRenShuBeanDao;
     private final MoShengRenBeanDao moShengRenBeanDao;
+    private final QianDaoIdDao qianDaoIdDao;
     private final ShiBieJiLuBeanDao shiBieJiLuBeanDao;
     private final ShiPingBeanDao shiPingBeanDao;
     private final TanChuangBeanDao tanChuangBeanDao;
@@ -58,6 +62,9 @@ public class DaoSession extends AbstractDaoSession {
         moShengRenBeanDaoConfig = daoConfigMap.get(MoShengRenBeanDao.class).clone();
         moShengRenBeanDaoConfig.initIdentityScope(type);
 
+        qianDaoIdDaoConfig = daoConfigMap.get(QianDaoIdDao.class).clone();
+        qianDaoIdDaoConfig.initIdentityScope(type);
+
         shiBieJiLuBeanDaoConfig = daoConfigMap.get(ShiBieJiLuBeanDao.class).clone();
         shiBieJiLuBeanDaoConfig.initIdentityScope(type);
 
@@ -70,6 +77,7 @@ public class DaoSession extends AbstractDaoSession {
         baoCunBeanDao = new BaoCunBeanDao(baoCunBeanDaoConfig, this);
         benDiRenShuBeanDao = new BenDiRenShuBeanDao(benDiRenShuBeanDaoConfig, this);
         moShengRenBeanDao = new MoShengRenBeanDao(moShengRenBeanDaoConfig, this);
+        qianDaoIdDao = new QianDaoIdDao(qianDaoIdDaoConfig, this);
         shiBieJiLuBeanDao = new ShiBieJiLuBeanDao(shiBieJiLuBeanDaoConfig, this);
         shiPingBeanDao = new ShiPingBeanDao(shiPingBeanDaoConfig, this);
         tanChuangBeanDao = new TanChuangBeanDao(tanChuangBeanDaoConfig, this);
@@ -77,6 +85,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(BaoCunBean.class, baoCunBeanDao);
         registerDao(BenDiRenShuBean.class, benDiRenShuBeanDao);
         registerDao(MoShengRenBean.class, moShengRenBeanDao);
+        registerDao(QianDaoId.class, qianDaoIdDao);
         registerDao(ShiBieJiLuBean.class, shiBieJiLuBeanDao);
         registerDao(ShiPingBean.class, shiPingBeanDao);
         registerDao(TanChuangBean.class, tanChuangBeanDao);
@@ -86,6 +95,7 @@ public class DaoSession extends AbstractDaoSession {
         baoCunBeanDaoConfig.clearIdentityScope();
         benDiRenShuBeanDaoConfig.clearIdentityScope();
         moShengRenBeanDaoConfig.clearIdentityScope();
+        qianDaoIdDaoConfig.clearIdentityScope();
         shiBieJiLuBeanDaoConfig.clearIdentityScope();
         shiPingBeanDaoConfig.clearIdentityScope();
         tanChuangBeanDaoConfig.clearIdentityScope();
@@ -101,6 +111,10 @@ public class DaoSession extends AbstractDaoSession {
 
     public MoShengRenBeanDao getMoShengRenBeanDao() {
         return moShengRenBeanDao;
+    }
+
+    public QianDaoIdDao getQianDaoIdDao() {
+        return qianDaoIdDao;
     }
 
     public ShiBieJiLuBeanDao getShiBieJiLuBeanDao() {

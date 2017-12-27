@@ -50,6 +50,9 @@ import com.example.huiyiqiandaotv.beans.ChuanJianUserBean;
 import com.example.huiyiqiandaotv.beans.MoShengRenBean;
 import com.example.huiyiqiandaotv.beans.MoShengRenBean2;
 import com.example.huiyiqiandaotv.beans.MoShengRenBeanDao;
+import com.example.huiyiqiandaotv.beans.QianDaoId;
+import com.example.huiyiqiandaotv.beans.QianDaoIdDao;
+import com.example.huiyiqiandaotv.beans.RenShu;
 import com.example.huiyiqiandaotv.beans.ShiBieBean;
 import com.example.huiyiqiandaotv.beans.TanChuangBean;
 import com.example.huiyiqiandaotv.beans.TanChuangBeanDao;
@@ -68,7 +71,12 @@ import com.example.huiyiqiandaotv.utils.GsonUtil;
 import com.example.huiyiqiandaotv.utils.Utils;
 import com.example.huiyiqiandaotv.view.GlideCircleTransform;
 import com.example.huiyiqiandaotv.view.WrapContentLinearLayoutManager;
+import com.facebook.rebound.SimpleSpringListener;
+import com.facebook.rebound.Spring;
+import com.facebook.rebound.SpringConfig;
+import com.facebook.rebound.SpringSystem;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.sdsmdg.tastytoast.TastyToast;
 
@@ -154,6 +162,7 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 	private MySyntherizer synthesizer;
 	private BenDiRenShuBean benDiRenShuBean=null;
 	private BenDiRenShuBeanDao benDiRenShuBeanDao=null;
+	private QianDaoIdDao qianDaoIdDao=null;
 
 
 
@@ -217,11 +226,10 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 						//manager.scrollToPosition(yuangongList.size() - 1);
 
 
-
 					adapter.notifyItemRemoved(0);
 					yuangongList.remove(0);
 
-						if (lingdaoList.size()>10){
+						if (lingdaoList.size()>20){
 							adapter2.notifyItemRemoved(0);
 							lingdaoList.remove(0);
 						}
@@ -359,6 +367,31 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 					e.printStackTrace();
 				}
 
+				benDiRenShuBean=benDiRenShuBeanDao.load(123456L);
+				String str = String.format("%04d", benDiRenShuBean.getY1());
+				char s1[]=str.toCharArray();
+				StringBuilder cc=new StringBuilder();
+				for (char c:s1){
+					cc.append(String.valueOf(c)).append(" ");
+				}
+				y1.setText(cc.toString());
+
+				y2.setText(benDiRenShuBean.getYShen()+"");
+				y3.setText(benDiRenShuBean.getYShi()+"");
+				y4.setText(benDiRenShuBean.getYTeyao()+"");
+
+
+				String str2 = String.format("%04d", benDiRenShuBean.getN1());
+				char s2[]=str2.toCharArray();
+				StringBuilder cc2=new StringBuilder();
+				for (char c:s2){
+					cc2.append(String.valueOf(c)).append(" ");
+				}
+				n1.setText(cc2.toString());
+
+				n2.setText(benDiRenShuBean.getNShen()+"");
+				n3.setText(benDiRenShuBean.getNShi()+"");
+				n4.setText(benDiRenShuBean.getNTeyao()+"");
 
 			}
 			//else if (msg.arg1==2) {
@@ -487,14 +520,17 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 			ddd.setYShi(0);
 			ddd.setYTeyao(0);
 			benDiRenShuBeanDao.insert(ddd);
+			benDiRenShuBean=benDiRenShuBeanDao.load(123456L);
 		}
+		qianDaoIdDao=MyApplication.myApplication.getDaoSession().getQianDaoIdDao();
 		tanChuangBeanDao=MyApplication.myApplication.getDaoSession().getTanChuangBeanDao();
 		baoCunBeanDao = MyApplication.myApplication.getDaoSession().getBaoCunBeanDao();
 		baoCunBean = baoCunBeanDao.load(123456L);
 		if (baoCunBean == null) {
-			BaoCunBean baoCunBean = new BaoCunBean();
-			baoCunBean.setId(123456L);
-			baoCunBeanDao.insert(baoCunBean);
+			BaoCunBean baoCunBea = new BaoCunBean();
+			baoCunBea.setId(123456L);
+			baoCunBeanDao.insert(baoCunBea);
+			baoCunBean = baoCunBeanDao.load(123456L);
 		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);//隐藏标题
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -511,9 +547,9 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 		t3= (TextView) findViewById(R.id.t3);
 		typeFace1 = Typeface.createFromAsset(getAssets(), "fonts/xk.TTF");
 		t1.setTypeface(typeFace1);
-		t1.setText("辽宁省移动2017年");
+		t1.setText("辽宁移动公司年底");
 		t2.setTypeface(typeFace1);
-		t2.setText("年终总结大会");
+		t2.setText("市场工作会议");
 		y1= (TextView) findViewById(R.id.y1);
 		y2= (TextView) findViewById(R.id.y2);
 		y3= (TextView) findViewById(R.id.y3);
@@ -530,6 +566,13 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 			cc.append(String.valueOf(c)).append(" ");
 		}
 		y1.setText(cc.toString());
+		ImageView ii= (ImageView) findViewById(R.id.yidong);
+		ii.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				link_login();
+			}
+		});
 
 		y2.setText(benDiRenShuBean.getYShen()+"");
 		y3.setText(benDiRenShuBean.getYShi()+"");
@@ -550,6 +593,8 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 
 		lingdaoList=new Vector<>();
 		yuangongList = new Vector<>();
+
+
 
 //		TanChuangBean bean=new TanChuangBean();
 //		bean.setName("");
@@ -657,7 +702,7 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 			@Override
 			public void handleMessage(Message msg) {
 				super.handleMessage(msg);
-				Log.d(TAG, "msg:" + msg);
+				//Log.d(TAG, "msg:" + msg);
 			}
 
 		};
@@ -691,7 +736,7 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 			}
 		}).start();
 
-		link_login();
+
 
 	}
 
@@ -753,30 +798,31 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 		@Override
 		protected void convert(final BaseViewHolder helper, TanChuangBean item) {
 			//Log.d(TAG, "动画执行");
-			AnimatorSet animatorSet = new AnimatorSet();
-			animatorSet.playTogether(
-					ObjectAnimator.ofFloat(helper.itemView,"scaleY",0f,1f),
-					ObjectAnimator.ofFloat(helper.itemView,"scaleX",0f,0f)
-					//	ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
-			);
-			animatorSet.setDuration(200);
-			animatorSet.setInterpolator(new AccelerateInterpolator());
-			animatorSet.addListener(new AnimatorListenerAdapter(){
-				@Override public void onAnimationEnd(Animator animation) {
+//			AnimatorSet animatorSet = new AnimatorSet();
+//			animatorSet.playTogether(
+//					ObjectAnimator.ofFloat(helper.itemView,"scaleY",0f,1f),
+//					ObjectAnimator.ofFloat(helper.itemView,"scaleX",0f,0f)
+//					//	ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
+//			);
+//			animatorSet.setDuration(200);
+//			animatorSet.setInterpolator(new AccelerateInterpolator());
+//			animatorSet.addListener(new AnimatorListenerAdapter(){
+//				@Override public void onAnimationEnd(Animator animation) {
+//
+//					AnimatorSet animatorSet2 = new AnimatorSet();
+//					animatorSet2.playTogether(
+//							ObjectAnimator.ofFloat(helper.itemView,"scaleX",0f,1f)
+//							//ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
+//							//	ObjectAnimator.ofFloat(helper.itemView,"scaleY",1f,0.5f,1f)
+//					);
+//					animatorSet2.setInterpolator(new AccelerateInterpolator());
+//					animatorSet2.setDuration(500);
+//					animatorSet2.start();
+//
+//				}
+//			});
+//			animatorSet.start();
 
-					AnimatorSet animatorSet2 = new AnimatorSet();
-					animatorSet2.playTogether(
-							ObjectAnimator.ofFloat(helper.itemView,"scaleX",0f,1f)
-							//ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
-							//	ObjectAnimator.ofFloat(helper.itemView,"scaleY",1f,0.5f,1f)
-					);
-					animatorSet2.setInterpolator(new AccelerateInterpolator());
-					animatorSet2.setDuration(500);
-					animatorSet2.start();
-
-				}
-			});
-			animatorSet.start();
 
 			ImageView imageView= helper.getView(R.id.touxiang);
 			TextView name=helper.getView(R.id.name33);
@@ -784,6 +830,7 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 			LinearLayout toprl=helper.getView(R.id.ggghhh);
 			RelativeLayout rl=helper.getView(R.id.ffflll);
 			String bumen=item.getBumen();
+
 //			if (helper.getAdapterPosition()==0 ){
 //				rl.setBackgroundColor(Color.parseColor("#00000000"));
 //				toprl.setBackgroundColor(Color.parseColor("#00000000"));
@@ -801,7 +848,7 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 						zhuangtai.setText("陌生人");
 						name.setText("陌生人进入,请保安尽快到现场或短信保安预警.");
 
-						//mSpeechSynthesizer.speak("陌生人进入,请保安尽快到现场或短信保安预警");
+					//	mSpeechSynthesizer.speak("陌生人进入,请保安尽快到现场或短信保安预警");
 
 						break;
 					case 0:
@@ -812,18 +859,20 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 							toprl.setBackgroundResource(R.drawable.lingdao_bg);
 							name.setTypeface(typeFace1);
 							zhuangtai.setTypeface(typeFace1);
-							name.setText("热烈欢迎"+item.getName()+"领导");
-							zhuangtai.setText("莅临参加年终晚会");
-							//synthesizer.speak("112");
+							name.setVisibility(View.GONE);
+							zhuangtai.setText("欢迎领导莅临会议");
+							imageView.setBackgroundResource(R.drawable.yuanquan);
+							synthesizer.speak("欢迎领导莅临会议");
 						}else {
-							toprl.setBackgroundResource(R.drawable.yuangong_bg);
+							imageView.setBackgroundColor(Color.parseColor("#00000000"));
+							toprl.setBackgroundResource(R.drawable.yuangongbg);
 							name.setTypeface(typeFace1);
 							zhuangtai.setTypeface(typeFace1);
 							name.setText(item.getName());
+							name.setVisibility(View.VISIBLE);
 							zhuangtai.setText("签到成功");
-							//synthesizer.speak("112");
+							synthesizer.speak(item.getName()+"签到成功");
 						}
-
 
 
 						break;
@@ -873,7 +922,7 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 		//	}
 
 
-			LinearLayout.LayoutParams lp2 = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+			RelativeLayout.LayoutParams lp2 = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
 
 			//头像的高宽
 			lp2.width=dw/3+20;
@@ -886,13 +935,38 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) toprl.getLayoutParams();
 			if (bumen.equals("省公司领导") || bumen.equals("市公司领导")|| bumen.equals("特邀嘉宾")){
 				lp.width=dw;
+				lp.height=((dh*7)/10)/3-20;
 			}else {
 				lp.width=dw-100;
+				lp.height=((dh*7)/10)/3-120;
 			}
-			lp.height=((dh*7)/10)/3-20;
 			toprl.setLayoutParams(lp);
 			toprl.invalidate();
 
+			SpringSystem springSystem = SpringSystem.create();
+			final Spring spring = springSystem.createSpring();
+			//两个参数分别是弹力系数和阻力系数
+			spring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(80, 6));
+			// 添加弹簧监听器
+			spring.addListener(new SimpleSpringListener() {
+
+				@Override
+				public void onSpringUpdate(Spring spring) {
+					// value是一个符合弹力变化的一个数，我们根据value可以做出弹簧动画
+					float value = (float) spring.getCurrentValue();
+					//Log.d(TAG, "value:" + value);
+					//基于Y轴的弹簧阻尼动画
+					//	helper.itemView.setTranslationY(value);
+
+					// 对图片的伸缩动画
+					//float scale = 1f - (value * 0.5f);
+					helper.itemView.setScaleX(value);
+					helper.itemView.setScaleY(value);
+				}
+			});
+
+			// 设置动画结束值
+			spring.setEndValue(1f);
 		}
 
 	}
@@ -1553,32 +1627,63 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 							try {
 
 								//mSpeechSynthesizer.speak("欢迎" + dataBean.getPerson().getName() + "来学校接送" + dataBean.getPerson().getRemark());
-								MoShengRenBean bean = new MoShengRenBean(dataBean.getPerson().getId(), "sss");
+							//	MoShengRenBean bean = new MoShengRenBean(dataBean.getPerson().getId(), "sss");
+								QianDaoId qianDaoId=new QianDaoId(dataBean.getPerson().getId(),dataBean.getPerson().getName());
+								if (qianDaoIdDao.load(dataBean.getPerson().getId())==null){
+									qianDaoIdDao.insert(qianDaoId);
+									if (dataBean.getPerson().getDepartment().equals("省公司领导")){
+										benDiRenShuBean.setNShen(benDiRenShuBean.getNShen()-1);
+										benDiRenShuBean.setN1(benDiRenShuBean.getN1()-1);
+										benDiRenShuBean.setYShen(benDiRenShuBean.getYShen()+1);
+										benDiRenShuBean.setY1(benDiRenShuBean.getY1()+1);
+										benDiRenShuBeanDao.update(benDiRenShuBean);
+									}else
+									if (dataBean.getPerson().getDepartment().equals("市公司领导")){
+										benDiRenShuBean.setNShi(benDiRenShuBean.getNShi()-1);
+										benDiRenShuBean.setN1(benDiRenShuBean.getN1()-1);
+										benDiRenShuBean.setYShi(benDiRenShuBean.getYShi()+1);
+										benDiRenShuBean.setY1(benDiRenShuBean.getY1()+1);
+										benDiRenShuBeanDao.update(benDiRenShuBean);
+									}else
+									if (dataBean.getPerson().getDepartment().equals("特邀嘉宾")){
+										benDiRenShuBean.setNTeyao(benDiRenShuBean.getNTeyao()-1);
+										benDiRenShuBean.setN1(benDiRenShuBean.getN1()-1);
+										benDiRenShuBean.setYTeyao(benDiRenShuBean.getYTeyao()+1);
+										benDiRenShuBean.setY1(benDiRenShuBean.getY1()+1);
+										benDiRenShuBeanDao.update(benDiRenShuBean);
+									}else {
 
-								daoSession.insert(bean);
+										benDiRenShuBean.setN1(benDiRenShuBean.getN1()-1);
+										benDiRenShuBean.setY1(benDiRenShuBean.getY1()+1);
+										benDiRenShuBeanDao.update(benDiRenShuBean);
 
+									}
+								}
 								Message message2 = Message.obtain();
 								message2.arg1 = 1;
 								message2.obj = dataBean.getPerson();
 								handler.sendMessage(message2);
+
+								//daoSession.insert(bean);
+
 								//Log.d(TAG, "111");
 
 							}catch (Exception e){
 								Log.d("WebsocketPushMsg", e.getMessage()+"aaa");
-							}finally {
-								try {
-									Thread.sleep(300);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-								try {
-									daoSession.deleteByKey(dataBean.getPerson().getId());
-								//	Log.d("WebsocketPushMsg", "删除");
-								}catch (Exception e){
-									Log.d("WebsocketPushMsg", e.getMessage()+"bbb");
-								}
 							}
-
+//							finally {
+//								try {
+//									Thread.sleep(300);
+//								} catch (InterruptedException e) {
+//									e.printStackTrace();
+//								}
+//								try {
+//									daoSession.deleteByKey(dataBean.getPerson().getId());
+//								//	Log.d("WebsocketPushMsg", "删除");
+//								}catch (Exception e){
+//									Log.d("WebsocketPushMsg", e.getMessage()+"bbb");
+//								}
+//							}
 
 
 					}
@@ -2154,8 +2259,9 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 				.header("Content-Type", "application/json")
 				.header("user-agent","Koala Admin")
 				//.post(requestBody)
-				.post(body)
-				.url(zhuji2+"/auth/login");
+				.get()
+				//.post(body)
+				.url("http://192.166.2.109:8082/subjectDeptCount.do?accountId=10000014");
 
 		// step 3：创建 Call 对象
 		Call call = okHttpClient.newCall(requestBuilder.build());
@@ -2175,17 +2281,73 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 
 					ResponseBody body = response.body();
 					String ss=body.string().trim();
-				//	Log.d("AllConnects", "aa   "+ss);
+					Log.d("AllConnects", "aa   "+ss);
 
-					JsonObject jsonObject= GsonUtil.parse(ss).getAsJsonObject();
-				//	Gson gson=new Gson();
-					int code=jsonObject.get("code").getAsInt();
-
-					if (code==0){
-
-					link_getAll_User();
+					JsonArray jsonObject= GsonUtil.parse(ss).getAsJsonArray();
+					Gson gson=new Gson();
+					int N=0;
+					for (int s=0;s<jsonObject.size();s++){
+						 RenShu renShu=gson.fromJson(jsonObject.get(s),RenShu.class);
+						 if (renShu.getDept().equals("省公司领导")){
+							benDiRenShuBean.setNShen(renShu.getCount()-benDiRenShuBean.getYShen());
+							benDiRenShuBeanDao.update(benDiRenShuBean);
+						}
+						if (renShu.getDept().equals("市公司领导")){
+							benDiRenShuBean.setNShi(renShu.getCount()-benDiRenShuBean.getYShi());
+							benDiRenShuBeanDao.update(benDiRenShuBean);
+						}
+						if (renShu.getDept().equals("特邀嘉宾")){
+							benDiRenShuBean.setNTeyao(renShu.getCount()-benDiRenShuBean.getYTeyao());
+							benDiRenShuBeanDao.update(benDiRenShuBean);
+						}
+						N+=renShu.getCount();
 
 					}
+					Log.d("YiDongNianHuiActivity", "N:" + N);
+					benDiRenShuBean.setN1(N-benDiRenShuBean.getY1());
+					benDiRenShuBeanDao.update(benDiRenShuBean);
+
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							benDiRenShuBean=benDiRenShuBeanDao.load(123456L);
+
+							String str = String.format("%04d", benDiRenShuBean.getY1());
+							char s1[]=str.toCharArray();
+							StringBuilder cc=new StringBuilder();
+							for (char c:s1){
+								cc.append(String.valueOf(c)).append(" ");
+							}
+							y1.setText(cc.toString());
+
+							y2.setText(benDiRenShuBean.getYShen()+"");
+							y3.setText(benDiRenShuBean.getYShi()+"");
+							y4.setText(benDiRenShuBean.getYTeyao()+"");
+
+
+							String str2 = String.format("%04d", benDiRenShuBean.getN1());
+							char s2[]=str2.toCharArray();
+							StringBuilder cc2=new StringBuilder();
+							for (char c:s2){
+								cc2.append(String.valueOf(c)).append(" ");
+							}
+							n1.setText(cc2.toString());
+
+							n2.setText(benDiRenShuBean.getNShen()+"");
+							n3.setText(benDiRenShuBean.getNShi()+"");
+							n4.setText(benDiRenShuBean.getNTeyao()+"");
+
+						}
+					});
+
+				//	Gson gson=new Gson();
+					//int code=jsonObject.get("code").getAsInt();
+
+				//	if (code==0){
+
+				//	link_getAll_User();
+
+				//	}
 
 				}catch (Exception e){
 					Log.d("WebsocketPushMsg", e.getMessage()+"ttttt");

@@ -55,5 +55,6 @@ dependencies {
 
     compile "com.badlogicgames.gdx:gdx-backend-android:1.9.8"
     compile "com.badlogicgames.gdx:gdx-box2d:1.9.8"
+    compile 'com.facebook.rebound:rebound:0.3.8'
 
 }
