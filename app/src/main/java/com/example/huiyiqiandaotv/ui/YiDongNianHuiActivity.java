@@ -229,14 +229,13 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 					adapter.notifyItemRemoved(0);
 					yuangongList.remove(0);
 
-						if (lingdaoList.size()>20){
+						if (lingdaoList.size()>10){
 							adapter2.notifyItemRemoved(0);
 							lingdaoList.remove(0);
 						}
 					//	Log.d(TAG, "lingdaoList.size():" + lingdaoList.size());
 	//		}
 //
-
 					break;
 //				case 19: //更新识别记录
 //					//Log.d(TAG, "19");
@@ -274,16 +273,25 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 										a = 1;
 									}
 								}
+							int b = 0;
+							for (int i2 = 0; i2 < lingdaoList.size(); i2++) {
+								if (Objects.equals(lingdaoList.get(i2).getId(), bean.getId())) {
+									b = 1;
+								}
+							}
+
 								if (a==0){
 									yuangongList.add(bean);
-									lingdaoList.add(bean);
 									int i1 = yuangongList.size();
-									int i2 = lingdaoList.size();
 									adapter.notifyItemInserted(i1);
 									manager.scrollToPosition(i1 - 1);
 
-									adapter2.notifyItemInserted(i2);
-									manager2.scrollToPosition(i2 - 1);
+									if (b==0){
+										lingdaoList.add(bean);
+										int i2 = lingdaoList.size();
+										adapter2.notifyItemInserted(i2);
+										manager2.scrollToPosition(i2 - 1);
+									}
 
 									new Thread(new Runnable() {
 										@Override
@@ -2289,22 +2297,22 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 					for (int s=0;s<jsonObject.size();s++){
 						 RenShu renShu=gson.fromJson(jsonObject.get(s),RenShu.class);
 						 if (renShu.getDept().equals("省公司领导")){
-							benDiRenShuBean.setNShen(renShu.getCount()-benDiRenShuBean.getYShen());
+							benDiRenShuBean.setNShen((renShu.getCount()-benDiRenShuBean.getYShen())<0 ? 0 : (renShu.getCount()-benDiRenShuBean.getYShen()));
 							benDiRenShuBeanDao.update(benDiRenShuBean);
 						}
 						if (renShu.getDept().equals("市公司领导")){
-							benDiRenShuBean.setNShi(renShu.getCount()-benDiRenShuBean.getYShi());
+							benDiRenShuBean.setNShi((renShu.getCount()-benDiRenShuBean.getYShi())<0?0:(renShu.getCount()-benDiRenShuBean.getYShi()));
 							benDiRenShuBeanDao.update(benDiRenShuBean);
 						}
 						if (renShu.getDept().equals("特邀嘉宾")){
-							benDiRenShuBean.setNTeyao(renShu.getCount()-benDiRenShuBean.getYTeyao());
+							benDiRenShuBean.setNTeyao((renShu.getCount()-benDiRenShuBean.getYTeyao())<0?0:(renShu.getCount()-benDiRenShuBean.getYTeyao()));
 							benDiRenShuBeanDao.update(benDiRenShuBean);
 						}
 						N+=renShu.getCount();
 
 					}
-					Log.d("YiDongNianHuiActivity", "N:" + N);
-					benDiRenShuBean.setN1(N-benDiRenShuBean.getY1());
+					//Log.d("YiDongNianHuiActivity", "N:" + N);
+					benDiRenShuBean.setN1((N-benDiRenShuBean.getY1())<0?0:(N-benDiRenShuBean.getY1()));
 					benDiRenShuBeanDao.update(benDiRenShuBean);
 
 					runOnUiThread(new Runnable() {
