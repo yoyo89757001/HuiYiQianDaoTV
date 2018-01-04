@@ -21,9 +21,9 @@
     <application
         android:allowBackup="true"
         android:name=".MyApplication"
-        android:icon="@drawable/louyulogo"
+        android:icon="@drawable/huiyi_logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/louyulogo"
+        android:roundIcon="@drawable/huiyi_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.YiDongNianHuiActivity" android:screenOrientation="portrait">

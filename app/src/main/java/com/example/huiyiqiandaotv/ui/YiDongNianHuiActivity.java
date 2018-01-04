@@ -1,9 +1,6 @@
 package com.example.huiyiqiandaotv.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,10 +19,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,7 +42,6 @@ import com.example.huiyiqiandaotv.beans.BaoCunBeanDao;
 import com.example.huiyiqiandaotv.beans.BenDiRenShuBean;
 import com.example.huiyiqiandaotv.beans.BenDiRenShuBeanDao;
 import com.example.huiyiqiandaotv.beans.ChuanJianUserBean;
-import com.example.huiyiqiandaotv.beans.MoShengRenBean;
 import com.example.huiyiqiandaotv.beans.MoShengRenBean2;
 import com.example.huiyiqiandaotv.beans.MoShengRenBeanDao;
 import com.example.huiyiqiandaotv.beans.QianDaoId;
@@ -92,7 +86,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1637,32 +1630,35 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 								QianDaoId qianDaoId=new QianDaoId(dataBean.getPerson().getId(),dataBean.getPerson().getName());
 								if (qianDaoIdDao.load(dataBean.getPerson().getId())==null){
 									qianDaoIdDao.insert(qianDaoId);
-									if (dataBean.getPerson().getDepartment().equals("省公司领导")){
-										benDiRenShuBean.setNShen(benDiRenShuBean.getNShen()-1);
-										benDiRenShuBean.setN1(benDiRenShuBean.getN1()-1);
-										benDiRenShuBean.setYShen(benDiRenShuBean.getYShen()+1);
-										benDiRenShuBean.setY1(benDiRenShuBean.getY1()+1);
-										benDiRenShuBeanDao.update(benDiRenShuBean);
-									}else
-									if (dataBean.getPerson().getDepartment().equals("市公司领导")){
-										benDiRenShuBean.setNShi(benDiRenShuBean.getNShi()-1);
-										benDiRenShuBean.setN1(benDiRenShuBean.getN1()-1);
-										benDiRenShuBean.setYShi(benDiRenShuBean.getYShi()+1);
-										benDiRenShuBean.setY1(benDiRenShuBean.getY1()+1);
-										benDiRenShuBeanDao.update(benDiRenShuBean);
-									}else
-									if (dataBean.getPerson().getDepartment().equals("特邀嘉宾")){
-										benDiRenShuBean.setNTeyao(benDiRenShuBean.getNTeyao()-1);
-										benDiRenShuBean.setN1(benDiRenShuBean.getN1()-1);
-										benDiRenShuBean.setYTeyao(benDiRenShuBean.getYTeyao()+1);
-										benDiRenShuBean.setY1(benDiRenShuBean.getY1()+1);
-										benDiRenShuBeanDao.update(benDiRenShuBean);
-									}else {
+									switch (dataBean.getPerson().getDepartment()) {
+										case "省公司领导":
+											benDiRenShuBean.setNShen((benDiRenShuBean.getNShen() - 1)<0?0:(benDiRenShuBean.getNShen() - 1));
+											benDiRenShuBean.setN1((benDiRenShuBean.getN1() - 1)<0?0:(benDiRenShuBean.getN1() - 1));
+											benDiRenShuBean.setYShen(benDiRenShuBean.getYShen() + 1);
+											benDiRenShuBean.setY1(benDiRenShuBean.getY1() + 1);
+											benDiRenShuBeanDao.update(benDiRenShuBean);
+											break;
+										case "市公司领导":
+											benDiRenShuBean.setNShi((benDiRenShuBean.getNShi() - 1)<0?0:(benDiRenShuBean.getNShi() - 1));
+											benDiRenShuBean.setN1((benDiRenShuBean.getN1() - 1)<0?0:(benDiRenShuBean.getN1() - 1));
+											benDiRenShuBean.setYShi(benDiRenShuBean.getYShi() + 1);
+											benDiRenShuBean.setY1(benDiRenShuBean.getY1() + 1);
+											benDiRenShuBeanDao.update(benDiRenShuBean);
+											break;
+										case "特邀嘉宾":
+											benDiRenShuBean.setNTeyao((benDiRenShuBean.getNTeyao() - 1)<0?0:(benDiRenShuBean.getNTeyao() - 1));
+											benDiRenShuBean.setN1((benDiRenShuBean.getN1() - 1)<0?0:(benDiRenShuBean.getN1() - 1));
+											benDiRenShuBean.setYTeyao(benDiRenShuBean.getYTeyao() + 1);
+											benDiRenShuBean.setY1(benDiRenShuBean.getY1() + 1);
+											benDiRenShuBeanDao.update(benDiRenShuBean);
+											break;
+										default:
 
-										benDiRenShuBean.setN1(benDiRenShuBean.getN1()-1);
-										benDiRenShuBean.setY1(benDiRenShuBean.getY1()+1);
-										benDiRenShuBeanDao.update(benDiRenShuBean);
+											benDiRenShuBean.setN1((benDiRenShuBean.getN1() - 1)<0?0:(benDiRenShuBean.getN1() - 1));
+											benDiRenShuBean.setY1(benDiRenShuBean.getY1() + 1);
+											benDiRenShuBeanDao.update(benDiRenShuBean);
 
+											break;
 									}
 								}
 								Message message2 = Message.obtain();
@@ -2363,11 +2359,7 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 
 			}
 		});
-
-
 	}
-
-
 
 //	private class DownloadReceiver extends ResultReceiver {
 //		public DownloadReceiver(Handler handler) {
