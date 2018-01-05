@@ -26,7 +26,7 @@
         android:roundIcon="@drawable/huiyi_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.YiDongNianHuiActivity" android:screenOrientation="portrait">
+        <activity android:name=".ui.YanShi97ZhongActivity" android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,7 +37,7 @@
         <activity android:name=".ui.ErWeiMaActivity"/>
         <activity android:name=".ui.LogingActivity"/>
         <activity android:name=".ui.SheZhiActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="landscape"
             />
         <activity android:name=".ui.BaseActivity"/>
 
