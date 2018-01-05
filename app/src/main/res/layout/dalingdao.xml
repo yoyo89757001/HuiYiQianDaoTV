@@ -4,25 +4,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="120dp">
-
             <TextView
                 android:id="@+id/t1"
                 android:textColor="@color/write"
                 android:textSize="50sp"
+                android:shadowColor="@color/hegong"
+                android:shadowDx="4"
+                android:shadowDy="4"
+                android:shadowRadius="4"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="50dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <View
+            android:layout_weight="0.4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
             <TextView
                 android:id="@+id/t2"
                 android:textColor="@color/write"
-                android:textSize="30sp"
-                android:visibility="gone"
+                android:textSize="80sp"
+                android:shadowColor="@color/hegong"
+                android:shadowDx="4"
+                android:shadowDy="4"
+                android:shadowRadius="4"
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -30,18 +50,25 @@
             <TextView
                 android:id="@+id/t3"
                 android:textColor="@color/write"
-                android:textSize="46sp"
-                android:visibility="gone"
+                android:textSize="110sp"
+                android:shadowColor="@color/hegong"
+                android:shadowDx="4"
+                android:shadowDy="4"
+                android:shadowRadius="4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-    </RelativeLayout>
+
+        </LinearLayout>
+
+        
+    </LinearLayout>
+
+
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_marginLeft="2dp"
-        android:layout_toLeftOf="@+id/recyclerView2"
-        android:layout_marginRight="2dp"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
