@@ -4,6 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:src="@drawable/jiushiqi_logo"
+        android:layout_width="400dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_height="100dp" />
+
 
     <RelativeLayout
         android:layout_alignParentBottom="true"

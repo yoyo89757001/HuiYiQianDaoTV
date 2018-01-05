@@ -678,7 +678,11 @@ public class YanShi97ZhongActivity extends BaseActivity implements RecytviewCash
 						//toprl.setBackgroundResource(R.drawable.yg_bg);
 						name.setTypeface(typeFace1);
 						zhuangtai.setTypeface(typeFace1);
-						name.setText(item.getName());
+						if (item.getName().length()<4){
+							name.setText(item.getName());
+						}else {
+							name.setText("11"+item.getName().substring(0,4));
+						}
 						zhuangtai.setText("识别成功");
 						toprl.setBackgroundResource(R.drawable.tc_bgbg);
 
