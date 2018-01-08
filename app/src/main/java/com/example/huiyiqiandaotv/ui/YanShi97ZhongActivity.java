@@ -678,11 +678,7 @@ public class YanShi97ZhongActivity extends BaseActivity implements RecytviewCash
 						//toprl.setBackgroundResource(R.drawable.yg_bg);
 						name.setTypeface(typeFace1);
 						zhuangtai.setTypeface(typeFace1);
-						if (item.getName().length()<4){
-							name.setText(item.getName());
-						}else {
-							name.setText("11"+item.getName().substring(0,4));
-						}
+						name.setText(item.getName());
 						zhuangtai.setText("识别成功");
 						toprl.setBackgroundResource(R.drawable.tc_bgbg);
 
@@ -704,12 +700,7 @@ public class YanShi97ZhongActivity extends BaseActivity implements RecytviewCash
 						//toprl.setBackgroundResource(R.drawable.zidonghuoqu15);
 						name.setTypeface(typeFace1);
 						zhuangtai.setTypeface(typeFace1);
-						if (item.getName().length()<4){
-							name.setText(item.getName());
-						}else {
-							name.setText("11"+item.getName().substring(0,4));
-						}
-
+						name.setText(item.getName());
 						zhuangtai.setText("识别成功");
 						toprl.setBackgroundResource(R.drawable.tc_bgbg);
 						//richeng.setText("");
@@ -809,11 +800,7 @@ public class YanShi97ZhongActivity extends BaseActivity implements RecytviewCash
 			t1.setTypeface(typeFace1);
 			t1.setText("学号");
 			t2.setTypeface(typeFace1);
-			if (item.getName().length()<4){
-				t2.setText(item.getName());
-			}else {
-				t2.setText("11"+item.getName().substring(0,4));
-			}
+			t2.setText(item.getName());
 			t3.setTypeface(typeFace1);
 			t3.setText(DateUtils.time(System.currentTimeMillis()+""));
 
