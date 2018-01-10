@@ -33,6 +33,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.tts.client.SpeechSynthesizer;
+import com.baidu.tts.client.SpeechSynthesizerListener;
+import com.baidu.tts.client.TtsMode;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -54,6 +57,11 @@ import com.example.huiyiqiandaotv.beans.WBBean;
 import com.example.huiyiqiandaotv.beans.WeiShiBieBean;
 import com.example.huiyiqiandaotv.interfaces.RecytviewCash;
 import com.example.huiyiqiandaotv.service.AlarmReceiver;
+import com.example.huiyiqiandaotv.tts.control.InitConfig;
+import com.example.huiyiqiandaotv.tts.control.MySyntherizer;
+import com.example.huiyiqiandaotv.tts.control.NonBlockSyntherizer;
+import com.example.huiyiqiandaotv.tts.listener.UiMessageListener;
+import com.example.huiyiqiandaotv.tts.util.OfflineResource;
 import com.example.huiyiqiandaotv.utils.DateUtils;
 import com.example.huiyiqiandaotv.utils.GsonUtil;
 import com.example.huiyiqiandaotv.utils.Utils;
@@ -73,7 +81,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
 import okhttp3.Call;
@@ -124,7 +134,17 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 	private TextView t1,t2,t3;
 	private TanChuangBeanDao tanChuangBeanDao=null;
 	private Typeface typeFace1;
-
+	protected Handler mainHandler;
+	private String appId = "10588094";
+	private String appKey = "dfudSSFfNNhDCDoK7UG9G5jn";
+	private String secretKey = "9BaCHNSTw3TGRgTKht4ZZvPEb2fjKEC8";
+	// TtsMode.MIX; 离在线融合，在线优先； TtsMode.ONLINE 纯在线； 没有纯离线
+	private TtsMode ttsMode = TtsMode.MIX;
+	// 离线发音选择，VOICE_FEMALE即为离线女声发音。
+	// assets目录下bd_etts_speech_female.data为离线男声模型；bd_etts_speech_female.data为离线女声模型
+	private String offlineVoice = OfflineResource.VOICE_FEMALE;
+	// 主控制类，所有合成控制方法从这个类开始
+	private MySyntherizer synthesizer;
 
 
 	public  Handler handler=new Handler(new Handler.Callback() {
@@ -469,7 +489,18 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 		t3.setTypeface(typeFace1);
 		t3.setText("数字创意体验中心");
 
+		mainHandler = new Handler() {
+			/*
+             * @param msg
+             */
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+				//Log.d(TAG, "msg:" + msg);
+			}
 
+		};
+		initialTts();
 	//	lingdaoList=new Vector<>();
 		yuangongList = new Vector<>();
 
@@ -593,7 +624,36 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 
 	}
 
+	protected void initialTts() {
+		// 设置初始化参数
+		SpeechSynthesizerListener listener = new UiMessageListener(mainHandler); // 此处可以改为 含有您业务逻辑的SpeechSynthesizerListener的实现类
+		Map<String, String> params = getParams();
+		// appId appKey secretKey 网站上您申请的应用获取。注意使用离线合成功能的话，需要应用中填写您app的包名。包名在build.gradle中获取。
+		InitConfig initConfig = new InitConfig(appId, appKey, secretKey, ttsMode, offlineVoice, params, listener);
+		synthesizer = new NonBlockSyntherizer(this, initConfig, mainHandler); // 此处可以改为MySyntherizer 了解调用过程
 
+
+	}
+
+	/**
+	 * 合成的参数，可以初始化时填写，也可以在合成前设置。
+	 *
+	 * @return
+	 */
+	protected Map<String, String> getParams() {
+		Map<String, String> params = new HashMap<String, String>();
+		// 以下参数均为选填
+		params.put(SpeechSynthesizer.PARAM_SPEAKER, "4"); // 设置在线发声音人： 0 普通女声（默认） 1 普通男声 2 特别男声 3 情感男声<度逍遥> 4 情感儿童声<度丫丫>
+		params.put(SpeechSynthesizer.PARAM_VOLUME, "5"); // 设置合成的音量，0-9 ，默认 5
+		params.put(SpeechSynthesizer.PARAM_SPEED, "5");// 设置合成的语速，0-9 ，默认 5
+		params.put(SpeechSynthesizer.PARAM_PITCH, "5");// 设置合成的语调，0-9 ，默认 5
+		params.put(SpeechSynthesizer.PARAM_MIX_MODE, SpeechSynthesizer.MIX_MODE_DEFAULT);         // 该参数设置为TtsMode.MIX生效。即纯在线模式不生效。
+		// MIX_MODE_DEFAULT 默认 ，wifi状态下使用在线，非wifi离线。在线状态下，请求超时6s自动转离线
+		// MIX_MODE_HIGH_SPEED_SYNTHESIZE_WIFI wifi状态下使用在线，非wifi离线。在线状态下， 请求超时1.2s自动转离线
+		// MIX_MODE_HIGH_SPEED_NETWORK ， 3G 4G wifi状态下使用在线，其它状态离线。在线状态下，请求超时1.2s自动转离线
+		// MIX_MODE_HIGH_SPEED_SYNTHESIZE, 2G 3G 4G wifi状态下使用在线，其它状态离线。在线状态下，请求超时1.2s自动转离线
+		return params;
+	}
 
 	//学生跟陌生人
 	public  class MyAdapter extends BaseQuickAdapter<TanChuangBean,BaseViewHolder> {
@@ -641,12 +701,11 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 						zhuangtai.setVisibility(View.GONE);
 						name.setText("欢迎嘉宾莅临指导");
 						toprl.setBackgroundResource(R.drawable.moshengrenbg);
-						//mSpeechSynthesizer.speak("陌生人进入,请保安尽快到现场或短信保安预警");
+						synthesizer.speak("欢迎嘉宾莅临指导");
 
 						break;
 					case 0:
 						//员工
-
 						//toprl.setBackgroundResource(R.drawable.yg_bg);
 						name.setTypeface(typeFace1);
 						zhuangtai.setTypeface(typeFace1);
@@ -654,7 +713,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 						zhuangtai.setVisibility(View.VISIBLE);
 						zhuangtai.setText("莅临指导");
 						toprl.setBackgroundResource(R.drawable.lingdao_bgbgb);
-
+						synthesizer.speak("欢迎"+item.getName()+"领导，莅临指导");
 						//mSpeechSynthesizer.speak("欢迎"+item.getName()+"祝你出入平安.");
 //						String  zt=item.getRemark();
 //						if (zt!=null){

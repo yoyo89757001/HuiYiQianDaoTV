@@ -7,8 +7,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
         android:id="@+id/ggghhh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -62,7 +62,7 @@
                 android:shadowDy="4"
                 android:shadowRadius="4"
                 android:id="@+id/zhuangtai33"
-                android:layout_marginTop="26dp"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/write"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

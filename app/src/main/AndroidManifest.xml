@@ -26,7 +26,8 @@
         android:roundIcon="@drawable/huiyi_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.YanShi97ZhongActivity" android:screenOrientation="landscape">
+        <activity android:name=".ui.DaLingDaoYanShiActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
