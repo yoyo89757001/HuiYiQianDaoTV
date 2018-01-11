@@ -26,7 +26,7 @@
         android:roundIcon="@drawable/huiyi_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.DaLingDaoYanShiActivity"
+        <activity android:name=".ui.DaLingDaoYanShiActivity2"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +34,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.YiZhongYanShiActivity"
+            android:screenOrientation="landscape"
+            />
+        <activity android:name=".ui.DaLingDaoYanShiActivity"
+            android:screenOrientation="landscape"/>
 
         <activity android:name=".ui.ErWeiMaActivity"/>
         <activity android:name=".ui.LogingActivity"/>

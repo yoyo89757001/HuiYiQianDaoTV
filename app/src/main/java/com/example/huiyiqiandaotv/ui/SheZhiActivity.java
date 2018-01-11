@@ -4,8 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +18,7 @@ import com.example.huiyiqiandaotv.MyApplication;
 import com.example.huiyiqiandaotv.R;
 import com.example.huiyiqiandaotv.beans.BaoCunBean;
 import com.example.huiyiqiandaotv.beans.BaoCunBeanDao;
+import com.example.huiyiqiandaotv.dialog.MoBanDialog;
 import com.example.huiyiqiandaotv.dialog.XiuGaiXinXiDialog;
 import com.example.huiyiqiandaotv.dialog.YuLanDialog;
 import com.sdsmdg.tastytoast.TastyToast;
@@ -32,7 +32,6 @@ import java.util.List;
 public class SheZhiActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener {
     private Button bt1,bt2,bt3,bt4,bt5,bt6,bt7,bt8,bt9;
     private List<Button> sheZhiBeanList;
-    private RecyclerView mTvRecyclerView;
     private BaoCunBeanDao baoCunBeanDao=null;
     private BaoCunBean baoCunBean=null;
     private int moban=0;
@@ -118,12 +117,32 @@ public class SheZhiActivity extends BaseActivity implements View.OnClickListener
 
 }
 
+
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    protected void onStop() {
+        Log.d("SheZhiActivity", "停止");
+        super.onStop();
+        //开启Activity
+      //  Log.d("SheZhiActivity", "baoCunBean.getMoban():" + baoCunBean.getMoban());
+        switch (baoCunBean.getMoban()){
+            case 1:
+                startActivity(new Intent(SheZhiActivity.this,DaLingDaoYanShiActivity.class));
+               // Log.d("SheZhiActivity", "停止2");
+                break;
+            case 2:
+                startActivity(new Intent(SheZhiActivity.this,DaLingDaoYanShiActivity2.class));
+               // Log.d("SheZhiActivity", "停止3");
+                break;
+            case 3:
 
-        Log.d("SheZhiActivity", "opopopop");
+                break;
+            case 4:
 
-        return super.onKeyDown(keyCode, event);
+                break;
+
+
+        }
+
 
 
     }
@@ -353,8 +372,8 @@ public class SheZhiActivity extends BaseActivity implements View.OnClickListener
                 animatorSet7.addListener(new AnimatorListenerAdapter(){
                     @Override public void onAnimationEnd(Animator animation) {
                         //弹窗
-                        //MoBanDialog dialog=new MoBanDialog(SheZhiActivity.this,baoCunBeanDao);
-                       // dialog.show();
+                        MoBanDialog dialog=new MoBanDialog(SheZhiActivity.this,baoCunBeanDao);
+                        dialog.show();
                         bt7.setEnabled(true);
                     }
                 });

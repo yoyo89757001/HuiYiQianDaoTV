@@ -1,9 +1,5 @@
 package com.example.huiyiqiandaotv.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,16 +18,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.tts.client.SpeechSynthesizer;
 import com.baidu.tts.client.SpeechSynthesizerListener;
@@ -62,7 +54,6 @@ import com.example.huiyiqiandaotv.tts.control.MySyntherizer;
 import com.example.huiyiqiandaotv.tts.control.NonBlockSyntherizer;
 import com.example.huiyiqiandaotv.tts.listener.UiMessageListener;
 import com.example.huiyiqiandaotv.tts.util.OfflineResource;
-import com.example.huiyiqiandaotv.utils.DateUtils;
 import com.example.huiyiqiandaotv.utils.GsonUtil;
 import com.example.huiyiqiandaotv.utils.Utils;
 import com.example.huiyiqiandaotv.view.GlideCircleTransform;
@@ -74,8 +65,10 @@ import com.facebook.rebound.SpringSystem;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sdsmdg.tastytoast.TastyToast;
+
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -90,6 +83,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -103,18 +97,21 @@ import okhttp3.ResponseBody;
 import sun.misc.BASE64Decoder;
 
 
-public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCash {
+public class DaLingDaoYanShiActivity2 extends BaseActivity implements RecytviewCash {
 	private final static String TAG = "WebsocketPushMsg";
 //	private IjkVideoView ijkVideoView;
 	private MyReceiver myReceiver=null;
 	//private SurfaceView surfaceview;
-	private RecyclerView recyclerView;
+	private RecyclerView recyclerView;  //员工
 	private MyAdapter adapter=null;
-	private RecyclerView recyclerView2;
+	private RecyclerView recyclerView2;  //陌生人
+	private RecyclerView recyclerView3; //领导
 	private MyAdapter2 adapter2=null;
+	private MyAdapter3 adapter3=null;
 	private MoShengRenBeanDao daoSession=null;
 	private WrapContentLinearLayoutManager manager;
 	private WrapContentLinearLayoutManager manager2;
+	private WrapContentLinearLayoutManager manager3;
 	private static  WebSocketClient webSocketClient=null;
 //	private MediaPlayer mediaPlayer=null;
 	//private IVLCVout vlcVout=null;
@@ -124,6 +121,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 //	private SurfaceHolder mSurfaceHolder;
 	private String zhuji=null;
 	private static final String zhuji2="http://121.46.3.20";
+	private static Vector<TanChuangBean> moshengren=null;
 	private static Vector<TanChuangBean> lingdaoList=null;
 	private static Vector<TanChuangBean> yuangongList=null;
 	private int dw,dh;
@@ -186,7 +184,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 //					break;
 				case 999:
 
-					if (yuangongList.size() > 0) {
+					if (yuangongList.size() > 2) {
 
 //						AnimatorSet animatorSet = new AnimatorSet();
 //						animatorSet.playTogether(
@@ -209,8 +207,8 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 						//adapter.notifyDataSetChanged();
 						//manager.scrollToPosition(yuangongList.size() - 1);
 
-					adapter.notifyItemRemoved(0);
-					yuangongList.remove(0);
+					adapter.notifyItemRemoved(2);
+					yuangongList.remove(2);
 
 
 					//	Log.d(TAG, "lingdaoList.size():" + lingdaoList.size());
@@ -244,7 +242,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 					bean.setGonghao(dataBean.getJob_number()==null ? "":dataBean.getJob_number());
 					bean.setTouxiang(dataBean.getAvatar());
 					if (!(dataBean.getDepartment()!=null && dataBean.getDepartment().equals("黑名单"))) {
-						if (dataBean.getRemark() != null && dataBean.getRemark().equals("访客")) {
+						if (dataBean.getRemark() != null && dataBean.getRemark().equals("员工")) {
 							//VIP
 							int a = 0;
 							for (int i2 = 0; i2 < yuangongList.size(); i2++) {
@@ -528,7 +526,14 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 						bean.setBytes(null);
 						bean.setTouxiang(null);
 						bean.setType(-33);
-						lingdaoList.add(bean);
+						yuangongList.add(bean);
+						TanChuangBean bean2=new TanChuangBean();
+						bean2.setName("");
+						bean2.setIsLight(false);
+						bean2.setBytes(null);
+						bean2.setTouxiang(null);
+						bean2.setType(-33);
+						yuangongList.add(bean2);
 
 						if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_IDLE || (!recyclerView.isComputingLayout())) {
 							adapter.notifyDataSetChanged();
@@ -562,15 +567,15 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
 		//DisplayMetrics dm = getResources().getDisplayMetrics();
-		dw = Utils.getDisplaySize(DaLingDaoYanShiActivity.this).x;
-		dh = Utils.getDisplaySize(DaLingDaoYanShiActivity.this).y;
+		dw = Utils.getDisplaySize(DaLingDaoYanShiActivity2.this).x;
+		dh = Utils.getDisplaySize(DaLingDaoYanShiActivity2.this).y;
 
-		setContentView(R.layout.dalingdao);
+		setContentView(R.layout.dalingdao2);
 		wangluo = (TextView) findViewById(R.id.wangluo);
 		t1= (TextView) findViewById(R.id.t1);
 		t2= (TextView) findViewById(R.id.t2);
 		t3= (TextView) findViewById(R.id.t3);
-		typeFace1 = Typeface.createFromAsset(getAssets(), "fonts/xk.TTF");
+		typeFace1 = Typeface.createFromAsset(getAssets(), "fonts/FZZYJW.TTF");
 		t1.setTypeface(typeFace1);
 		t1.setText("");
 		t2.setTypeface(typeFace1);
@@ -599,7 +604,14 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 		bean.setBytes(null);
 		bean.setTouxiang(null);
 		bean.setType(-33);
-		lingdaoList.add(bean);
+		yuangongList.add(bean);
+		TanChuangBean bean2=new TanChuangBean();
+		bean2.setName("");
+		bean2.setIsLight(false);
+		bean2.setBytes(null);
+		bean2.setTouxiang(null);
+		bean2.setType(-33);
+		yuangongList.add(bean2);
 
 
 		Button button = (Button) findViewById(R.id.dddk);
@@ -608,7 +620,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 			public void onClick(View v) {
 				//chongzhi();
 
-				startActivity(new Intent(DaLingDaoYanShiActivity.this, SheZhiActivity.class));
+				startActivity(new Intent(DaLingDaoYanShiActivity2.this, SheZhiActivity.class));
 				finish();
 			}
 		});
@@ -634,6 +646,8 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 		daoSession.deleteAll();
 		recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 		recyclerView2 = (RecyclerView) findViewById(R.id.recyclerView2);
+		recyclerView3 = (RecyclerView) findViewById(R.id.recyclerView3);
+
 //		recyclerView2.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //			//用来标记是否正在向最后一个滑动
 //			boolean isSlidingToLast = false;
@@ -674,19 +688,25 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 		//	mSurfaceView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 
-		manager = new WrapContentLinearLayoutManager(DaLingDaoYanShiActivity.this,LinearLayoutManager.VERTICAL,false,this);
+		manager = new WrapContentLinearLayoutManager(DaLingDaoYanShiActivity2.this,LinearLayoutManager.HORIZONTAL,false,this);
 		recyclerView.setLayoutManager(manager);
 
-		manager2 = new WrapContentLinearLayoutManager(DaLingDaoYanShiActivity.this,LinearLayoutManager.HORIZONTAL,false,this);
+		manager2 = new WrapContentLinearLayoutManager(DaLingDaoYanShiActivity2.this,LinearLayoutManager.VERTICAL,false,this);
 	//	recyclerView2.setLayoutManager(new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false));
 		recyclerView2.setLayoutManager(manager2);
 		//recyclerView.addItemDecoration(new MyDecoration(VlcVideoActivity.this, LinearLayoutManager.VERTICAL,20,R.color.transparent));
 
-		adapter = new MyAdapter(R.layout.tanchuang_itemdalingdao, yuangongList);
+		adapter = new MyAdapter(R.layout.tanchuang_itemdalingdao2, yuangongList);
 		recyclerView.setAdapter(adapter);
 
-		adapter2 = new MyAdapter2(R.layout.tanchuang_item2, lingdaoList);
+		adapter2 = new MyAdapter2(R.layout.dalingdao_item2, moshengren);
 		recyclerView2.setAdapter(adapter2);
+
+		manager3 = new WrapContentLinearLayoutManager(DaLingDaoYanShiActivity2.this,LinearLayoutManager.VERTICAL,false,this);
+		//	recyclerView2.setLayoutManager(new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false));
+		recyclerView3.setLayoutManager(manager3);
+		adapter3 = new MyAdapter3(R.layout.dalingdao_item3, lingdaoList);
+		recyclerView3.setAdapter(adapter3);
 
 		RelativeLayout.LayoutParams  params= (RelativeLayout.LayoutParams) recyclerView2.getLayoutParams();
 		params.width=(dw*2)/3;
@@ -697,9 +717,17 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 
 		//Log.d(TAG, "si:" + si);
 		RelativeLayout.LayoutParams  params2= (RelativeLayout.LayoutParams) recyclerView.getLayoutParams();
+		params2.leftMargin=dw/3;
+		params2.width=(dw*2)/3;
 		params2.height=dh/3;
 		recyclerView.setLayoutParams(params2);
 		recyclerView.invalidate();
+
+
+		RelativeLayout.LayoutParams  params3= (RelativeLayout.LayoutParams) recyclerView3.getLayoutParams();
+		params3.height=dh/3;
+		recyclerView3.setLayoutParams(params3);
+		recyclerView3.invalidate();
 
 	//	link_login();
 
@@ -708,7 +736,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 			public void run() {
 
 				SystemClock.sleep(10000);
-				sendBroadcast(new Intent(DaLingDaoYanShiActivity.this,AlarmReceiver.class));
+				sendBroadcast(new Intent(DaLingDaoYanShiActivity2.this,AlarmReceiver.class));
 			}
 		}).start();
 
@@ -766,18 +794,17 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 
 
 			final ImageView imageView= helper.getView(R.id.touxiang);
-			final TextView name=helper.getView(R.id.name33);
+			//final TextView name=helper.getView(R.id.name33);
 			TextView zhuangtai=helper.getView(R.id.zhuangtai33);
 			//LinearLayout toprl=helper.getView(R.id.ggghhh);
 			RelativeLayout rl=helper.getView(R.id.ffflll);
 
-//			if (helper.getAdapterPosition()==0 ){
-//				rl.setBackgroundColor(Color.parseColor("#00000000"));
-//				toprl.setBackgroundColor(Color.parseColor("#00000000"));
-//				imageView.setImageBitmap(null);
-//				name.setText("");
-//				zhuangtai.setText("");
-		//	}else {
+			if (helper.getAdapterPosition()==0 ||helper.getAdapterPosition()==1 ){
+				rl.setBackgroundColor(Color.parseColor("#00000000"));
+				imageView.setImageBitmap(null);
+				zhuangtai.setText("");
+
+			}else {
 				//Log.d(TAG, "jinlai");
 				switch (item.getType()) {
 					case -1:
@@ -785,25 +812,25 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 						//toprl.setBackgroundResource(R.drawable.msr_bg);
 					//	zhuangtai.setTextColor(Color.RED);
 					//	name.setTextColor(Color.RED);
-						name.setTypeface(typeFace1);
-						zhuangtai.setTypeface(typeFace1);
-						zhuangtai.setText("");
-						zhuangtai.setVisibility(View.GONE);
-						name.setText("欢迎嘉宾莅临指导");
-						rl.setBackgroundResource(R.drawable.shuzi_bg1);
-						synthesizer.speak("欢迎嘉宾莅临指导");
+//						name.setTypeface(typeFace1);
+//						zhuangtai.setTypeface(typeFace1);
+//						zhuangtai.setText("");
+//						zhuangtai.setVisibility(View.GONE);
+//						name.setText("欢迎嘉宾莅临指导");
+//						rl.setBackgroundResource(R.drawable.shuzi_bg1);
+//						synthesizer.speak("欢迎嘉宾莅临指导");
 
 						break;
 					case 0:
 						//员工
 						//toprl.setBackgroundResource(R.drawable.yg_bg);
-						name.setTypeface(typeFace1);
+					//	name.setTypeface(typeFace1);
 						zhuangtai.setTypeface(typeFace1);
-						name.setText("欢迎 "+item.getName()+" 领导");
+					//	name.setText("欢迎 "+item.getName()+" 领导");
 						zhuangtai.setVisibility(View.VISIBLE);
-						zhuangtai.setText("莅临指导");
-						rl.setBackgroundResource(R.drawable.shuzi_bg2);
-						synthesizer.speak("欢迎"+item.getName()+"领导，莅临指导");
+						zhuangtai.setText(item.getName());
+						//rl.setBackgroundResource(R.drawable.shuzi_bg2);
+						//synthesizer.speak("欢迎"+item.getName()+"领导，莅临指导");
 						//mSpeechSynthesizer.speak("欢迎"+item.getName()+"祝你出入平安.");
 //						String  zt=item.getRemark();
 //						if (zt!=null){
@@ -821,9 +848,9 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 						//访客
 						//toprl.setBackgroundResource(R.drawable.zidonghuoqu15);
 
-						name.setTypeface(typeFace1);
+						//name.setTypeface(typeFace1);
 						zhuangtai.setTypeface(typeFace1);
-						name.setText(item.getName());
+						//name.setText(item.getName());
 						zhuangtai.setText("识别成功");
 						rl.setBackgroundResource(R.drawable.tc_bgbg);
 						//richeng.setText("");
@@ -831,9 +858,9 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 						//autoScrollTextView.setText("欢迎你来本公司参观指导。");
 						break;
 					case 2:
-						name.setTypeface(typeFace1);
+					//	name.setTypeface(typeFace1);
 						zhuangtai.setTypeface(typeFace1);
-						name.setText(item.getName());
+						//name.setText(item.getName());
 						zhuangtai.setText("识别成功");
 						rl.setBackgroundResource(R.drawable.tc_bgbg);
 						//VIP访客
@@ -849,7 +876,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 							.load(zhuji2+item.getTouxiang())
 							//	.load("http://121.46.3.20/"+item.getTouxiang())
 							//.apply(myOptions2)
-							.transform(new GlideCircleTransform(MyApplication.getAppContext(),4,Color.parseColor("#B00005")))
+						//	.transform(new GlideCircleTransform(MyApplication.getAppContext(),1,Color.parseColor("#ffffff")))
 						//	.transform(new GlideRoundTransform(MyApplication.getAppContext(), 6))
 							.into(imageView);
 				}else {
@@ -861,22 +888,22 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 							.into(imageView);
 				}
 
-		//	}
+			}
 
 			RelativeLayout.LayoutParams lp2 = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
 			//弹窗的高宽
-			lp2.leftMargin=(dw-(dw/6))/7;
-			lp2.width=(dw-(dw/6))/5-12;
-			lp2.height=(dw-(dw/6))/5-12;
+//			lp2.leftMargin=(dw-(dw/6))/7;
+			lp2.width=dw/13;
+			lp2.height=dw/13;
 			imageView.setLayoutParams(lp2);
 			imageView.invalidate();
 
-//			RecyclerView.LayoutParams lp3 = (RecyclerView.LayoutParams) rl.getLayoutParams();
-//			//弹窗的高宽
-//			lp3.leftMargin=dw/3;
-//			lp3.width=(dw*2)/3;
-//			rl.setLayoutParams(lp3);
-//			rl.invalidate();
+			RecyclerView.LayoutParams lp3 = (RecyclerView.LayoutParams) rl.getLayoutParams();
+			//弹窗的高宽
+
+			lp3.width=((dw*2)/3)/3;
+			rl.setLayoutParams(lp3);
+			rl.invalidate();
 
 			SpringSystem springSystem = SpringSystem.create();
 			final Spring spring = springSystem.createSpring();
@@ -1020,7 +1047,6 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 						break;
 
 				}
-			}
 
 				if (item.getTouxiang()!=null ){
 					if (item.getTouxiang()!=null){
@@ -1029,7 +1055,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 								.load("http://121.46.3.20"+item.getTouxiang())
 								//.apply(myOptions)
 								.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
-							//	.bitmapTransform(new BrightnessFilterTransformation(YiZhongYanShiActivity.this,-0.7f))
+								//	.bitmapTransform(new BrightnessFilterTransformation(YiZhongYanShiActivity.this,-0.7f))
 								//.bitmapTransform(new GrayscaleTransformation(VlcVideoActivity.this))
 								.into(imageView);
 					}else {
@@ -1042,6 +1068,9 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 								.into(imageView);
 					}
 				}
+			}
+
+
 
 			RelativeLayout.LayoutParams  ll= (RelativeLayout.LayoutParams) imageView.getLayoutParams();
 			ll.width=(dw/14);
@@ -1056,6 +1085,122 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 			toprl.invalidate();
 
 			}
+
+
+	}
+
+	//领导
+	private  class MyAdapter3 extends BaseQuickAdapter<TanChuangBean,BaseViewHolder> {
+		//private RequestOptions myOptions = null;
+
+		private MyAdapter3(int layoutResId, List<TanChuangBean> data) {
+			super(layoutResId, data);
+			//myOptions = new RequestOptions();
+			//myOptions.transform(new GrayscaleTransformation(this));
+		}
+
+
+		@Override
+		protected void convert(final BaseViewHolder helper, TanChuangBean item) {
+//			AnimatorSet animatorSet = new AnimatorSet();
+//			animatorSet.playTogether(
+//					ObjectAnimator.ofFloat(helper.itemView,"scaleY",0f,1f),
+//					ObjectAnimator.ofFloat(helper.itemView,"scaleX",0f,1f)
+//					//	ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
+//			);
+//			animatorSet.setDuration(600);
+//			animatorSet.setInterpolator(new AccelerateInterpolator());
+//			animatorSet.start();
+
+//			ViewAnimator
+//					.animate(helper.itemView)
+//				//	.scale(0,1)
+//					.alpha(0,1)
+//					.duration(1000)
+//					.start();
+
+			RelativeLayout toprl= helper.getView(R.id.ffflll);
+			TextView t2=helper.getView(R.id.test2);
+
+
+
+
+			ImageView imageView=helper.getView(R.id.touxiang);
+
+			//tt.setText(item.getName());
+			if (helper.getAdapterPosition()==0 ){
+				toprl.setBackgroundColor(Color.parseColor("#00000000"));
+				imageView.setImageBitmap(null);
+				t2.setText("");
+			}else {
+				switch (item.getType()) {
+					case -1:
+						//陌生人
+						//	toprl.setBackgroundResource(R.drawable.tanchuang);
+
+
+						break;
+					case 0:
+						//员工
+						toprl.setBackgroundResource(R.color.white);
+						t2.setTypeface(typeFace1);
+						t2.setText(item.getName());
+
+						break;
+
+					case 1:
+						//访客
+
+
+
+
+						break;
+					case 2:
+						//VIP访客
+
+
+
+						break;
+
+				}
+
+
+			}
+
+			if (item.getTouxiang()!=null ){
+				if (item.getTouxiang()!=null){
+					Glide.with(MyApplication.getAppContext())
+							//	.load(R.drawable.vvv)
+							.load("http://121.46.3.20"+item.getTouxiang())
+							//.apply(myOptions)
+							.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
+							//	.bitmapTransform(new BrightnessFilterTransformation(YiZhongYanShiActivity.this,-0.7f))
+							//.bitmapTransform(new GrayscaleTransformation(VlcVideoActivity.this))
+							.into(imageView);
+				}else {
+					Glide.with(MyApplication.getAppContext())
+							.load(R.drawable.zidonghuoqu1)
+							//.load("http://121.46.3.20"+item.getTouxiang())
+							//.apply(myOptions)
+							.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
+							//	.bitmapTransform(new GrayscaleTransformation(VlcVideoActivity.this))
+							.into(imageView);
+				}
+			}
+
+			RelativeLayout.LayoutParams  ll= (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+			ll.width=(dw/14);
+			ll.height=(dw/14);
+			imageView.setLayoutParams(ll);
+			imageView.invalidate();
+
+			RecyclerView.LayoutParams  ll2= (RecyclerView.LayoutParams) toprl.getLayoutParams();
+			ll2.height=dh/3;
+			ll2.width=dw/9;
+			toprl.setLayoutParams(ll2);
+			toprl.invalidate();
+
+		}
 
 
 	}
@@ -1331,7 +1476,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 			Log.d(TAG, "按下菜单键 ");
 			chongzhi();
 			//isTiaoZhuang=false;
-			startActivity(new Intent(DaLingDaoYanShiActivity.this, SheZhiActivity.class));
+			startActivity(new Intent(DaLingDaoYanShiActivity2.this, SheZhiActivity.class));
 			finish();
 		}
 
@@ -1366,7 +1511,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 
 			}
 		}else {
-			TastyToast.makeText(DaLingDaoYanShiActivity.this,"请先设置主机地址和摄像头IP",TastyToast.LENGTH_SHORT,TastyToast.INFO).show();
+			TastyToast.makeText(DaLingDaoYanShiActivity2.this,"请先设置主机地址和摄像头IP",TastyToast.LENGTH_SHORT,TastyToast.INFO).show();
 		}
 
 
@@ -1542,7 +1687,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							if (!DaLingDaoYanShiActivity.this.isFinishing())
+							if (!DaLingDaoYanShiActivity2.this.isFinishing())
 							wangluo.setVisibility(View.GONE);
 						}
 					});
@@ -1640,7 +1785,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 					runOnUiThread( new Runnable() {
 						@Override
 						public void run() {
-							if (!DaLingDaoYanShiActivity.this.isFinishing()){
+							if (!DaLingDaoYanShiActivity2.this.isFinishing()){
 								wangluo.setVisibility(View.VISIBLE);
 								wangluo.setText("连接识别主机失败,重连中...");
 							}
@@ -1853,7 +1998,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 
 				}
 				//删除照片
-				Log.d("VlcVideoActivity", "删除照片:" + DaLingDaoYanShiActivity.this.deleteFile(fname));
+				Log.d("VlcVideoActivity", "删除照片:" + DaLingDaoYanShiActivity2.this.deleteFile(fname));
 
 				}catch (Exception e){
 					Log.d("WebsocketPushMsg", e.getMessage());

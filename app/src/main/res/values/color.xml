@@ -74,7 +74,7 @@
     <color name="statusbar_bg">#1c97fe</color>
     <color name="statusbar_bg3">#2a5ee2</color>
 
-
+    <color name="hongse">#FF0000</color>
     <color name="semi_transparent">#22ffffff</color><!-- 半透明 -->
 
     <color name="igray">#ffF2F2F2</color><!-- 用于页面背景 -->

@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/video_root"
-    android:background="@drawable/dalingdao_bg"
+    android:background="@drawable/dianjin2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -29,9 +29,9 @@
             android:layout_height="0dp"/>
 
         <LinearLayout
-            android:layout_weight="1.6"
+            android:layout_weight="2"
             android:orientation="vertical"
-            android:gravity="center_horizontal"
+            android:gravity="right"
             android:layout_width="match_parent"
             android:layout_height="0dp">
 
@@ -68,18 +68,24 @@
 
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+       android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView2"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_centerInParent="true"
+        android:id="@+id/recyclerView3"
+       android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
-
 
 
     <Button

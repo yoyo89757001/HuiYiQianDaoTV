@@ -3,54 +3,37 @@
     android:background="@color/img_full_opaque"
     android:layout_width="wrap_content"
     android:id="@+id/ffflll"
+    android:layout_marginLeft="1dp"
+    android:layout_marginRight="1dp"
     android:layout_height="wrap_content">
 
 
         <ImageView
             android:id="@+id/touxiang"
             android:layout_width="match_parent"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp"
+            android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
+            android:layout_marginTop="20dp"
             android:layout_height="match_parent" />
 
-<TextView
-    android:id="@+id/test"
-    android:textSize="24sp"
-    android:text="学号"
-    android:gravity="center"
-    android:layout_toRightOf="@+id/touxiang"
-    android:textColor="@color/write"
-    android:layout_marginTop="6dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/test2"
-            android:textSize="24sp"
-            android:layout_toRightOf="@+id/touxiang"
-            android:layout_below="@+id/test"
-            android:textColor="@color/write"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/test3"
-            android:textSize="12sp"
-            android:layout_toRightOf="@+id/touxiang"
-            android:layout_below="@+id/test2"
-            android:textColor="@color/dark_grey"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="2dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <View
-            android:background="@color/write"
+        <LinearLayout
             android:layout_below="@+id/touxiang"
             android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_height="1dp"/>
+            android:gravity="center"
+            android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/test2"
+                    android:textSize="24sp"
+                    android:textColor="@color/lanse33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+
+
+
 
 </RelativeLayout>
