@@ -2,10 +2,7 @@ package com.example.huiyiqiandaotv.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -37,9 +34,7 @@ import org.videolan.libvlc.MediaPlayer;
  * @author Tom.Cai
  */
 public class YuLanDialog extends Dialog  {
-    private TextView title2;
-    private Button l1,l2;
-    private EditText shanchu;
+
     private MediaPlayer mediaPlayer=null;
     private IVLCVout vlcVout=null;
     private IVLCVout.Callback callback;
@@ -116,17 +111,7 @@ public class YuLanDialog extends Dialog  {
         super.setContentView(mView);
     }
 
-    public void setContents(String ss, String s3){
-        title2.setText(ss);
-        if (s3!=null)
-        shanchu.setText(s3);
-    }
 
-    public String getContents(){
-
-        return shanchu.getText().toString().trim();
-
-    }
 
 
     @Override
@@ -154,14 +139,14 @@ public class YuLanDialog extends Dialog  {
      * @param listener
      */
     public void setOnQueRenListener(View.OnClickListener listener){
-        l1.setOnClickListener(listener);
+     //   l1.setOnClickListener(listener);
     }
     /**
      * 取消键监听器
      * @param listener
      */
     public void setQuXiaoListener(View.OnClickListener listener){
-        l2.setOnClickListener(listener);
+       // l2.setOnClickListener(listener);
     }
 
 
