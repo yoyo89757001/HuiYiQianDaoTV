@@ -395,10 +395,10 @@
 
 
     <Button
-        android:layout_width="30dp"
+        android:layout_width="40dp"
         android:id="@+id/dddk"
         android:background="@color/img_full_opaque"
-        android:layout_height="30dp" />
+        android:layout_height="40dp" />
 
     <TextView
         android:background="@drawable/zidonghuoqu8"

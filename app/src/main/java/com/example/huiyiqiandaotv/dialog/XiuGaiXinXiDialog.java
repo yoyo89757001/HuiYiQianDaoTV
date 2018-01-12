@@ -3,9 +3,13 @@ package com.example.huiyiqiandaotv.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +30,15 @@ public class XiuGaiXinXiDialog extends Dialog implements View.OnFocusChangeListe
     private EditText shanchu;
     public XiuGaiXinXiDialog(Context context) {
         super(context, R.style.dialog_style2);
+        Window window =  this.getWindow();
+        if ( window != null) {
+            WindowManager.LayoutParams attr = window.getAttributes();
+            if (attr != null) {
+                attr.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                attr.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                attr.gravity = Gravity.CENTER;//设置dialog 在布局中的位置
+            }
+        }
         setCustomDialog();
     }
 

@@ -571,7 +571,12 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 		ii.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				link_login();
+				if (baoCunBean.getZhanghuid()!=0){
+					link_login();
+				}else {
+					TastyToast.makeText(YiDongNianHuiActivity.this,"请先设置会议账户id",TastyToast.LENGTH_SHORT,TastyToast.INFO).show();
+				}
+
 			}
 		});
 
@@ -738,7 +743,10 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 			}
 		}).start();
 
-		link_login();
+		if (baoCunBean.getZhanghuid()!=0){
+			link_login();
+		}
+
 
 	}
 
@@ -2277,7 +2285,7 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 				//.post(requestBody)
 				.get()
 				//.post(body)
-				.url("http://ly.huifnet.com/subjectDeptCount.do?accountId=10000038&id=");
+				.url("http://ly.huifnet.com/subjectDeptCount.do?accountId=10000038&id="+baoCunBean.getZhanghuid());
 
 		// step 3：创建 Call 对象
 		Call call = okHttpClient.newCall(requestBuilder.build());

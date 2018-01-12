@@ -8,10 +8,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -44,6 +47,15 @@ public class MoBanDialog extends Dialog  {
         super(context, R.style.dialog_style22);
         dw = Utils.getDisplaySize(context).x;
         dh = Utils.getDisplaySize(context).y;
+        Window window =  this.getWindow();
+        if ( window != null) {
+            WindowManager.LayoutParams attr = window.getAttributes();
+            if (attr != null) {
+                attr.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                attr.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                attr.gravity = Gravity.CENTER;//设置dialog 在布局中的位置
+            }
+        }
         this.baoCunBeanDao=dao;
         setCustomDialog(context);
     }

@@ -8,37 +8,31 @@
 
             <ImageView
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="60dp"
                 android:id="@+id/touxiang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="fitXY" />
 
 
-        <LinearLayout
-           android:layout_below="@+id/touxiang"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_height="match_parent">
+
 
 
             <TextView
-                android:textSize="60sp"
+                android:textSize="40sp"
                 android:shadowColor="@color/hegong"
                 android:shadowDx="4"
-                android:gravity="center"
+                android:layout_centerHorizontal="true"
                 android:shadowDy="4"
+                android:layout_marginBottom="10dp"
                 android:shadowRadius="4"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_alignParentBottom="true"
                 android:id="@+id/zhuangtai33"
-                android:layout_marginTop="12dp"
-                android:textColor="@color/hong333"
-                android:layout_width="match_parent"
+                android:textColor="@color/write"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-
 
 
 

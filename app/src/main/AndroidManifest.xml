@@ -39,16 +39,14 @@
             android:screenOrientation="landscape"
             />
         <activity android:name=".ui.YiDongNianHuiActivity"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             />
         <activity android:name=".ui.DaLingDaoYanShiActivity"
             android:screenOrientation="landscape"/>
 
         <activity android:name=".ui.ErWeiMaActivity"/>
         <activity android:name=".ui.LogingActivity"/>
-        <activity android:name=".ui.SheZhiActivity"
-            android:screenOrientation="landscape"
-            />
+        <activity android:name=".ui.SheZhiActivity"/>
         <activity android:name=".ui.DaLingDaoYanShiActivity2"
             android:screenOrientation="landscape"/>
 

@@ -6,10 +6,11 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,6 +23,7 @@ import com.example.huiyiqiandaotv.dialog.MoBanDialog;
 import com.example.huiyiqiandaotv.dialog.XiuGaiXinXiDialog;
 import com.example.huiyiqiandaotv.dialog.YuLanDialog;
 import com.example.huiyiqiandaotv.dialog.YuYingDialog;
+import com.example.huiyiqiandaotv.utils.Utils;
 import com.sdsmdg.tastytoast.TastyToast;
 
 
@@ -35,45 +37,39 @@ public class SheZhiActivity extends Activity implements View.OnClickListener, Vi
     private List<Button> sheZhiBeanList;
     private BaoCunBeanDao baoCunBeanDao=null;
     private BaoCunBean baoCunBean=null;
-
+    private int dw,dh;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dw = Utils.getDisplaySize(SheZhiActivity.this).x;
+        dh = Utils.getDisplaySize(SheZhiActivity.this).y;
+
         baoCunBeanDao= MyApplication.myApplication.getDaoSession().getBaoCunBeanDao();
         baoCunBean=baoCunBeanDao.load(123456L);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);//隐藏标题
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
 
         setContentView(R.layout.activity_she_zhi);
-        if (baoCunBean==null ){
-           BaoCunBean baoCunBean=new BaoCunBean();
-            baoCunBean.setId(123456L);
-            baoCunBeanDao.insert(baoCunBean);
-            Log.d("SheZhiActivity", "插入");
-        }
 
-//        if (baoCunBean!=null && baoCunBean.getIsHengOrShu()){
-//            /**
-//             * 设置为横屏
-//             */
-//            if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-//                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-//            }
-//
-//        }else {
-//            /**
-//             * 设置为竖屏
-//             */
-//            if(this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT){
-//                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//
-//            }
-//
-//        }
+        if (dw>dh){
+            /**
+             * 设置为横屏
+             */
+            if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
+
+        }else {
+            /**
+             * 设置为竖屏
+             */
+            if(this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT){
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+            }
+
+        }
 
 
         bt1= (Button) findViewById(R.id.bt1);
@@ -276,6 +272,43 @@ public class SheZhiActivity extends Activity implements View.OnClickListener, Vi
                 bt4.requestFocus();
                 bt4.setTextColor(Color.WHITE);
                 bt4.setBackgroundResource(R.drawable.zidonghuoqu1);
+                AnimatorSet animatorSet4 = new AnimatorSet();
+                animatorSet4.playTogether(
+                        //	ObjectAnimator.ofFloat(manager.getChildAt(1),"translationY",-1000,0),
+                        ObjectAnimator.ofFloat(bt4,"scaleX",1.0f,1.2f,1.0f),
+                        ObjectAnimator.ofFloat(bt4,"scaleY",1.0f,1.2f,1.0f)
+                );
+                //animatorSet.setInterpolator(new DescelerateInterpolator());
+                animatorSet4.setDuration(300);
+                animatorSet4.addListener(new AnimatorListenerAdapter(){
+                    @Override public void onAnimationEnd(Animator animation) {
+
+                        final XiuGaiXinXiDialog dialog=new XiuGaiXinXiDialog(SheZhiActivity.this);
+                        if (baoCunBean.getZhanghuid()==0){
+                            dialog.setContents("设置会议Id","10000011");
+                        }else {
+                            dialog.setContents("设置会议Id",baoCunBean.getZhanghuid()+"");
+                        }
+                        dialog.setOnQueRenListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                baoCunBean.setZhanghuid(Integer.valueOf(dialog.getContents()));
+                                baoCunBeanDao.update(baoCunBean);
+                                baoCunBean=baoCunBeanDao.load(123456L);
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.setQuXiaoListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.show();
+
+                    }
+                });
+                animatorSet4.start();
                 break;
             case R.id.bt5:
                 ChongsZHI();

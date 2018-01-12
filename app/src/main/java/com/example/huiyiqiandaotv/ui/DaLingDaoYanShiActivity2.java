@@ -1,5 +1,9 @@
 package com.example.huiyiqiandaotv.ui;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,6 +25,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -220,10 +225,17 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 				case 19: //
 
 					if (lingdaoList.size()>0){
-						adapter2.notifyItemRemoved(0);
+						adapter3.notifyItemRemoved(0);
 						lingdaoList.remove(0);
 					}
 
+					break;
+				case  188:
+
+					if (moshengren.size()>0){
+						adapter2.notifyItemRemoved(0);
+						moshengren.remove(0);
+					}
 					break;
 
 			}
@@ -348,8 +360,8 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 								//	lingdaoList.add(bean);
 								int i1 = lingdaoList.size();
 								//	int i2 = lingdaoList.size();
-								adapter2.notifyItemInserted(i1);
-								manager2.scrollToPosition(i1 - 1);
+								adapter3.notifyItemInserted(i1);
+								manager3.scrollToPosition(i1 - 1);
 
 								//	adapter2.notifyItemInserted(i2);
 								//	manager2.scrollToPosition(i2 - 1);
@@ -464,21 +476,20 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 							bean.setName("陌生人");
 							bean.setType(-1);
 							bean.setTouxiang(null);
-							yuangongList.add(bean);
-							final int i3=yuangongList.size();
+							moshengren.add(bean);
+							final int i3=moshengren.size();
 							runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
 
-									adapter.notifyItemInserted(i3);
-									manager.scrollToPosition(i3 - 1);
+									adapter2.notifyItemInserted(i3);
+									manager2.scrollToPosition(i3 - 1);
 								}
 							});
 
-							Thread.sleep(6000);
-
+							Thread.sleep(8000);
 							Message message = Message.obtain();
-							message.what = 999;
+							message.what = 188;
 							handler.sendMessage(message);
 
 
@@ -520,6 +531,7 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 					public void run() {
 						yuangongList.clear();
 						lingdaoList.clear();
+						moshengren.clear();
 
 						TanChuangBean bean=new TanChuangBean();
 						bean.setName("");
@@ -598,6 +610,8 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 		initialTts();
 		lingdaoList=new Vector<>();
 		yuangongList = new Vector<>();
+		moshengren = new Vector<>();
+
 
 		TanChuangBean bean=new TanChuangBean();
 		bean.setName("");
@@ -710,8 +724,10 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 		recyclerView3.setAdapter(adapter3);
 
 		RelativeLayout.LayoutParams  params= (RelativeLayout.LayoutParams) recyclerView2.getLayoutParams();
+		params.leftMargin=dw/3;
+		params.topMargin=dh/3;
 		params.width=(dw*2)/3;
-		params.height=dh/3;
+		params.height=dh*2/3-50;
 		recyclerView2.setLayoutParams(params);
 		recyclerView2.invalidate();
 
@@ -719,8 +735,9 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 		//Log.d(TAG, "si:" + si);
 		RelativeLayout.LayoutParams  params2= (RelativeLayout.LayoutParams) recyclerView.getLayoutParams();
 		params2.leftMargin=dw/3;
+		params2.topMargin=dh/3;
 		params2.width=(dw*2)/3;
-		params2.height=dh/3;
+		params2.height=dh*2/3-100;
 		recyclerView.setLayoutParams(params2);
 		recyclerView.invalidate();
 
@@ -872,12 +889,11 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 						break;
 				}
 				if (item.getTouxiang()!=null){
-
 					Glide.with(MyApplication.getAppContext())
 							.load(zhuji2+item.getTouxiang())
 							//	.load("http://121.46.3.20/"+item.getTouxiang())
 							//.apply(myOptions2)
-						//	.transform(new GlideCircleTransform(MyApplication.getAppContext(),1,Color.parseColor("#ffffff")))
+							.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
 						//	.transform(new GlideRoundTransform(MyApplication.getAppContext(), 6))
 							.into(imageView);
 				}else {
@@ -894,8 +910,8 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 			RelativeLayout.LayoutParams lp2 = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
 			//弹窗的高宽
 //			lp2.leftMargin=(dw-(dw/6))/7;
-			lp2.width=dw/13;
-			lp2.height=dw/13;
+			lp2.width=dw/12;
+			lp2.height=dw/12;
 			imageView.setLayoutParams(lp2);
 			imageView.invalidate();
 
@@ -906,35 +922,35 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 			rl.setLayoutParams(lp3);
 			rl.invalidate();
 
-			SpringSystem springSystem = SpringSystem.create();
-			final Spring spring = springSystem.createSpring();
-			//两个参数分别是弹力系数和阻力系数
-			spring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(80, 7));
-			// 添加弹簧监听器
-			spring.addListener(new SimpleSpringListener() {
-
-				@Override
-				public void onSpringUpdate(Spring spring) {
-					// value是一个符合弹力变化的一个数，我们根据value可以做出弹簧动画
-					float value = (float) spring.getCurrentValue();
-					//Log.d(TAG, "value:" + value);
-					//基于Y轴的弹簧阻尼动画
-				//	helper.itemView.setTranslationY(value);
-
-					// 对图片的伸缩动画
-					//float scale = 1f - (value * 0.5f);
-					helper.itemView.setScaleX(value);
-					helper.itemView.setScaleY(value);
-				}
-
-				@Override
-				public void onSpringEndStateChange(Spring spring) {
-					super.onSpringEndStateChange(spring);
-				}
-			});
+//			SpringSystem springSystem = SpringSystem.create();
+//			final Spring spring = springSystem.createSpring();
+//			//两个参数分别是弹力系数和阻力系数
+//			spring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(80, 7));
+//			// 添加弹簧监听器
+//			spring.addListener(new SimpleSpringListener() {
+//
+//				@Override
+//				public void onSpringUpdate(Spring spring) {
+//					// value是一个符合弹力变化的一个数，我们根据value可以做出弹簧动画
+//					float value = (float) spring.getCurrentValue();
+//					//Log.d(TAG, "value:" + value);
+//					//基于Y轴的弹簧阻尼动画
+//				//	helper.itemView.setTranslationY(value);
+//
+//					// 对图片的伸缩动画
+//					//float scale = 1f - (value * 0.5f);
+//					helper.itemView.setScaleX(value);
+//					helper.itemView.setScaleY(value);
+//				}
+//
+//				@Override
+//				public void onSpringEndStateChange(Spring spring) {
+//					super.onSpringEndStateChange(spring);
+//				}
+//			});
 
 			// 设置动画结束值
-			spring.setEndValue(1f);
+		//	spring.setEndValue(1f);
 
 //			RelativeLayout linearLayout_tanchuang = helper.getView(R.id.ffflll);
 //				ViewGroup.LayoutParams lp =  linearLayout_tanchuang.getLayoutParams();
@@ -945,30 +961,30 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 //			    linearLayout_tanchuang.invalidate();
 //
 //
-//			AnimatorSet animatorSet = new AnimatorSet();
-//			animatorSet.playTogether(
-//					ObjectAnimator.ofFloat(helper.itemView,"scaleY",0f,1f),
-//					ObjectAnimator.ofFloat(helper.itemView,"scaleX",0f,0f)
-//					//	ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
-//			);
-//			animatorSet.setDuration(200);
-//			animatorSet.setInterpolator(new AccelerateInterpolator());
-//			animatorSet.addListener(new AnimatorListenerAdapter(){
-//				@Override public void onAnimationEnd(Animator animation) {
-//
-//					AnimatorSet animatorSet2 = new AnimatorSet();
-//					animatorSet2.playTogether(
-//							ObjectAnimator.ofFloat(helper.itemView,"scaleX",0f,1f)
-//							//ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
-//							//	ObjectAnimator.ofFloat(helper.itemView,"scaleY",1f,0.5f,1f)
-//					);
-//					animatorSet2.setInterpolator(new AccelerateInterpolator());
-//					animatorSet2.setDuration(500);
-//					animatorSet2.start();
-//
-//				}
-//			});
-//			animatorSet.start();
+			AnimatorSet animatorSet = new AnimatorSet();
+			animatorSet.playTogether(
+					//ObjectAnimator.ofFloat(helper.itemView,"scaleY",0f,1f),
+					ObjectAnimator.ofFloat(helper.itemView,"scaleX",0f,0f)
+					//	ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
+			);
+			animatorSet.setDuration(200);
+			animatorSet.setInterpolator(new AccelerateInterpolator());
+			animatorSet.addListener(new AnimatorListenerAdapter(){
+				@Override public void onAnimationEnd(Animator animation) {
+
+					AnimatorSet animatorSet2 = new AnimatorSet();
+					animatorSet2.playTogether(
+							ObjectAnimator.ofFloat(helper.itemView,"scaleX",0f,1f)
+							//ObjectAnimator.ofFloat(helper.itemView,"alpha",0f,1f)
+							//	ObjectAnimator.ofFloat(helper.itemView,"scaleY",1f,0.5f,1f)
+					);
+					animatorSet2.setInterpolator(new AccelerateInterpolator());
+					animatorSet2.setDuration(500);
+					animatorSet2.start();
+
+				}
+			});
+			animatorSet.start();
 		}
 
 	}
@@ -1006,30 +1022,29 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 
 			RelativeLayout toprl= helper.getView(R.id.ffflll);
 			TextView t2=helper.getView(R.id.test2);
-
-
-
-
 			ImageView imageView=helper.getView(R.id.touxiang);
 
 			//tt.setText(item.getName());
-			if (helper.getAdapterPosition()==0 ){
-				toprl.setBackgroundColor(Color.parseColor("#00000000"));
-				imageView.setImageBitmap(null);
-				t2.setText("");
-			}else {
+//			if (helper.getAdapterPosition()==0 ){
+//				toprl.setBackgroundColor(Color.parseColor("#00000000"));
+//				imageView.setImageBitmap(null);
+//				t2.setText("");
+//			}else {
 				switch (item.getType()) {
 					case -1:
 						//陌生人
 						//	toprl.setBackgroundResource(R.drawable.tanchuang);
 
+						t2.setTypeface(typeFace1);
+						t2.setText("欢迎嘉宾莅临指导");
+						synthesizer.speak("欢迎嘉宾莅临指导");
 
 						break;
 					case 0:
 						//员工
-						toprl.setBackgroundResource(R.color.white);
-						t2.setTypeface(typeFace1);
-						t2.setText(item.getName());
+
+
+
 
 						break;
 
@@ -1049,7 +1064,6 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 
 				}
 
-				if (item.getTouxiang()!=null ){
 					if (item.getTouxiang()!=null){
 						Glide.with(MyApplication.getAppContext())
 								//	.load(R.drawable.vvv)
@@ -1060,30 +1074,57 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 								//.bitmapTransform(new GrayscaleTransformation(VlcVideoActivity.this))
 								.into(imageView);
 					}else {
-						Glide.with(MyApplication.getAppContext())
-								.load(R.drawable.zidonghuoqu1)
+						Glide.with(DaLingDaoYanShiActivity2.this)
+								.load(item.getBytes())
 								//.load("http://121.46.3.20"+item.getTouxiang())
 								//.apply(myOptions)
 								.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
 								//	.bitmapTransform(new GrayscaleTransformation(VlcVideoActivity.this))
 								.into(imageView);
 					}
-				}
-			}
 
-
+		//	}
 
 			RelativeLayout.LayoutParams  ll= (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-			ll.width=(dw/14);
-			ll.height=(dw/14);
+			ll.leftMargin=(dw/14);
+			ll.width=(dw/11);
+			ll.height=(dw/11);
 			imageView.setLayoutParams(ll);
 			imageView.invalidate();
 
 			RecyclerView.LayoutParams  ll2= (RecyclerView.LayoutParams) toprl.getLayoutParams();
-			ll2.height=dh/3;
-			ll2.width=dw/9;
+			ll2.height=(dh*2/3-50)/3;
 			toprl.setLayoutParams(ll2);
 			toprl.invalidate();
+
+			SpringSystem springSystem = SpringSystem.create();
+			final Spring spring = springSystem.createSpring();
+			//两个参数分别是弹力系数和阻力系数
+			spring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(86, 6));
+			// 添加弹簧监听器
+			spring.addListener(new SimpleSpringListener() {
+
+				@Override
+				public void onSpringUpdate(Spring spring) {
+					// value是一个符合弹力变化的一个数，我们根据value可以做出弹簧动画
+					float value = (float) spring.getCurrentValue();
+					//Log.d(TAG, "value:" + value);
+					//基于Y轴的弹簧阻尼动画
+				//	helper.itemView.setTranslationY(value);
+
+					// 对图片的伸缩动画
+					//float scale = 1f - (value * 0.5f);
+					helper.itemView.setScaleX(value);
+					helper.itemView.setScaleY(value);
+				}
+
+				@Override
+				public void onSpringEndStateChange(Spring spring) {
+					super.onSpringEndStateChange(spring);
+				}
+			});
+			// 设置动画结束值
+			spring.setEndValue(1f);
 
 			}
 
@@ -1120,12 +1161,10 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 //					.duration(1000)
 //					.start();
 
+
 			RelativeLayout toprl= helper.getView(R.id.ffflll);
 			TextView t3=helper.getView(R.id.test3);
 			t3.setTypeface(typeFace1);
-
-
-
 
 			ImageView imageView=helper.getView(R.id.touxiang);
 
@@ -1144,8 +1183,9 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 						break;
 					case 0:
 						//员工
-						toprl.setBackgroundResource(R.color.white);
+
 						t3.setText("欢迎"+item.getName()+"莅临指导");
+						synthesizer.speak("欢迎"+item.getName()+"莅临指导");
 
 						break;
 
@@ -1168,13 +1208,13 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 
 	//		}
 
-			if (item.getTouxiang()!=null ){
+
 				if (item.getTouxiang()!=null){
 					Glide.with(MyApplication.getAppContext())
 							//	.load(R.drawable.vvv)
 							.load("http://121.46.3.20"+item.getTouxiang())
 							//.apply(myOptions)
-							.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
+							//.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
 							//	.bitmapTransform(new BrightnessFilterTransformation(YiZhongYanShiActivity.this,-0.7f))
 							//.bitmapTransform(new GrayscaleTransformation(VlcVideoActivity.this))
 							.into(imageView);
@@ -1187,19 +1227,44 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 							//	.bitmapTransform(new GrayscaleTransformation(VlcVideoActivity.this))
 							.into(imageView);
 				}
-			}
+
 
 			RelativeLayout.LayoutParams  ll= (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-			ll.width=(dw/14);
-			ll.height=(dw/14);
+			ll.leftMargin=(dw/13);
+			ll.width=(dw/9);
+			ll.height=(dw/9);
 			imageView.setLayoutParams(ll);
 			imageView.invalidate();
 
 			RecyclerView.LayoutParams  ll2= (RecyclerView.LayoutParams) toprl.getLayoutParams();
 			ll2.height=dh/3;
-			ll2.width=dw/9;
 			toprl.setLayoutParams(ll2);
 			toprl.invalidate();
+
+			SpringSystem springSystem = SpringSystem.create();
+			final Spring spring = springSystem.createSpring();
+			//两个参数分别是弹力系数和阻力系数
+			spring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(86, 6));
+			// 添加弹簧监听器
+			spring.addListener(new SimpleSpringListener() {
+
+				@Override
+				public void onSpringUpdate(Spring spring) {
+					// value是一个符合弹力变化的一个数，我们根据value可以做出弹簧动画
+					float value = (float) spring.getCurrentValue();
+					//Log.d(TAG, "value:" + value);
+					//基于Y轴的弹簧阻尼动画
+				//	helper.itemView.setTranslationY(value);
+
+					// 对图片的伸缩动画
+					//float scale = 1f - (value * 0.5f);
+					helper.itemView.setScaleX(value);
+					helper.itemView.setScaleY(value);
+				}
+
+			});
+			// 设置动画结束值
+			spring.setEndValue(1f);
 
 		}
 
@@ -1741,7 +1806,7 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 
 					}
              else if (wbBean.getType().equals("unrecognized")) {
-						Log.d("WebsocketPushMsg", "识别出了陌生人");
+						//Log.d("WebsocketPushMsg", "识别出了陌生人");
 
 						JsonObject jsonObject1 = jsonObject.get("data").getAsJsonObject();
 

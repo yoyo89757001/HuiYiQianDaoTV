@@ -1,9 +1,13 @@
 package com.example.huiyiqiandaotv.dialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -28,6 +32,15 @@ public class YuYingDialog extends Dialog implements View.OnFocusChangeListener, 
 
     public YuYingDialog(Context context) {
         super(context, R.style.dialog_style);
+        Window window =  this.getWindow();
+        if ( window != null) {
+            WindowManager.LayoutParams attr = window.getAttributes();
+            if (attr != null) {
+                attr.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                attr.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                attr.gravity = Gravity.CENTER;//设置dialog 在布局中的位置
+            }
+        }
         baoCunBeanDao= MyApplication.myApplication.getDaoSession().getBaoCunBeanDao();
         baoCunBean=baoCunBeanDao.load(123456L);
         setCustomDialog();
