@@ -743,7 +743,7 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 
 
 		RelativeLayout.LayoutParams  params3= (RelativeLayout.LayoutParams) recyclerView3.getLayoutParams();
-		params3.height=dh/3;
+		params3.height=dh/2;
 		recyclerView3.setLayoutParams(params3);
 		recyclerView3.invalidate();
 
@@ -910,8 +910,8 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 			RelativeLayout.LayoutParams lp2 = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
 			//弹窗的高宽
 //			lp2.leftMargin=(dw-(dw/6))/7;
-			lp2.width=dw/12;
-			lp2.height=dw/12;
+			lp2.width=dw/10;
+			lp2.height=dw/10;
 			imageView.setLayoutParams(lp2);
 			imageView.invalidate();
 
@@ -1043,22 +1043,14 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 					case 0:
 						//员工
 
-
-
-
 						break;
 
 					case 1:
 						//访客
 
-
-
-
 						break;
 					case 2:
 						//VIP访客
-
-
 
 						break;
 
@@ -1161,7 +1153,6 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 //					.duration(1000)
 //					.start();
 
-
 			RelativeLayout toprl= helper.getView(R.id.ffflll);
 			TextView t3=helper.getView(R.id.test3);
 			t3.setTypeface(typeFace1);
@@ -1179,7 +1170,6 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 						//陌生人
 						//	toprl.setBackgroundResource(R.drawable.tanchuang);
 
-
 						break;
 					case 0:
 						//员工
@@ -1192,14 +1182,9 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 					case 1:
 						//访客
 
-
-
-
 						break;
 					case 2:
 						//VIP访客
-
-
 
 						break;
 
@@ -1231,13 +1216,13 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 
 			RelativeLayout.LayoutParams  ll= (RelativeLayout.LayoutParams) imageView.getLayoutParams();
 			ll.leftMargin=(dw/13);
-			ll.width=(dw/9);
-			ll.height=(dw/9);
+			ll.width=(dw/6);
+			ll.height=(dw/6);
 			imageView.setLayoutParams(ll);
 			imageView.invalidate();
 
 			RecyclerView.LayoutParams  ll2= (RecyclerView.LayoutParams) toprl.getLayoutParams();
-			ll2.height=dh/3;
+			ll2.height=dh/2;
 			toprl.setLayoutParams(ll2);
 			toprl.invalidate();
 

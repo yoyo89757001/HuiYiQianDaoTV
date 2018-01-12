@@ -682,7 +682,7 @@ public class DaLingDaoYanShiActivity extends Activity implements RecytviewCash {
 		recyclerView2.setAdapter(adapter2);
 
 		RelativeLayout.LayoutParams  params= (RelativeLayout.LayoutParams) recyclerView2.getLayoutParams();
-		params.width=(dw*2)/3;
+		params.width=dw/2;
 		params.height=dh/3;
 		recyclerView2.setLayoutParams(params);
 		recyclerView2.invalidate();
@@ -972,9 +972,6 @@ public class DaLingDaoYanShiActivity extends Activity implements RecytviewCash {
 			RelativeLayout toprl= helper.getView(R.id.ffflll);
 			TextView t2=helper.getView(R.id.test2);
 
-
-
-
 			ImageView imageView=helper.getView(R.id.touxiang);
 
 			//tt.setText(item.getName());
@@ -992,7 +989,7 @@ public class DaLingDaoYanShiActivity extends Activity implements RecytviewCash {
 						break;
 					case 0:
 						//员工
-						toprl.setBackgroundResource(R.color.white);
+						toprl.setBackgroundResource(R.drawable.zidonghuoqu2);
 						t2.setTypeface(typeFace1);
 						t2.setText(item.getName());
 
@@ -1002,13 +999,9 @@ public class DaLingDaoYanShiActivity extends Activity implements RecytviewCash {
 						//访客
 
 
-
-
 						break;
 					case 2:
 						//VIP访客
-
-
 
 						break;
 
@@ -1037,14 +1030,14 @@ public class DaLingDaoYanShiActivity extends Activity implements RecytviewCash {
 				}
 
 			RelativeLayout.LayoutParams  ll= (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-			ll.width=(dw/14);
-			ll.height=(dw/14);
+			ll.width=(dw/10);
+			ll.height=(dw/10);
 			imageView.setLayoutParams(ll);
 			imageView.invalidate();
 
 			RecyclerView.LayoutParams  ll2= (RecyclerView.LayoutParams) toprl.getLayoutParams();
 			ll2.height=dh/3;
-			ll2.width=dw/9;
+			ll2.width=(dw/2)/3;
 			toprl.setLayoutParams(ll2);
 			toprl.invalidate();
 
