@@ -1,5 +1,6 @@
 package com.example.huiyiqiandaotv.ui;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -97,7 +98,7 @@ import okhttp3.ResponseBody;
 import sun.misc.BASE64Decoder;
 
 
-public class DaLingDaoYanShiActivity2 extends BaseActivity implements RecytviewCash {
+public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash {
 	private final static String TAG = "WebsocketPushMsg";
 //	private IjkVideoView ijkVideoView;
 	private MyReceiver myReceiver=null;
@@ -218,9 +219,9 @@ public class DaLingDaoYanShiActivity2 extends BaseActivity implements RecytviewC
 					break;
 				case 19: //
 
-					if (lingdaoList.size()>1){
-						adapter2.notifyItemRemoved(1);
-						lingdaoList.remove(1);
+					if (lingdaoList.size()>0){
+						adapter2.notifyItemRemoved(0);
+						lingdaoList.remove(0);
 					}
 
 					break;
@@ -761,10 +762,10 @@ public class DaLingDaoYanShiActivity2 extends BaseActivity implements RecytviewC
 	protected Map<String, String> getParams() {
 		Map<String, String> params = new HashMap<String, String>();
 		// 以下参数均为选填
-		params.put(SpeechSynthesizer.PARAM_SPEAKER, "4"); // 设置在线发声音人： 0 普通女声（默认） 1 普通男声 2 特别男声 3 情感男声<度逍遥> 4 情感儿童声<度丫丫>
-		params.put(SpeechSynthesizer.PARAM_VOLUME, "5"); // 设置合成的音量，0-9 ，默认 5
-		params.put(SpeechSynthesizer.PARAM_SPEED, "5");// 设置合成的语速，0-9 ，默认 5
-		params.put(SpeechSynthesizer.PARAM_PITCH, "5");// 设置合成的语调，0-9 ，默认 5
+		params.put(SpeechSynthesizer.PARAM_SPEAKER, baoCunBean.getBoyingren()+""); // 设置在线发声音人： 0 普通女声（默认） 1 普通男声 2 特别男声 3 情感男声<度逍遥> 4 情感儿童声<度丫丫>
+		params.put(SpeechSynthesizer.PARAM_VOLUME, "6"); // 设置合成的音量，0-9 ，默认 5
+		params.put(SpeechSynthesizer.PARAM_SPEED, baoCunBean.getYusu()+"");// 设置合成的语速，0-9 ，默认 5
+		params.put(SpeechSynthesizer.PARAM_PITCH, baoCunBean.getYudiao()+"");// 设置合成的语调，0-9 ，默认 5
 		params.put(SpeechSynthesizer.PARAM_MIX_MODE, SpeechSynthesizer.MIX_MODE_DEFAULT);         // 该参数设置为TtsMode.MIX生效。即纯在线模式不生效。
 		// MIX_MODE_DEFAULT 默认 ，wifi状态下使用在线，非wifi离线。在线状态下，请求超时6s自动转离线
 		// MIX_MODE_HIGH_SPEED_SYNTHESIZE_WIFI wifi状态下使用在线，非wifi离线。在线状态下， 请求超时1.2s自动转离线
@@ -1120,7 +1121,8 @@ public class DaLingDaoYanShiActivity2 extends BaseActivity implements RecytviewC
 //					.start();
 
 			RelativeLayout toprl= helper.getView(R.id.ffflll);
-			TextView t2=helper.getView(R.id.test2);
+			TextView t3=helper.getView(R.id.test3);
+			t3.setTypeface(typeFace1);
 
 
 
@@ -1128,11 +1130,11 @@ public class DaLingDaoYanShiActivity2 extends BaseActivity implements RecytviewC
 			ImageView imageView=helper.getView(R.id.touxiang);
 
 			//tt.setText(item.getName());
-			if (helper.getAdapterPosition()==0 ){
-				toprl.setBackgroundColor(Color.parseColor("#00000000"));
-				imageView.setImageBitmap(null);
-				t2.setText("");
-			}else {
+//			if (helper.getAdapterPosition()==0 ){
+//				toprl.setBackgroundColor(Color.parseColor("#00000000"));
+//				imageView.setImageBitmap(null);
+//				t2.setText("");
+//			}else {
 				switch (item.getType()) {
 					case -1:
 						//陌生人
@@ -1143,8 +1145,7 @@ public class DaLingDaoYanShiActivity2 extends BaseActivity implements RecytviewC
 					case 0:
 						//员工
 						toprl.setBackgroundResource(R.color.white);
-						t2.setTypeface(typeFace1);
-						t2.setText(item.getName());
+						t3.setText("欢迎"+item.getName()+"莅临指导");
 
 						break;
 
@@ -1165,7 +1166,7 @@ public class DaLingDaoYanShiActivity2 extends BaseActivity implements RecytviewC
 				}
 
 
-			}
+	//		}
 
 			if (item.getTouxiang()!=null ){
 				if (item.getTouxiang()!=null){
@@ -1204,6 +1205,7 @@ public class DaLingDaoYanShiActivity2 extends BaseActivity implements RecytviewC
 
 
 	}
+
 
 //	/**
 //	 * 生成二维码

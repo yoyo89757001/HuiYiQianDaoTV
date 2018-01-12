@@ -9,48 +9,31 @@
         <ImageView
             android:id="@+id/touxiang"
             android:layout_width="match_parent"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp"
+            android:layout_centerVertical="true"
             android:scaleType="fitXY"
             android:layout_height="match_parent" />
 
-<TextView
-    android:id="@+id/test"
-    android:textSize="24sp"
-    android:text="学号"
+<LinearLayout
+    android:orientation="vertical"
     android:gravity="center"
-    android:layout_toRightOf="@+id/touxiang"
-    android:textColor="@color/write"
-    android:layout_marginTop="6dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    android:layout_height="match_parent">
+
 
         <TextView
-            android:id="@+id/test2"
-            android:textSize="24sp"
-            android:layout_toRightOf="@+id/touxiang"
-            android:layout_below="@+id/test"
-            android:textColor="@color/write"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
             android:id="@+id/test3"
-            android:textSize="12sp"
-            android:layout_toRightOf="@+id/touxiang"
-            android:layout_below="@+id/test2"
-            android:textColor="@color/dark_grey"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="2dp"
+            android:textSize="50sp"
+            android:shadowColor="@color/hegong"
+            android:shadowDx="4"
+            android:shadowDy="4"
+            android:shadowRadius="4"
+            android:textColor="@color/write"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <View
-            android:background="@color/write"
-            android:layout_below="@+id/touxiang"
-            android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_height="1dp"/>
+
+</LinearLayout>
+
+
+
 
 </RelativeLayout>

@@ -1,9 +1,7 @@
 package com.example.huiyiqiandaotv.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
+
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,16 +20,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.tts.client.SpeechSynthesizer;
 import com.baidu.tts.client.SpeechSynthesizerListener;
@@ -62,7 +56,6 @@ import com.example.huiyiqiandaotv.tts.control.MySyntherizer;
 import com.example.huiyiqiandaotv.tts.control.NonBlockSyntherizer;
 import com.example.huiyiqiandaotv.tts.listener.UiMessageListener;
 import com.example.huiyiqiandaotv.tts.util.OfflineResource;
-import com.example.huiyiqiandaotv.utils.DateUtils;
 import com.example.huiyiqiandaotv.utils.GsonUtil;
 import com.example.huiyiqiandaotv.utils.Utils;
 import com.example.huiyiqiandaotv.view.GlideCircleTransform;
@@ -103,7 +96,7 @@ import okhttp3.ResponseBody;
 import sun.misc.BASE64Decoder;
 
 
-public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCash {
+public class DaLingDaoYanShiActivity extends Activity implements RecytviewCash {
 	private final static String TAG = "WebsocketPushMsg";
 //	private IjkVideoView ijkVideoView;
 	private MyReceiver myReceiver=null;
@@ -137,7 +130,6 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 	private TextView t1,t2,t3;
 	private TanChuangBeanDao tanChuangBeanDao=null;
 	private Typeface typeFace1;
-	protected Handler mainHandler;
 	private String appId = "10588094";
 	private String appKey = "dfudSSFfNNhDCDoK7UG9G5jn";
 	private String secretKey = "9BaCHNSTw3TGRgTKht4ZZvPEb2fjKEC8";
@@ -148,6 +140,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 	private String offlineVoice = OfflineResource.VOICE_FEMALE;
 	// 主控制类，所有合成控制方法从这个类开始
 	private MySyntherizer synthesizer;
+	protected Handler mainHandler;
 
 
 	public  Handler handler=new Handler(new Handler.Callback() {
@@ -733,10 +726,10 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 	protected Map<String, String> getParams() {
 		Map<String, String> params = new HashMap<String, String>();
 		// 以下参数均为选填
-		params.put(SpeechSynthesizer.PARAM_SPEAKER, "4"); // 设置在线发声音人： 0 普通女声（默认） 1 普通男声 2 特别男声 3 情感男声<度逍遥> 4 情感儿童声<度丫丫>
-		params.put(SpeechSynthesizer.PARAM_VOLUME, "5"); // 设置合成的音量，0-9 ，默认 5
-		params.put(SpeechSynthesizer.PARAM_SPEED, "5");// 设置合成的语速，0-9 ，默认 5
-		params.put(SpeechSynthesizer.PARAM_PITCH, "5");// 设置合成的语调，0-9 ，默认 5
+		params.put(SpeechSynthesizer.PARAM_SPEAKER, baoCunBean.getBoyingren()+""); // 设置在线发声音人： 0 普通女声（默认） 1 普通男声 2 特别男声 3 情感男声<度逍遥> 4 情感儿童声<度丫丫>
+		params.put(SpeechSynthesizer.PARAM_VOLUME, "6"); // 设置合成的音量，0-9 ，默认 5
+		params.put(SpeechSynthesizer.PARAM_SPEED, baoCunBean.getYusu()+"");// 设置合成的语速，0-9 ，默认 5
+		params.put(SpeechSynthesizer.PARAM_PITCH, baoCunBean.getYudiao()+"");// 设置合成的语调，0-9 ，默认 5
 		params.put(SpeechSynthesizer.PARAM_MIX_MODE, SpeechSynthesizer.MIX_MODE_DEFAULT);         // 该参数设置为TtsMode.MIX生效。即纯在线模式不生效。
 		// MIX_MODE_DEFAULT 默认 ，wifi状态下使用在线，非wifi离线。在线状态下，请求超时6s自动转离线
 		// MIX_MODE_HIGH_SPEED_SYNTHESIZE_WIFI wifi状态下使用在线，非wifi离线。在线状态下， 请求超时1.2s自动转离线
@@ -1379,6 +1372,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 			webSocketClient.close();
 			webSocketClient=null;
 		}
+		synthesizer.release();
 		Intent intent1=new Intent("guanbi333"); //关闭监听服务
 		sendBroadcast(intent1);
 		super.onStop();
@@ -1392,7 +1386,7 @@ public class DaLingDaoYanShiActivity extends BaseActivity implements RecytviewCa
 		if (myReceiver != null)
 		unregisterReceiver(myReceiver);
 		unregisterReceiver(netWorkStateReceiver);
-		synthesizer.release();
+
 
 
 		super.onDestroy();

@@ -1,6 +1,7 @@
 package com.example.huiyiqiandaotv.ui;
 
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -104,7 +105,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 
-public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash {
+public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 	private final static String TAG = "WebsocketPushMsg";
 //	private IjkVideoView ijkVideoView;
 	private MyReceiver myReceiver=null;
@@ -612,6 +613,7 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 				chongzhi();
 
 				startActivity(new Intent(YiDongNianHuiActivity.this, SheZhiActivity.class));
+				finish();
 			}
 		});
 
@@ -767,10 +769,10 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 	protected Map<String, String> getParams() {
 		Map<String, String> params = new HashMap<String, String>();
 		// 以下参数均为选填
-		params.put(SpeechSynthesizer.PARAM_SPEAKER, "4"); // 设置在线发声音人： 0 普通女声（默认） 1 普通男声 2 特别男声 3 情感男声<度逍遥> 4 情感儿童声<度丫丫>
-		params.put(SpeechSynthesizer.PARAM_VOLUME, "5"); // 设置合成的音量，0-9 ，默认 5
-		params.put(SpeechSynthesizer.PARAM_SPEED, "5");// 设置合成的语速，0-9 ，默认 5
-		params.put(SpeechSynthesizer.PARAM_PITCH, "5");// 设置合成的语调，0-9 ，默认 5
+		params.put(SpeechSynthesizer.PARAM_SPEAKER, baoCunBean.getBoyingren()+""); // 设置在线发声音人： 0 普通女声（默认） 1 普通男声 2 特别男声 3 情感男声<度逍遥> 4 情感儿童声<度丫丫>
+		params.put(SpeechSynthesizer.PARAM_VOLUME, "6"); // 设置合成的音量，0-9 ，默认 5
+		params.put(SpeechSynthesizer.PARAM_SPEED, baoCunBean.getYusu()+"");// 设置合成的语速，0-9 ，默认 5
+		params.put(SpeechSynthesizer.PARAM_PITCH, baoCunBean.getYudiao()+"");// 设置合成的语调，0-9 ，默认 5
 		params.put(SpeechSynthesizer.PARAM_MIX_MODE, SpeechSynthesizer.MIX_MODE_DEFAULT);         // 该参数设置为TtsMode.MIX生效。即纯在线模式不生效。
 		// MIX_MODE_DEFAULT 默认 ，wifi状态下使用在线，非wifi离线。在线状态下，请求超时6s自动转离线
 		// MIX_MODE_HIGH_SPEED_SYNTHESIZE_WIFI wifi状态下使用在线，非wifi离线。在线状态下， 请求超时1.2s自动转离线
@@ -1407,7 +1409,7 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 			chongzhi();
 			//isTiaoZhuang=false;
 			startActivity(new Intent(YiDongNianHuiActivity.this, SheZhiActivity.class));
-
+			finish();
 		}
 
 		return super.onKeyDown(keyCode, event);
@@ -1458,8 +1460,20 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 	}
 
 	@Override
-	protected void onDestroy() {
+	protected void onStop() {
+		if (webSocketClient!=null){
+			webSocketClient.close();
+			webSocketClient=null;
+		}
 		synthesizer.release();
+		Intent intent1=new Intent("guanbi333"); //关闭监听服务
+		sendBroadcast(intent1);
+		super.onStop();
+	}
+
+	@Override
+	protected void onDestroy() {
+
 		handler.removeCallbacksAndMessages(null);
 		if (myReceiver != null)
 			unregisterReceiver(myReceiver);
@@ -2263,7 +2277,7 @@ public class YiDongNianHuiActivity extends BaseActivity implements RecytviewCash
 				//.post(requestBody)
 				.get()
 				//.post(body)
-				.url("http://ly.huifnet.com/subjectDeptCount.do?accountId=10000038");
+				.url("http://ly.huifnet.com/subjectDeptCount.do?accountId=10000038&id=");
 
 		// step 3：创建 Call 对象
 		Call call = okHttpClient.newCall(requestBuilder.build());

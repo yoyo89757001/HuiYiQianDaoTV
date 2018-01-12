@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -103,7 +104,7 @@ import sun.misc.BASE64Decoder;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 
-public class VlcVideoActivity extends BaseActivity implements RecytviewCash, SpeechSynthesizerListener {
+public class VlcVideoActivity extends Activity implements RecytviewCash, SpeechSynthesizerListener {
 	private final static String TAG = "WebsocketPushMsg";
 	private IjkVideoView ijkVideoView;
 	private MyReceiver myReceiver=null;

@@ -4,10 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -21,6 +21,7 @@ import com.example.huiyiqiandaotv.beans.BaoCunBeanDao;
 import com.example.huiyiqiandaotv.dialog.MoBanDialog;
 import com.example.huiyiqiandaotv.dialog.XiuGaiXinXiDialog;
 import com.example.huiyiqiandaotv.dialog.YuLanDialog;
+import com.example.huiyiqiandaotv.dialog.YuYingDialog;
 import com.sdsmdg.tastytoast.TastyToast;
 
 
@@ -29,12 +30,12 @@ import java.util.List;
 
 
 
-public class SheZhiActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener {
+public class SheZhiActivity extends Activity implements View.OnClickListener, View.OnFocusChangeListener {
     private Button bt1,bt2,bt3,bt4,bt5,bt6,bt7,bt8,bt9;
     private List<Button> sheZhiBeanList;
     private BaoCunBeanDao baoCunBeanDao=null;
     private BaoCunBean baoCunBean=null;
-    private int moban=0;
+
 
 
     @Override
@@ -53,8 +54,6 @@ public class SheZhiActivity extends BaseActivity implements View.OnClickListener
             baoCunBean.setId(123456L);
             baoCunBeanDao.insert(baoCunBean);
             Log.d("SheZhiActivity", "插入");
-        }else {
-            moban=baoCunBean.getMoban();
         }
 
 //        if (baoCunBean!=null && baoCunBean.getIsHengOrShu()){
@@ -109,11 +108,7 @@ public class SheZhiActivity extends BaseActivity implements View.OnClickListener
         sheZhiBeanList.add(bt6);
         sheZhiBeanList.add(bt7);
 
-        if (baoCunBean!=null && baoCunBean.getIsHengOrShu()){
-            bt6.setText("已设置为横屏");
-        }else {
-            bt6.setText("已设置为竖屏");
-        }
+
 
 }
 
@@ -126,15 +121,13 @@ public class SheZhiActivity extends BaseActivity implements View.OnClickListener
       //  Log.d("SheZhiActivity", "baoCunBean.getMoban():" + baoCunBean.getMoban());
         switch (baoCunBean.getMoban()){
             case 1:
-                startActivity(new Intent(SheZhiActivity.this,DaLingDaoYanShiActivity.class));
-               // Log.d("SheZhiActivity", "停止2");
+                startActivity(new Intent(SheZhiActivity.this,YiDongNianHuiActivity.class));
                 break;
             case 2:
-                startActivity(new Intent(SheZhiActivity.this,DaLingDaoYanShiActivity2.class));
-               // Log.d("SheZhiActivity", "停止3");
+                startActivity(new Intent(SheZhiActivity.this,DaLingDaoYanShiActivity.class));
                 break;
             case 3:
-
+                startActivity(new Intent(SheZhiActivity.this,DaLingDaoYanShiActivity2.class));
                 break;
             case 4:
 
@@ -334,21 +327,9 @@ public class SheZhiActivity extends BaseActivity implements View.OnClickListener
                 animatorSet6.setDuration(300);
                 animatorSet6.addListener(new AnimatorListenerAdapter(){
                     @Override public void onAnimationEnd(Animator animation) {
-                        if (baoCunBean.getIsHengOrShu()){ //false为 竖屏
-                            baoCunBean.setIsHengOrShu(false);
-                            baoCunBeanDao.update(baoCunBean);
-                            baoCunBean=baoCunBeanDao.load(123456L);
-                            bt6.setText("已设置为竖屏");
-                            TastyToast.makeText(SheZhiActivity.this,"已设置为竖屏",TastyToast.LENGTH_SHORT,TastyToast.INFO).show();
-
-                        }else {
-                            baoCunBean.setIsHengOrShu(true);
-                            baoCunBeanDao.update(baoCunBean);
-                            baoCunBean=baoCunBeanDao.load(123456L);
-                            bt6.setText("已设置为横屏");
-                            TastyToast.makeText(SheZhiActivity.this,"已设置为横屏",TastyToast.LENGTH_SHORT,TastyToast.INFO).show();
-                        }
-
+                       //语音设置
+                        YuYingDialog yuYingDialog=new YuYingDialog(SheZhiActivity.this);
+                        yuYingDialog.show();
 
                     }
                 });

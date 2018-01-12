@@ -31,6 +31,10 @@ public class BaoCunBeanDao extends AbstractDao<BaoCunBean, Long> {
         public final static Property IsShowMoshengren = new Property(6, boolean.class, "isShowMoshengren", false, "IS_SHOW_MOSHENGREN");
         public final static Property IsShowShiPingLiu = new Property(7, boolean.class, "isShowShiPingLiu", false, "IS_SHOW_SHI_PING_LIU");
         public final static Property IsHengOrShu = new Property(8, boolean.class, "isHengOrShu", false, "IS_HENG_OR_SHU");
+        public final static Property Yusu = new Property(9, int.class, "yusu", false, "YUSU");
+        public final static Property Yudiao = new Property(10, int.class, "yudiao", false, "YUDIAO");
+        public final static Property Boyingren = new Property(11, int.class, "boyingren", false, "BOYINGREN");
+        public final static Property Zhanghuid = new Property(12, int.class, "zhanghuid", false, "ZHANGHUID");
     }
 
 
@@ -54,7 +58,11 @@ public class BaoCunBeanDao extends AbstractDao<BaoCunBean, Long> {
                 "\"GONGGAO\" TEXT," + // 5: gonggao
                 "\"IS_SHOW_MOSHENGREN\" INTEGER NOT NULL ," + // 6: isShowMoshengren
                 "\"IS_SHOW_SHI_PING_LIU\" INTEGER NOT NULL ," + // 7: isShowShiPingLiu
-                "\"IS_HENG_OR_SHU\" INTEGER NOT NULL );"); // 8: isHengOrShu
+                "\"IS_HENG_OR_SHU\" INTEGER NOT NULL ," + // 8: isHengOrShu
+                "\"YUSU\" INTEGER NOT NULL ," + // 9: yusu
+                "\"YUDIAO\" INTEGER NOT NULL ," + // 10: yudiao
+                "\"BOYINGREN\" INTEGER NOT NULL ," + // 11: boyingren
+                "\"ZHANGHUID\" INTEGER NOT NULL );"); // 12: zhanghuid
     }
 
     /** Drops the underlying database table. */
@@ -91,6 +99,10 @@ public class BaoCunBeanDao extends AbstractDao<BaoCunBean, Long> {
         stmt.bindLong(7, entity.getIsShowMoshengren() ? 1L: 0L);
         stmt.bindLong(8, entity.getIsShowShiPingLiu() ? 1L: 0L);
         stmt.bindLong(9, entity.getIsHengOrShu() ? 1L: 0L);
+        stmt.bindLong(10, entity.getYusu());
+        stmt.bindLong(11, entity.getYudiao());
+        stmt.bindLong(12, entity.getBoyingren());
+        stmt.bindLong(13, entity.getZhanghuid());
     }
 
     @Override
@@ -121,6 +133,10 @@ public class BaoCunBeanDao extends AbstractDao<BaoCunBean, Long> {
         stmt.bindLong(7, entity.getIsShowMoshengren() ? 1L: 0L);
         stmt.bindLong(8, entity.getIsShowShiPingLiu() ? 1L: 0L);
         stmt.bindLong(9, entity.getIsHengOrShu() ? 1L: 0L);
+        stmt.bindLong(10, entity.getYusu());
+        stmt.bindLong(11, entity.getYudiao());
+        stmt.bindLong(12, entity.getBoyingren());
+        stmt.bindLong(13, entity.getZhanghuid());
     }
 
     @Override
@@ -139,7 +155,11 @@ public class BaoCunBeanDao extends AbstractDao<BaoCunBean, Long> {
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // gonggao
             cursor.getShort(offset + 6) != 0, // isShowMoshengren
             cursor.getShort(offset + 7) != 0, // isShowShiPingLiu
-            cursor.getShort(offset + 8) != 0 // isHengOrShu
+            cursor.getShort(offset + 8) != 0, // isHengOrShu
+            cursor.getInt(offset + 9), // yusu
+            cursor.getInt(offset + 10), // yudiao
+            cursor.getInt(offset + 11), // boyingren
+            cursor.getInt(offset + 12) // zhanghuid
         );
         return entity;
     }
@@ -155,6 +175,10 @@ public class BaoCunBeanDao extends AbstractDao<BaoCunBean, Long> {
         entity.setIsShowMoshengren(cursor.getShort(offset + 6) != 0);
         entity.setIsShowShiPingLiu(cursor.getShort(offset + 7) != 0);
         entity.setIsHengOrShu(cursor.getShort(offset + 8) != 0);
+        entity.setYusu(cursor.getInt(offset + 9));
+        entity.setYudiao(cursor.getInt(offset + 10));
+        entity.setBoyingren(cursor.getInt(offset + 11));
+        entity.setZhanghuid(cursor.getInt(offset + 12));
      }
     
     @Override

@@ -21,11 +21,15 @@ public class BaoCunBean {
     private boolean isShowMoshengren;
     private boolean isShowShiPingLiu;
     private boolean isHengOrShu;
-    @Generated(hash = 561513398)
+    private int yusu;
+    private int yudiao;
+    private int boyingren;
+    private int zhanghuid;
+    @Generated(hash = 2114208038)
     public BaoCunBean(@NotNull Long id, String shipingIP, String zhujiDiZhi,
             int moban, String tuisongDiZhi, String gonggao,
-            boolean isShowMoshengren, boolean isShowShiPingLiu,
-            boolean isHengOrShu) {
+            boolean isShowMoshengren, boolean isShowShiPingLiu, boolean isHengOrShu,
+            int yusu, int yudiao, int boyingren, int zhanghuid) {
         this.id = id;
         this.shipingIP = shipingIP;
         this.zhujiDiZhi = zhujiDiZhi;
@@ -35,6 +39,10 @@ public class BaoCunBean {
         this.isShowMoshengren = isShowMoshengren;
         this.isShowShiPingLiu = isShowShiPingLiu;
         this.isHengOrShu = isHengOrShu;
+        this.yusu = yusu;
+        this.yudiao = yudiao;
+        this.boyingren = boyingren;
+        this.zhanghuid = zhanghuid;
     }
     @Generated(hash = 1469853663)
     public BaoCunBean() {
@@ -92,6 +100,30 @@ public class BaoCunBean {
     }
     public void setIsHengOrShu(boolean isHengOrShu) {
         this.isHengOrShu = isHengOrShu;
+    }
+    public int getYusu() {
+        return this.yusu;
+    }
+    public void setYusu(int yusu) {
+        this.yusu = yusu;
+    }
+    public int getYudiao() {
+        return this.yudiao;
+    }
+    public void setYudiao(int yudiao) {
+        this.yudiao = yudiao;
+    }
+    public int getBoyingren() {
+        return this.boyingren;
+    }
+    public void setBoyingren(int boyingren) {
+        this.boyingren = boyingren;
+    }
+    public int getZhanghuid() {
+        return this.zhanghuid;
+    }
+    public void setZhanghuid(int zhanghuid) {
+        this.zhanghuid = zhanghuid;
     }
 
 

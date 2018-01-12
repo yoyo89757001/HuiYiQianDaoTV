@@ -43,7 +43,7 @@ public class HorizonService extends Service {
 
         Intent intent1=new Intent("duanxianchonglian");
         sendBroadcast(intent1);
-        Log.d("HorizonService", "监听服务");
+       // Log.d("HorizonService", "监听服务");
 
 //        new Thread(new Runnable() {
 //            @Override

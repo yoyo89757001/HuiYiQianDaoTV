@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -91,7 +92,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 
-public class GaoXiaoYanShiActivity extends BaseActivity implements RecytviewCash {
+public class GaoXiaoYanShiActivity extends Activity implements RecytviewCash {
 	private final static String TAG = "WebsocketPushMsg";
 //	private IjkVideoView ijkVideoView;
 	private MyReceiver myReceiver=null;
