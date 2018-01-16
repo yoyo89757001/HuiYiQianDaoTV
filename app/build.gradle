@@ -6,7 +6,7 @@ android {
         applicationId "com.example.huiyiqiandaotv"
         minSdkVersion 19
         targetSdkVersion 21
-        versionCode 9
+        versionCode 13
         versionName "1.1.8"
         ndk {
             abiFilters "armeabi", "armeabi-v7a"

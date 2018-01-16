@@ -10,10 +10,9 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import com.example.huiyiqiandaotv.MyApplication;
 import com.example.huiyiqiandaotv.R;
@@ -25,8 +24,6 @@ import com.example.huiyiqiandaotv.dialog.YuLanDialog;
 import com.example.huiyiqiandaotv.dialog.YuYingDialog;
 import com.example.huiyiqiandaotv.utils.Utils;
 import com.sdsmdg.tastytoast.TastyToast;
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,32 +105,37 @@ public class SheZhiActivity extends Activity implements View.OnClickListener, Vi
 
 }
 
-
     @Override
-    protected void onStop() {
-        Log.d("SheZhiActivity", "停止");
-        super.onStop();
+    protected void onPause() {
         //开启Activity
-      //  Log.d("SheZhiActivity", "baoCunBean.getMoban():" + baoCunBean.getMoban());
+        //  Log.d("SheZhiActivity", "baoCunBean.getMoban():" + baoCunBean.getMoban());
         switch (baoCunBean.getMoban()){
             case 1:
                 startActivity(new Intent(SheZhiActivity.this,YiDongNianHuiActivity.class));
+                SystemClock.sleep(1800);
                 break;
             case 2:
                 startActivity(new Intent(SheZhiActivity.this,DaLingDaoYanShiActivity.class));
+                SystemClock.sleep(1800);
                 break;
             case 3:
                 startActivity(new Intent(SheZhiActivity.this,DaLingDaoYanShiActivity2.class));
+                SystemClock.sleep(1800);
                 break;
             case 4:
 
                 break;
 
-
         }
 
+        super.onPause();
+    }
 
+    @Override
+    protected void onStop() {
+        Log.d("SheZhiActivity", "停止");
 
+        super.onStop();
     }
 
     @Override

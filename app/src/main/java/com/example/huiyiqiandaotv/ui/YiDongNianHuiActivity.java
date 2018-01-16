@@ -548,9 +548,11 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 		t3= (TextView) findViewById(R.id.t3);
 		typeFace1 = Typeface.createFromAsset(getAssets(), "fonts/xk.TTF");
 		t1.setTypeface(typeFace1);
-		t1.setText("辽宁移动公司");
+		t1.setText("中国移动通信集团");
 		t2.setTypeface(typeFace1);
-		t2.setText("年底市场工作会议");
+		t2.setText("辽宁有限公司2018年工作会议");
+		t3.setTypeface(typeFace1);
+		t3.setText("暨四届五次职工代表大会");
 		y1= (TextView) findViewById(R.id.y1);
 		y2= (TextView) findViewById(R.id.y2);
 		y3= (TextView) findViewById(R.id.y3);
@@ -698,7 +700,7 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 		recyclerView2.setAdapter(adapter2);
 
 		RelativeLayout.LayoutParams  params1= (RelativeLayout.LayoutParams) tops_rl.getLayoutParams();
-		params1.height=dh/5+20;
+		params1.height=dh/5+46;
 		tops_rl.setLayoutParams(params1);
 		tops_rl.invalidate();
 
@@ -870,9 +872,9 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 							name.setTypeface(typeFace1);
 							zhuangtai.setTypeface(typeFace1);
 							name.setText(item.getName());
-							zhuangtai.setText("欢迎您莅临会议");
+							zhuangtai.setText("欢迎会议代表莅临");
 							imageView.setBackgroundResource(R.drawable.yuanquan);
-							synthesizer.speak(item.getName()+"欢迎您莅临会议");
+							synthesizer.speak(item.getName()+"，欢迎会议代表莅临");
 						}else {
 							imageView.setBackgroundColor(Color.parseColor("#00000000"));
 							toprl.setBackgroundResource(R.drawable.yuangongbg);
@@ -1649,38 +1651,41 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 
 								//mSpeechSynthesizer.speak("欢迎" + dataBean.getPerson().getName() + "来学校接送" + dataBean.getPerson().getRemark());
 							//	MoShengRenBean bean = new MoShengRenBean(dataBean.getPerson().getId(), "sss");
-								QianDaoId qianDaoId=new QianDaoId(dataBean.getPerson().getId(),dataBean.getPerson().getName());
-								if (qianDaoIdDao.load(dataBean.getPerson().getId())==null){
-									qianDaoIdDao.insert(qianDaoId);
-									switch (dataBean.getPerson().getDepartment()) {
-										case "省公司领导":
-											benDiRenShuBean.setNShen((benDiRenShuBean.getNShen() - 1)<0?0:(benDiRenShuBean.getNShen() - 1));
-											benDiRenShuBean.setN1((benDiRenShuBean.getN1() - 1)<0?0:(benDiRenShuBean.getN1() - 1));
-											benDiRenShuBean.setYShen(benDiRenShuBean.getYShen() + 1);
-											benDiRenShuBean.setY1(benDiRenShuBean.getY1() + 1);
-											benDiRenShuBeanDao.update(benDiRenShuBean);
-											break;
-										case "市公司领导":
-											benDiRenShuBean.setNShi((benDiRenShuBean.getNShi() - 1)<0?0:(benDiRenShuBean.getNShi() - 1));
-											benDiRenShuBean.setN1((benDiRenShuBean.getN1() - 1)<0?0:(benDiRenShuBean.getN1() - 1));
-											benDiRenShuBean.setYShi(benDiRenShuBean.getYShi() + 1);
-											benDiRenShuBean.setY1(benDiRenShuBean.getY1() + 1);
-											benDiRenShuBeanDao.update(benDiRenShuBean);
-											break;
-										case "特邀嘉宾":
-											benDiRenShuBean.setNTeyao((benDiRenShuBean.getNTeyao() - 1)<0?0:(benDiRenShuBean.getNTeyao() - 1));
-											benDiRenShuBean.setN1((benDiRenShuBean.getN1() - 1)<0?0:(benDiRenShuBean.getN1() - 1));
-											benDiRenShuBean.setYTeyao(benDiRenShuBean.getYTeyao() + 1);
-											benDiRenShuBean.setY1(benDiRenShuBean.getY1() + 1);
-											benDiRenShuBeanDao.update(benDiRenShuBean);
-											break;
-										default:
+								Log.d("WebsocketPushMsg", "dataBean.isOpen_door():" + dataBean.isOpen_door());
+								if (dataBean.isOpen_door()) {
+									QianDaoId qianDaoId = new QianDaoId(dataBean.getPerson().getId(), dataBean.getPerson().getName());
+									if (qianDaoIdDao.load(dataBean.getPerson().getId()) == null) {
+										qianDaoIdDao.insert(qianDaoId);
+										switch (dataBean.getPerson().getDepartment()) {
+											case "省公司领导":
+												benDiRenShuBean.setNShen((benDiRenShuBean.getNShen() - 1) < 0 ? 0 : (benDiRenShuBean.getNShen() - 1));
+												benDiRenShuBean.setN1((benDiRenShuBean.getN1() - 1) < 0 ? 0 : (benDiRenShuBean.getN1() - 1));
+												benDiRenShuBean.setYShen(benDiRenShuBean.getYShen() + 1);
+												benDiRenShuBean.setY1(benDiRenShuBean.getY1() + 1);
+												benDiRenShuBeanDao.update(benDiRenShuBean);
+												break;
+											case "市公司领导":
+												benDiRenShuBean.setNShi((benDiRenShuBean.getNShi() - 1) < 0 ? 0 : (benDiRenShuBean.getNShi() - 1));
+												benDiRenShuBean.setN1((benDiRenShuBean.getN1() - 1) < 0 ? 0 : (benDiRenShuBean.getN1() - 1));
+												benDiRenShuBean.setYShi(benDiRenShuBean.getYShi() + 1);
+												benDiRenShuBean.setY1(benDiRenShuBean.getY1() + 1);
+												benDiRenShuBeanDao.update(benDiRenShuBean);
+												break;
+											case "特邀嘉宾":
+												benDiRenShuBean.setNTeyao((benDiRenShuBean.getNTeyao() - 1) < 0 ? 0 : (benDiRenShuBean.getNTeyao() - 1));
+												benDiRenShuBean.setN1((benDiRenShuBean.getN1() - 1) < 0 ? 0 : (benDiRenShuBean.getN1() - 1));
+												benDiRenShuBean.setYTeyao(benDiRenShuBean.getYTeyao() + 1);
+												benDiRenShuBean.setY1(benDiRenShuBean.getY1() + 1);
+												benDiRenShuBeanDao.update(benDiRenShuBean);
+												break;
+											default:
 
-											benDiRenShuBean.setN1((benDiRenShuBean.getN1() - 1)<0?0:(benDiRenShuBean.getN1() - 1));
-											benDiRenShuBean.setY1(benDiRenShuBean.getY1() + 1);
-											benDiRenShuBeanDao.update(benDiRenShuBean);
+												benDiRenShuBean.setN1((benDiRenShuBean.getN1() - 1) < 0 ? 0 : (benDiRenShuBean.getN1() - 1));
+												benDiRenShuBean.setY1(benDiRenShuBean.getY1() + 1);
+												benDiRenShuBeanDao.update(benDiRenShuBean);
 
-											break;
+												break;
+										}
 									}
 								}
 								Message message2 = Message.obtain();
@@ -2285,7 +2290,7 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 				//.post(requestBody)
 				.get()
 				//.post(body)
-				.url("http://ly.huifnet.com/subjectDeptCount.do?accountId=10000038&id="+baoCunBean.getZhanghuid());
+				.url("http://ly.huifnet.com/subjectDeptCount.do?accountId=10000040&id="+baoCunBean.getZhanghuid());
 
 		// step 3：创建 Call 对象
 		Call call = okHttpClient.newCall(requestBuilder.build());

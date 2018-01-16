@@ -16,13 +16,14 @@
 <LinearLayout
     android:orientation="vertical"
     android:gravity="center"
+    android:layout_toRightOf="@+id/touxiang"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
         <TextView
             android:id="@+id/test3"
-            android:textSize="60sp"
+            android:textSize="56sp"
             android:shadowColor="@color/hegong"
             android:shadowDx="4"
             android:shadowDy="4"
