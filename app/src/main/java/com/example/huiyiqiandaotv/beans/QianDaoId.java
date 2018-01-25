@@ -14,10 +14,12 @@ public class QianDaoId {
     @NotNull
     private Long id;
     private String name;
-    @Generated(hash = 810007560)
-    public QianDaoId(@NotNull Long id, String name) {
+    private boolean isQd;
+    @Generated(hash = 207389244)
+    public QianDaoId(@NotNull Long id, String name, boolean isQd) {
         this.id = id;
         this.name = name;
+        this.isQd = isQd;
     }
     @Generated(hash = 2019086784)
     public QianDaoId() {
@@ -34,6 +36,13 @@ public class QianDaoId {
     public void setName(String name) {
         this.name = name;
     }
+    public boolean getIsQd() {
+        return this.isQd;
+    }
+    public void setIsQd(boolean isQd) {
+        this.isQd = isQd;
+    }
+
 
 
 }

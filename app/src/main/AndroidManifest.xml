@@ -38,6 +38,9 @@
         <activity android:name=".ui.YiZhongYanShiActivity"
             android:screenOrientation="landscape"
             />
+        <activity android:name=".ui.XinChunActivity"
+            android:screenOrientation="landscape"
+            />
         <activity android:name=".ui.YiDongNianHuiActivity"
             android:screenOrientation="portrait"
             />

@@ -6,7 +6,7 @@ android {
         applicationId "com.example.huiyiqiandaotv"
         minSdkVersion 19
         targetSdkVersion 21
-        versionCode 13
+        versionCode 17
         versionName "1.1.8"
         ndk {
             abiFilters "armeabi", "armeabi-v7a"
@@ -23,7 +23,7 @@ android {
     }
 
     greendao {
-        schemaVersion 1
+        schemaVersion 2
         targetGenDir 'src/main/java'
     }
 }
@@ -55,9 +55,19 @@ dependencies {
    // compile 'com.github.ctiao:DanmakuFlameMaster:0.9.16'
    // compile 'com.github.ctiao:ndkbitmap-armv7a:0.9.16'
    // compile 'com.github.ctiao:ndkbitmap-armv5:0.9.16'
-
+    compile 'com.badoo.mobile:android-weak-handler:1.1'// 没有内存泄漏handler
+    compile 'org.greenrobot:eventbus:3.1.1'
     compile "com.badlogicgames.gdx:gdx-backend-android:1.9.8"
     compile "com.badlogicgames.gdx:gdx-box2d:1.9.8"
     compile 'com.facebook.rebound:rebound:0.3.8'
+
+//    compile 'com.badoo.mobile:android-weak-handler:1.1'
+//    compile 'de.greenrobot:eventbus:2.4.0'
+//    compile 'com.facebook.rebound:rebound:0.3.8'
+//
+//    compile "com.badlogicgames.gdx:gdx-backend-android:1.9.6"
+//    natives "com.badlogicgames.gdx:gdx-platform:1.9.6:natives-armeabi-v7a"
+//    compile "com.badlogicgames.gdx:gdx-box2d:1.9.6"
+//    natives "com.badlogicgames.gdx:gdx-box2d-platform:1.9.6:natives-armeabi-v7a"
 
 }

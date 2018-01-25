@@ -45,6 +45,8 @@ public class BaseActivity extends Activity {
                 finish();
                 break;
             case 4:
+                startActivity(new Intent(BaseActivity.this,XinChunActivity.class));
+                finish();
 
                 break;
 

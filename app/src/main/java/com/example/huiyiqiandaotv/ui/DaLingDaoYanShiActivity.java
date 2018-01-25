@@ -792,11 +792,11 @@ public class DaLingDaoYanShiActivity extends Activity implements RecytviewCash {
 						//toprl.setBackgroundResource(R.drawable.yg_bg);
 						name.setTypeface(typeFace1);
 						zhuangtai.setTypeface(typeFace1);
-						name.setText("欢迎 "+item.getName()+" 领导");
+						name.setText("欢迎 "+item.getName()+"");
 						zhuangtai.setVisibility(View.VISIBLE);
 						zhuangtai.setText("莅临指导");
 						rl.setBackgroundResource(R.drawable.shuzi_bg2);
-						synthesizer.speak("欢迎"+item.getName()+"领导，莅临指导");
+						synthesizer.speak("欢迎"+item.getName()+",莅临指导");
 						//mSpeechSynthesizer.speak("欢迎"+item.getName()+"祝你出入平安.");
 //						String  zt=item.getRemark();
 //						if (zt!=null){
@@ -984,7 +984,6 @@ public class DaLingDaoYanShiActivity extends Activity implements RecytviewCash {
 					case -1:
 						//陌生人
 						//	toprl.setBackgroundResource(R.drawable.tanchuang);
-
 
 						break;
 					case 0:

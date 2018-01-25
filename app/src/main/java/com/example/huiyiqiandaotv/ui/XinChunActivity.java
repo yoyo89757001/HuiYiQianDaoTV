@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.baidu.tts.client.SpeechSynthesizer;
 import com.baidu.tts.client.SpeechSynthesizerListener;
 import com.baidu.tts.client.TtsMode;
@@ -102,7 +103,7 @@ import okhttp3.ResponseBody;
 import sun.misc.BASE64Decoder;
 
 
-public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash {
+public class XinChunActivity extends Activity implements RecytviewCash {
 	private final static String TAG = "WebsocketPushMsg";
 //	private IjkVideoView ijkVideoView;
 	private MyReceiver myReceiver=null;
@@ -580,8 +581,8 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
 		//DisplayMetrics dm = getResources().getDisplayMetrics();
-		dw = Utils.getDisplaySize(DaLingDaoYanShiActivity2.this).x;
-		dh = Utils.getDisplaySize(DaLingDaoYanShiActivity2.this).y;
+		dw = Utils.getDisplaySize(XinChunActivity.this).x;
+		dh = Utils.getDisplaySize(XinChunActivity.this).y;
 
 		setContentView(R.layout.dalingdao2);
 		wangluo = (TextView) findViewById(R.id.wangluo);
@@ -635,7 +636,7 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 			public void onClick(View v) {
 				//chongzhi();
 
-				startActivity(new Intent(DaLingDaoYanShiActivity2.this, SheZhiActivity.class));
+				startActivity(new Intent(XinChunActivity.this, SheZhiActivity.class));
 				finish();
 			}
 		});
@@ -703,24 +704,24 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 		//	mSurfaceView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 
-		manager = new WrapContentLinearLayoutManager(DaLingDaoYanShiActivity2.this,LinearLayoutManager.HORIZONTAL,false,this);
+		manager = new WrapContentLinearLayoutManager(XinChunActivity.this,LinearLayoutManager.HORIZONTAL,false,this);
 		recyclerView.setLayoutManager(manager);
 
-		manager2 = new WrapContentLinearLayoutManager(DaLingDaoYanShiActivity2.this,LinearLayoutManager.VERTICAL,false,this);
+		manager2 = new WrapContentLinearLayoutManager(XinChunActivity.this,LinearLayoutManager.VERTICAL,false,this);
 	//	recyclerView2.setLayoutManager(new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false));
 		recyclerView2.setLayoutManager(manager2);
 		//recyclerView.addItemDecoration(new MyDecoration(VlcVideoActivity.this, LinearLayoutManager.VERTICAL,20,R.color.transparent));
 
-		adapter = new MyAdapter(R.layout.tanchuang_itemdalingdao2, yuangongList);
+		adapter = new MyAdapter(R.layout.xinchun_yg_item, yuangongList);
 		recyclerView.setAdapter(adapter);
 
-		adapter2 = new MyAdapter2(R.layout.dalingdao_item2, moshengren);
+		adapter2 = new MyAdapter2(R.layout.xinchun_msr_item, moshengren);
 		recyclerView2.setAdapter(adapter2);
 
-		manager3 = new WrapContentLinearLayoutManager(DaLingDaoYanShiActivity2.this,LinearLayoutManager.VERTICAL,false,this);
+		manager3 = new WrapContentLinearLayoutManager(XinChunActivity.this,LinearLayoutManager.VERTICAL,false,this);
 		//	recyclerView2.setLayoutManager(new GridLayoutManager(this,2,GridLayoutManager.HORIZONTAL,false));
 		recyclerView3.setLayoutManager(manager3);
-		adapter3 = new MyAdapter3(R.layout.dalingdao_item3, lingdaoList);
+		adapter3 = new MyAdapter3(R.layout.xinchun_vip_item, lingdaoList);
 		recyclerView3.setAdapter(adapter3);
 
 		RelativeLayout.LayoutParams  params= (RelativeLayout.LayoutParams) recyclerView2.getLayoutParams();
@@ -754,7 +755,7 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 			public void run() {
 
 				SystemClock.sleep(10000);
-				sendBroadcast(new Intent(DaLingDaoYanShiActivity2.this,AlarmReceiver.class));
+				sendBroadcast(new Intent(XinChunActivity.this,AlarmReceiver.class));
 			}
 		}).start();
 
@@ -1066,7 +1067,7 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 								//.bitmapTransform(new GrayscaleTransformation(VlcVideoActivity.this))
 								.into(imageView);
 					}else {
-						Glide.with(DaLingDaoYanShiActivity2.this)
+						Glide.with(XinChunActivity.this)
 								.load(item.getBytes())
 								//.load("http://121.46.3.20"+item.getTouxiang())
 								//.apply(myOptions)
@@ -1528,7 +1529,7 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 			Log.d(TAG, "按下菜单键 ");
 			chongzhi();
 			//isTiaoZhuang=false;
-			startActivity(new Intent(DaLingDaoYanShiActivity2.this, SheZhiActivity.class));
+			startActivity(new Intent(XinChunActivity.this, SheZhiActivity.class));
 			finish();
 		}
 
@@ -1563,7 +1564,7 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 
 			}
 		}else {
-			TastyToast.makeText(DaLingDaoYanShiActivity2.this,"请先设置主机地址和摄像头IP",TastyToast.LENGTH_SHORT,TastyToast.INFO).show();
+			TastyToast.makeText(XinChunActivity.this,"请先设置主机地址和摄像头IP",TastyToast.LENGTH_SHORT,TastyToast.INFO).show();
 		}
 
 
@@ -1739,7 +1740,7 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							if (!DaLingDaoYanShiActivity2.this.isFinishing())
+							if (!XinChunActivity.this.isFinishing())
 							wangluo.setVisibility(View.GONE);
 						}
 					});
@@ -1837,7 +1838,7 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 					runOnUiThread( new Runnable() {
 						@Override
 						public void run() {
-							if (!DaLingDaoYanShiActivity2.this.isFinishing()){
+							if (!XinChunActivity.this.isFinishing()){
 								wangluo.setVisibility(View.VISIBLE);
 								wangluo.setText("连接识别主机失败,重连中...");
 							}
@@ -2050,7 +2051,7 @@ public class DaLingDaoYanShiActivity2 extends Activity implements RecytviewCash 
 
 				}
 				//删除照片
-				Log.d("VlcVideoActivity", "删除照片:" + DaLingDaoYanShiActivity2.this.deleteFile(fname));
+				Log.d("VlcVideoActivity", "删除照片:" + XinChunActivity.this.deleteFile(fname));
 
 				}catch (Exception e){
 					Log.d("WebsocketPushMsg", e.getMessage());

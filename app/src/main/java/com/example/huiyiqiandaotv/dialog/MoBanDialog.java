@@ -37,7 +37,7 @@ public class MoBanDialog extends Dialog  {
     private RecyclerView recyclerView;
     private int dh,dw;
     private LinearLayoutManager linearLayoutManager;
-    private int[] datas=new int[]{R.drawable.moban11,R.drawable.moban1,R.drawable.moban2};
+    private int[] datas=new int[]{R.drawable.moban11,R.drawable.moban1,R.drawable.moban2,R.drawable.moban4};
     private BaoCunBeanDao baoCunBeanDao;
     private BaoCunBean baoCunBean;
 

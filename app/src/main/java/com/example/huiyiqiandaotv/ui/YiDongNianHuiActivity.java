@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -37,7 +38,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.huiyiqiandaotv.MyApplication;
 import com.example.huiyiqiandaotv.R;
-import com.example.huiyiqiandaotv.beans.AllUserBean;
 import com.example.huiyiqiandaotv.beans.BaoCunBean;
 import com.example.huiyiqiandaotv.beans.BaoCunBeanDao;
 import com.example.huiyiqiandaotv.beans.BenDiRenShuBean;
@@ -60,6 +60,7 @@ import com.example.huiyiqiandaotv.tts.control.InitConfig;
 import com.example.huiyiqiandaotv.tts.control.MySyntherizer;
 import com.example.huiyiqiandaotv.tts.control.NonBlockSyntherizer;
 import com.example.huiyiqiandaotv.tts.listener.UiMessageListener;
+import com.example.huiyiqiandaotv.tts.util.FileUtil;
 import com.example.huiyiqiandaotv.tts.util.OfflineResource;
 import com.example.huiyiqiandaotv.utils.DateUtils;
 import com.example.huiyiqiandaotv.utils.GsonUtil;
@@ -74,10 +75,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.sdsmdg.tastytoast.TastyToast;
-
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -92,7 +91,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -120,8 +118,8 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 	private WrapContentLinearLayoutManager manager2;
 	private static  WebSocketClient webSocketClient=null;
 //	private MediaPlayer mediaPlayer=null;
-	//private IVLCVout vlcVout=null;
-	//private IVLCVout.Callback callback;
+//	private IVLCVout vlcVout=null;
+//	private IVLCVout.Callback callback;
 //	private LibVLC libvlc;
 //	private Media media;
 //	private SurfaceHolder mSurfaceHolder;
@@ -461,6 +459,8 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 		chongzhi();
 	}
 
+
+
 	private void chongzhi(){
 		//yuangongList.clear();
 		//tanchuangList.clear();
@@ -550,9 +550,9 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 		t1.setTypeface(typeFace1);
 		t1.setText("中国移动通信集团");
 		t2.setTypeface(typeFace1);
-		t2.setText("辽宁有限公司2018年工作会议");
+		t2.setText("辽宁有限公司2018年");
 		t3.setTypeface(typeFace1);
-		t3.setText("暨四届五次职工代表大会");
+		t3.setText("市场经营工作会议");
 		y1= (TextView) findViewById(R.id.y1);
 		y2= (TextView) findViewById(R.id.y2);
 		y3= (TextView) findViewById(R.id.y3);
@@ -748,6 +748,40 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 		if (baoCunBean.getZhanghuid()!=0){
 			link_login();
 		}
+		List<QianDaoId> qianDaoIdList=qianDaoIdDao.loadAll();
+		int siz=qianDaoIdList.size();
+		//StringBuilder builder=new StringBuilder();
+		for (int i=0;i<siz;i++){
+		//	builder.append(qianDaoIdList.get(i).getId()).append("签到").append(qianDaoIdList.get(i).getIsQd()).append("   ");
+			if (qianDaoIdList.get(i).getIsQd())
+			link_getAll_User(qianDaoIdList.get(i).getId());
+		}
+
+
+//		File logFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator +"qiandao.txt");
+//		// Make sure log file is exists
+//		if (!logFile.exists()) {
+//
+//			try {
+//				logFile.createNewFile();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//
+//			}
+//
+//		}
+//
+//		FileOutputStream outputStream;
+//
+//		try {
+//			outputStream = openFileOutput(logFile.getName(), Context.MODE_APPEND);
+//			outputStream.write(builder.toString().getBytes());
+//			outputStream.flush();
+//			outputStream.close();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+
 
 
 	}
@@ -1651,11 +1685,20 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 
 								//mSpeechSynthesizer.speak("欢迎" + dataBean.getPerson().getName() + "来学校接送" + dataBean.getPerson().getRemark());
 							//	MoShengRenBean bean = new MoShengRenBean(dataBean.getPerson().getId(), "sss");
-								Log.d("WebsocketPushMsg", "dataBean.isOpen_door():" + dataBean.isOpen_door());
-								if (dataBean.isOpen_door()) {
-									QianDaoId qianDaoId = new QianDaoId(dataBean.getPerson().getId(), dataBean.getPerson().getName());
-									if (qianDaoIdDao.load(dataBean.getPerson().getId()) == null) {
-										qianDaoIdDao.insert(qianDaoId);
+							//	Log.d("WebsocketPushMsg", "dataBean.isOpen_door():" + dataBean.isOpen_door());
+
+								Message message2 = Message.obtain();
+								message2.arg1 = 1;
+								message2.obj = dataBean.getPerson();
+								handler.sendMessage(message2);
+
+									//QianDaoId qianDaoId = new QianDaoId(dataBean.getPerson().getId(), dataBean.getPerson().getName());
+										QianDaoId qianDaoId=qianDaoIdDao.load(dataBean.getPerson().getId());
+										if (qianDaoId!=null){
+											link_getAll_User(dataBean.getPerson().getId());
+										}
+									if (qianDaoId!=null && !qianDaoId.getIsQd()) {
+
 										switch (dataBean.getPerson().getDepartment()) {
 											case "省公司领导":
 												benDiRenShuBean.setNShen((benDiRenShuBean.getNShen() - 1) < 0 ? 0 : (benDiRenShuBean.getNShen() - 1));
@@ -1686,15 +1729,10 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 
 												break;
 										}
+										qianDaoId.setIsQd(true);
+										qianDaoIdDao.update(qianDaoId);
 									}
-								}
-								Message message2 = Message.obtain();
-								message2.arg1 = 1;
-								message2.obj = dataBean.getPerson();
-								handler.sendMessage(message2);
-
 								//daoSession.insert(bean);
-
 								//Log.d(TAG, "111");
 
 							}catch (Exception e){
@@ -2185,7 +2223,7 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 	}
 
 
-	private void link_getAll_User(){
+	private void link_getAll_User(long id){
 
 		final MediaType JSON=MediaType.parse("application/json; charset=utf-8");
 
@@ -2204,7 +2242,7 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 				.header("Content-Type", "application/json")
 				//.post(requestBody)
 				.get()
-				.url(zhuji2+"/mobile-admin/subjects");
+				.url("http://ly.huifnet.com/subjectSign.do?conferenceId="+baoCunBean.getZhanghuid()+"&subjectId="+id);
 
 		// step 3：创建 Call 对象
 		Call call = okHttpClient.newCall(requestBuilder.build());
@@ -2225,39 +2263,39 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 					ResponseBody body = response.body();
 					String ss=body.string().trim();
 					Log.d("AllConnects", "aa   "+ss);
-
-					JsonObject jsonObject= GsonUtil.parse(ss).getAsJsonObject();
-					Gson gson=new Gson();
-					AllUserBean zhaoPianBean=gson.fromJson(jsonObject,AllUserBean.class);
-					if (lingdaoList.size()>0){
-						lingdaoList.clear();
-					}
-					int size=zhaoPianBean.getData().size();
-					for (int i=0;i<size;i++){
-						if (tanChuangBeanDao.load((long) zhaoPianBean.getData().get(i).getId())==null){
-							TanChuangBean bean=new TanChuangBean();
-							bean.setId((long) zhaoPianBean.getData().get(i).getId());
-							bean.setName(zhaoPianBean.getData().get(i).getName());
-							bean.setIsLight(false);
-							if (zhaoPianBean.getData().get(i).getAvatar()!=null && !zhaoPianBean.getData().get(i).getAvatar().equals("")){
-								bean.setTouxiang(zhaoPianBean.getData().get(i).getAvatar());
-							}else {
-								bean.setTouxiang(zhaoPianBean.getData().get(i).getPhotos().get(0).getUrl());
-							}
-							tanChuangBeanDao.insert(bean);
-						}
-					}
-
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							if (lingdaoList.size()>0){
-								lingdaoList.clear();
-							}
-							lingdaoList.addAll(tanChuangBeanDao.loadAll());
-							//adapter2.notifyDataSetChanged();
-						}
-					});
+//
+//					JsonObject jsonObject= GsonUtil.parse(ss).getAsJsonObject();
+//					Gson gson=new Gson();
+//					AllUserBean zhaoPianBean=gson.fromJson(jsonObject,AllUserBean.class);
+//					if (lingdaoList.size()>0){
+//						lingdaoList.clear();
+//					}
+//					int size=zhaoPianBean.getData().size();
+//					for (int i=0;i<size;i++){
+//						if (tanChuangBeanDao.load((long) zhaoPianBean.getData().get(i).getId())==null){
+//							TanChuangBean bean=new TanChuangBean();
+//							bean.setId((long) zhaoPianBean.getData().get(i).getId());
+//							bean.setName(zhaoPianBean.getData().get(i).getName());
+//							bean.setIsLight(false);
+//							if (zhaoPianBean.getData().get(i).getAvatar()!=null && !zhaoPianBean.getData().get(i).getAvatar().equals("")){
+//								bean.setTouxiang(zhaoPianBean.getData().get(i).getAvatar());
+//							}else {
+//								bean.setTouxiang(zhaoPianBean.getData().get(i).getPhotos().get(0).getUrl());
+//							}
+//							tanChuangBeanDao.insert(bean);
+//						}
+//					}
+//
+//					runOnUiThread(new Runnable() {
+//						@Override
+//						public void run() {
+//							if (lingdaoList.size()>0){
+//								lingdaoList.clear();
+//							}
+//							lingdaoList.addAll(tanChuangBeanDao.loadAll());
+//							//adapter2.notifyDataSetChanged();
+//						}
+//					});
 
 
 				}catch (Exception e){
@@ -2290,11 +2328,10 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 				//.post(requestBody)
 				.get()
 				//.post(body)
-				.url("http://ly.huifnet.com/subjectDeptCount.do?accountId=10000040&id="+baoCunBean.getZhanghuid());
+				.url("http://ly.huifnet.com/subjectDeptCount.do?accountId=10000038&id="+baoCunBean.getZhanghuid());
 
 		// step 3：创建 Call 对象
 		Call call = okHttpClient.newCall(requestBuilder.build());
-
 		//step 4: 开始异步请求
 		call.enqueue(new Callback() {
 			@Override
@@ -2315,26 +2352,35 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 					JsonArray jsonObject= GsonUtil.parse(ss).getAsJsonArray();
 					Gson gson=new Gson();
 					int N=0;
-					for (int s=0;s<jsonObject.size();s++){
-						 RenShu renShu=gson.fromJson(jsonObject.get(s),RenShu.class);
-						 if (renShu.getDept().equals("省公司领导")){
-							benDiRenShuBean.setNShen((renShu.getCount()-benDiRenShuBean.getYShen())<0 ? 0 : (renShu.getCount()-benDiRenShuBean.getYShen()));
-							benDiRenShuBeanDao.update(benDiRenShuBean);
-						}
-						if (renShu.getDept().equals("市公司领导")){
-							benDiRenShuBean.setNShi((renShu.getCount()-benDiRenShuBean.getYShi())<0?0:(renShu.getCount()-benDiRenShuBean.getYShi()));
-							benDiRenShuBeanDao.update(benDiRenShuBean);
-						}
-						if (renShu.getDept().equals("特邀嘉宾")){
-							benDiRenShuBean.setNTeyao((renShu.getCount()-benDiRenShuBean.getYTeyao())<0?0:(renShu.getCount()-benDiRenShuBean.getYTeyao()));
-							benDiRenShuBeanDao.update(benDiRenShuBean);
-						}
-						N+=renShu.getCount();
+					RenShu renShu=gson.fromJson(jsonObject.get(0),RenShu.class);
 
-					}
+//						 if (renShu.getDept().equals("省公司领导")){
+//							benDiRenShuBean.setNShen((renShu.getCount()-benDiRenShuBean.getYShen())<0 ? 0 : (renShu.getCount()-benDiRenShuBean.getYShen()));
+//							benDiRenShuBeanDao.update(benDiRenShuBean);
+//						}
+//						if (renShu.getDept().equals("市公司领导")){
+//							benDiRenShuBean.setNShi((renShu.getCount()-benDiRenShuBean.getYShi())<0?0:(renShu.getCount()-benDiRenShuBean.getYShi()));
+//							benDiRenShuBeanDao.update(benDiRenShuBean);
+//						}
+//						if (renShu.getDept().equals("特邀嘉宾")){
+//							benDiRenShuBean.setNTeyao((renShu.getCount()-benDiRenShuBean.getYTeyao())<0?0:(renShu.getCount()-benDiRenShuBean.getYTeyao()));
+//							benDiRenShuBeanDao.update(benDiRenShuBean);
+//						}
+					N=renShu.getCount();
 					//Log.d("YiDongNianHuiActivity", "N:" + N);
 					benDiRenShuBean.setN1((N-benDiRenShuBean.getY1())<0?0:(N-benDiRenShuBean.getY1()));
 					benDiRenShuBeanDao.update(benDiRenShuBean);
+					String ids[]=renShu.getSubjectIds().split(",");
+					//int size=ids.length;
+					//Log.d("YiDongNianHuiActivity", "size:" + size);
+					for (String id : ids) {
+
+						QianDaoId qianDaoId = new QianDaoId(Long.valueOf(id), "dd", false);
+						if (qianDaoIdDao.load(qianDaoId.getId()) == null) {
+							qianDaoIdDao.insert(qianDaoId);
+						}
+
+					}
 
 					runOnUiThread(new Runnable() {
 						@Override
@@ -2352,7 +2398,6 @@ public class YiDongNianHuiActivity extends Activity implements RecytviewCash {
 							y2.setText(benDiRenShuBean.getYShen()+"");
 							y3.setText(benDiRenShuBean.getYShi()+"");
 							y4.setText(benDiRenShuBean.getYTeyao()+"");
-
 
 							String str2 = String.format("%04d", benDiRenShuBean.getN1());
 							char s2[]=str2.toCharArray();
