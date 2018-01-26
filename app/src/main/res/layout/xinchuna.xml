@@ -1,79 +1,44 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/video_root"
-    android:background="@drawable/dianjin2"
+    android:background="@drawable/xinchun_bg2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/t1"
-                android:textColor="@color/write"
-                android:textSize="50sp"
-                android:shadowColor="@color/hegong"
-                android:shadowDx="4"
-                android:shadowDy="4"
-                android:shadowRadius="4"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="50dp"
+                android:textColor="#c2181f"
+                android:textSize="70sp"
+                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
 
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <View
-            android:layout_weight="0.2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"/>
-
-        <LinearLayout
-            android:layout_weight="2"
-            android:orientation="vertical"
-            android:gravity="right"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
 
             <TextView
                 android:id="@+id/t2"
                 android:textColor="@color/write"
-                android:textSize="100sp"
-                android:layout_marginRight="30dp"
+                android:textSize="20sp"
+                android:layout_marginRight="20dp"
                 android:shadowColor="@color/hegong"
                 android:shadowDx="4"
                 android:shadowDy="4"
+                android:layout_alignParentRight="true"
                 android:shadowRadius="4"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="16dp"
+                android:layout_alignParentBottom="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/t3"
-                android:textColor="@color/write"
-                android:textSize="80sp"
-                android:layout_marginRight="30dp"
-                android:shadowColor="@color/hegong"
-                android:shadowDx="4"
-                android:shadowDy="4"
-                android:shadowRadius="4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-        </LinearLayout>
-
-        
-    </LinearLayout>
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyclerView2"
+        android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView2"
+        android:id="@+id/recyclerView"
+        android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

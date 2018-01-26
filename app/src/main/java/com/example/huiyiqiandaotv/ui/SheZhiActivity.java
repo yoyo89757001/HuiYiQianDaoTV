@@ -19,6 +19,7 @@ import com.example.huiyiqiandaotv.R;
 import com.example.huiyiqiandaotv.beans.BaoCunBean;
 import com.example.huiyiqiandaotv.beans.BaoCunBeanDao;
 import com.example.huiyiqiandaotv.dialog.MoBanDialog;
+import com.example.huiyiqiandaotv.dialog.XiuGaiWenZiDialog;
 import com.example.huiyiqiandaotv.dialog.XiuGaiXinXiDialog;
 import com.example.huiyiqiandaotv.dialog.YuLanDialog;
 import com.example.huiyiqiandaotv.dialog.YuYingDialog;
@@ -90,8 +91,11 @@ public class SheZhiActivity extends Activity implements View.OnClickListener, Vi
         bt7= (Button) findViewById(R.id.bt7);
         bt7.setOnClickListener(this);
         bt7.setOnFocusChangeListener(this);
-
+        bt8= (Button) findViewById(R.id.bt8);
+        bt8.setOnClickListener(this);
+        bt8.setOnFocusChangeListener(this);
         bt1.requestFocus();
+
         sheZhiBeanList = new ArrayList<>();
         sheZhiBeanList.add(bt1);
         sheZhiBeanList.add(bt2);
@@ -399,6 +403,52 @@ public class SheZhiActivity extends Activity implements View.OnClickListener, Vi
                 bt7.setEnabled(false);
 
                 break;
+
+            case R.id.bt8:
+                ChongsZHI();
+                bt8.requestFocus();
+                bt8.setTextColor(Color.WHITE);
+                bt8.setBackgroundResource(R.drawable.zidonghuoqu1);
+                AnimatorSet animatorSet8 = new AnimatorSet();
+                animatorSet8.playTogether(
+                        //	ObjectAnimator.ofFloat(manager.getChildAt(1),"translationY",-1000,0),
+                        ObjectAnimator.ofFloat(bt8,"scaleX",1.0f,1.2f,1.0f),
+                        ObjectAnimator.ofFloat(bt8,"scaleY",1.0f,1.2f,1.0f)
+                );
+                //animatorSet.setInterpolator(new DescelerateInterpolator());
+                animatorSet8.setDuration(300);
+                animatorSet8.addListener(new AnimatorListenerAdapter(){
+                    @Override public void onAnimationEnd(Animator animation) {
+                        //弹窗
+                        final XiuGaiWenZiDialog dialog=new XiuGaiWenZiDialog(SheZhiActivity.this);
+                        dialog.setContents(baoCunBean.getWenzi()+"",baoCunBean.getSize()==0? "30":String.valueOf(baoCunBean.getSize()));
+                        dialog.setOnQueRenListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                baoCunBean.setWenzi(dialog.getContents());
+                                baoCunBean.setSize(Integer.valueOf(dialog.getSize()));
+                                baoCunBeanDao.update(baoCunBean);
+                                baoCunBean=baoCunBeanDao.load(123456L);
+                                dialog.dismiss();
+
+                            }
+                        });
+                        dialog.setQuXiaoListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.show();
+
+                        bt8.setEnabled(true);
+                    }
+                });
+                animatorSet8.start();
+                bt8.setEnabled(false);
+
+                break;
         }
 
     }
@@ -569,6 +619,28 @@ public class SheZhiActivity extends Activity implements View.OnClickListener, Vi
                     animatorSet6.start();
                 }
               //  Log.d("SheZhiActivity", "hasFocus7:" + hasFocus);
+                break;
+            case R.id.bt8:
+                if (hasFocus){
+                    ChongsZHI();
+                    bt8.setTextColor(Color.WHITE);
+                    bt8.setBackgroundResource(R.drawable.zidonghuoqu1);
+                    AnimatorSet animatorSet6 = new AnimatorSet();
+                    animatorSet6.playTogether(
+                            //	ObjectAnimator.ofFloat(manager.getChildAt(1),"translationY",-1000,0),
+                            ObjectAnimator.ofFloat(bt8,"scaleX",1.0f,1.2f,1.0f),
+                            ObjectAnimator.ofFloat(bt8,"scaleY",1.0f,1.2f,1.0f)
+                    );
+                    //animatorSet.setInterpolator(new DescelerateInterpolator());
+                    animatorSet6.setDuration(300);
+                    animatorSet6.addListener(new AnimatorListenerAdapter(){
+                        @Override public void onAnimationEnd(Animator animation) {
+
+                        }
+                    });
+                    animatorSet6.start();
+                }
+                //  Log.d("SheZhiActivity", "hasFocus7:" + hasFocus);
                 break;
         }
     }
