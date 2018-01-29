@@ -104,7 +104,7 @@ public class SheZhiActivity extends Activity implements View.OnClickListener, Vi
         sheZhiBeanList.add(bt5);
         sheZhiBeanList.add(bt6);
         sheZhiBeanList.add(bt7);
-
+        sheZhiBeanList.add(bt8);
 
 
 }
@@ -115,20 +115,23 @@ public class SheZhiActivity extends Activity implements View.OnClickListener, Vi
         //  Log.d("SheZhiActivity", "baoCunBean.getMoban():" + baoCunBean.getMoban());
         switch (baoCunBean.getMoban()){
             case 1:
-                startActivity(new Intent(SheZhiActivity.this,YiDongNianHuiActivity.class));
-                SystemClock.sleep(1600);
-                break;
-            case 2:
+//                startActivity(new Intent(SheZhiActivity.this,YiDongNianHuiActivity.class));
+//                SystemClock.sleep(1600);
+
                 startActivity(new Intent(SheZhiActivity.this,DaLingDaoYanShiActivity.class));
                 SystemClock.sleep(1600);
                 break;
-            case 3:
+
+            case 2:
                 startActivity(new Intent(SheZhiActivity.this,DaLingDaoYanShiActivity2.class));
                 SystemClock.sleep(1600);
                 break;
-            case 4:
+            case 3:
                 startActivity(new Intent(SheZhiActivity.this,XinChunActivity.class));
                 SystemClock.sleep(1600);
+                break;
+            case 4:
+
 
                 break;
 

@@ -48,6 +48,7 @@
                 android:id="@+id/bt4"
                 android:layout_width="150dp"
                 android:layout_height="56dp"
+                android:visibility="gone"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/zidonghuoqu2"
                 android:text="设置会议id"
@@ -57,7 +58,6 @@
             <Button
                 android:id="@+id/bt5"
                 android:textSize="16sp"
-                android:visibility="gone"
                 android:layout_marginTop="20dp"
                 android:text="设置陌生人是否显示"
                 android:textColor="@color/lanse33"

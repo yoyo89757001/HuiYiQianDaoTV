@@ -31,6 +31,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -260,7 +261,49 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 					bean.setGonghao(dataBean.getJob_number()==null ? "":dataBean.getJob_number());
 					bean.setTouxiang(dataBean.getAvatar());
 					if (!(dataBean.getDepartment()!=null && dataBean.getDepartment().equals("黑名单"))) {
-						if (dataBean.getRemark() != null && dataBean.getRemark().equals("员工")) {
+						if (dataBean.getSubject_type()==1 || dataBean.getSubject_type()==2){
+							int a = 0;
+							for (int i2 = 0; i2 < lingdaoList.size(); i2++) {
+								if (Objects.equals(lingdaoList.get(i2).getId(), bean.getId())) {
+									a = 1;
+								}
+							}
+							if (a == 0) {
+								lingdaoList.add(bean);
+								//	lingdaoList.add(bean);
+								int i1 = lingdaoList.size();
+								//	int i2 = lingdaoList.size();
+								adapter3.notifyItemInserted(i1);
+								manager3.scrollToPosition(i1 - 1);
+
+								//	adapter2.notifyItemInserted(i2);
+								//	manager2.scrollToPosition(i2 - 1);
+
+								new Thread(new Runnable() {
+									@Override
+									public void run() {
+
+										try {
+											SystemClock.sleep(8000);
+
+											Message message = Message.obtain();
+											message.what = 19;
+											handler.sendMessage(message);
+
+
+										} catch (Exception e) {
+											e.printStackTrace();
+										}
+
+
+									}
+								}).start();
+
+
+							}
+
+						}else {
+						if (dataBean.getRemark() == null || dataBean.getRemark().equals("")|| dataBean.getRemark().equals("员工")) {
 							//VIP
 							int a = 0;
 							for (int i2 = 0; i2 < yuangongList.size(); i2++) {
@@ -391,59 +434,9 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 									}
 								}).start();
 
-//						case 1: //普通访客
-//							yuangongList.add(bean);
-//							int i2=yuangongList.size();
-//							adapter.notifyItemInserted(i2);
-//							manager.scrollToPosition(i2-1);
-//							new Thread(new Runnable() {
-//								@Override
-//								public void run() {
-//
-//									try {
-//										Thread.sleep(10000);
-//
-//										Message message=Message.obtain();
-//										message.what=999;
-//										handler.sendMessage(message);
-//
-//									} catch (InterruptedException e) {
-//										e.printStackTrace();
-//									}
-//
-//
-//								}
-//							}).start();
-//
-//							break;
-//						case 2:  //VIP访客
-//							yuangongList.add(bean);
-//							int i3=yuangongList.size();
-//							adapter.notifyItemInserted(i3);
-//							manager.scrollToPosition(i3-1);
-//
-//							new Thread(new Runnable() {
-//								@Override
-//								public void run() {
-//
-//									try {
-//										Thread.sleep(10000);
-//										Message message=Message.obtain();
-//										message.what=999;
-//										handler.sendMessage(message);
-//
-//									} catch (InterruptedException e) {
-//										e.printStackTrace();
-//									}
-//
-//
-//								}
-//							}).start();
-//
-//
-//							break;
 
 							}
+						}
 
 						}
 					}
@@ -739,7 +732,7 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 
 
 		RelativeLayout.LayoutParams  params3= (RelativeLayout.LayoutParams) recyclerView3.getLayoutParams();
-		params3.height=dh/2;
+		params3.height=(dh*2)/3;
 		recyclerView3.setLayoutParams(params3);
 		recyclerView3.invalidate();
 
@@ -833,8 +826,10 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 						//toprl.setBackgroundResource(R.drawable.yg_bg);
 						//	name.setTypeface(typeFace1);
 						helper.zhuangtai.setTypeface(typeFace1);
+						helper.zhuangtai2.setTypeface(typeFace1);
 						//	name.setText("欢迎 "+item.getName()+" 领导");
 						helper.zhuangtai.setText(datas.get(position).getName());
+
 						//rl.setBackgroundResource(R.drawable.shuzi_bg2);
 						//synthesizer.speak("欢迎"+item.getName()+"领导，莅临指导");
 						//mSpeechSynthesizer.speak("欢迎"+item.getName()+"祝你出入平安.");
@@ -855,9 +850,11 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 						//toprl.setBackgroundResource(R.drawable.zidonghuoqu15);
 
 						//name.setTypeface(typeFace1);
+						helper.zhuangtai2.setTypeface(typeFace1);
 						helper.zhuangtai.setTypeface(typeFace1);
 						//name.setText(item.getName());
-						helper.zhuangtai.setText("识别成功");
+						helper.zhuangtai.setText(datas.get(position).getName());
+						//helper.zhuangtai.setText("识别成功");
 
 						//richeng.setText("");
 						//name.setText(item.getName());
@@ -865,9 +862,11 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 						break;
 					case 2:
 						//	name.setTypeface(typeFace1);
+						helper.zhuangtai2.setTypeface(typeFace1);
 						helper.zhuangtai.setTypeface(typeFace1);
+						helper.zhuangtai.setText(datas.get(position).getName());
 						//name.setText(item.getName());
-						helper.zhuangtai.setText("识别成功");
+						//helper.zhuangtai.setText("识别成功");
 						//VIP访客
 						//	toprl.setBackgroundResource(R.drawable.ms_bg);
 						//	richeng.setText("");
@@ -878,7 +877,7 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 				if (datas.get(position).getTouxiang()!=null){
 					Glide.with(MyApplication.getAppContext())
 							.load(zhuji2+datas.get(position).getTouxiang())
-							//	.load("http://121.46.3.20/"+item.getTouxiang())
+						//	.load(zhuji+datas.get(position).getTouxiang())
 							//.apply(myOptions2)
 							.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
 							//	.transform(new GlideRoundTransform(MyApplication.getAppContext(), 6))
@@ -938,7 +937,7 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 			RelativeLayout.LayoutParams lp2 = (RelativeLayout.LayoutParams) helper.imageView.getLayoutParams();
 			//弹窗的高宽
 			lp2.width=dw/10;
-			lp2.topMargin=dh/5;
+			lp2.topMargin=dh/6;
 			lp2.height=dw/10;
 			helper.imageView.setLayoutParams(lp2);
 			helper.imageView.invalidate();
@@ -1072,7 +1071,7 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 		//自定义的ViewHolder，持有每个Item的的所有界面元素
 		class ViewHolder extends RecyclerView.ViewHolder {
 			 ImageView imageView,left_im,right_im,booton_im;
-			 TextView zhuangtai;
+			 TextView zhuangtai,zhuangtai2;
 			RelativeLayout rl;
 
 			private ViewHolder(View view){
@@ -1083,6 +1082,7 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 				right_im= (ImageView) view.findViewById(R.id.right_im);
 				booton_im= (ImageView) view.findViewById(R.id.bootn_im);
 				zhuangtai= (TextView) view.findViewById(R.id.zhuangtai33);
+				zhuangtai2= (TextView) view.findViewById(R.id.zhuangtai55);
 				rl= (RelativeLayout) view.findViewById(R.id.ffflll);
 			}
 		}
@@ -1357,7 +1357,7 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 
 					if (item.getTouxiang()!=null){
 						Glide.with(MyApplication.getAppContext())
-								//	.load(R.drawable.vvv)
+							//	.load(zhuji+item.getTouxiang())
 								.load("http://121.46.3.20"+item.getTouxiang())
 								//.apply(myOptions)
 								.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
@@ -1452,11 +1452,17 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 //					.duration(1000)
 //					.start();
 
-			RelativeLayout toprl= helper.getView(R.id.ffflll);
-			TextView t3=helper.getView(R.id.test3);
+			RelativeLayout toprl = helper.getView(R.id.ffflll);
+			LinearLayout linearLayout=helper.getView(R.id.zi_ll);
+			TextView t3 = helper.getView(R.id.test3);
 			t3.setTypeface(typeFace1);
+			TextView t4 = helper.getView(R.id.test4);
+			t4.setTypeface(typeFace1);
+			ImageView imageView = helper.getView(R.id.touxiang);
+			final ImageView left_im = helper.getView(R.id.left_im);
+			final ImageView right_im = helper.getView(R.id.right_im);
+			final ImageView booton_im = helper.getView(R.id.bootn_im);
 
-			ImageView imageView=helper.getView(R.id.touxiang);
 
 			//tt.setText(item.getName());
 //			if (helper.getAdapterPosition()==0 ){
@@ -1464,94 +1470,192 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 //				imageView.setImageBitmap(null);
 //				t2.setText("");
 //			}else {
-				switch (item.getType()) {
-					case -1:
-						//陌生人
-						//	toprl.setBackgroundResource(R.drawable.tanchuang);
+			switch (item.getType()) {
+				case -1:
+					//陌生人
+					//	toprl.setBackgroundResource(R.drawable.tanchuang);
 
-						break;
-					case 0:
-						//员工
+					break;
+				case 0:
+					//员工
 
-						t3.setText("欢迎"+item.getName()+"莅临指导");
-						synthesizer.speak("欢迎"+item.getName()+",莅临指导");
+					t3.setText("欢迎" + item.getName() + "领导");
+					synthesizer.speak("欢迎" + item.getName() + ",领导");
 
-						break;
+					break;
 
-					case 1:
-						//访客
+				case 1:
+					//访客
+					t3.setText("欢迎" + item.getName() + "领导");
+					synthesizer.speak("欢迎" + item.getName() + ",领导");
 
-						break;
-					case 2:
-						//VIP访客
+					break;
+				case 2:
+					//VIP访客
+					t3.setText("欢迎" + item.getName() + "领导");
+					synthesizer.speak("欢迎" + item.getName() + ",领导");
 
-						break;
+					break;
 
-				}
-
-
-	//		}
-
-
-				if (item.getTouxiang()!=null){
-					Glide.with(MyApplication.getAppContext())
-							//	.load(R.drawable.vvv)
-							.load("http://121.46.3.20"+item.getTouxiang())
-							//.apply(myOptions)
-							//.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
-							//	.bitmapTransform(new BrightnessFilterTransformation(YiZhongYanShiActivity.this,-0.7f))
-							//.bitmapTransform(new GrayscaleTransformation(VlcVideoActivity.this))
-							.into(imageView);
-				}else {
-					Glide.with(MyApplication.getAppContext())
-							.load(R.drawable.zidonghuoqu1)
-							//.load("http://121.46.3.20"+item.getTouxiang())
-							//.apply(myOptions)
-							.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
-							//	.bitmapTransform(new GrayscaleTransformation(VlcVideoActivity.this))
-							.into(imageView);
-				}
+			}
 
 
-			RelativeLayout.LayoutParams  ll= (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-			ll.leftMargin=(dw/13);
-			ll.width=(dw/6);
-			ll.height=(dw/6);
+			//		}
+
+
+			if (item.getTouxiang() != null) {
+				Glide.with(MyApplication.getAppContext())
+						//	.load(R.drawable.vvv)
+						.load(zhuji+item.getTouxiang())
+					//	.load("http://121.46.3.20" + item.getTouxiang())
+						//.apply(myOptions)
+						.transform(new GlideCircleTransform(MyApplication.getAppContext(),0,Color.parseColor("#ffffffff")))
+						//	.bitmapTransform(new BrightnessFilterTransformation(YiZhongYanShiActivity.this,-0.7f))
+						//.bitmapTransform(new GrayscaleTransformation(VlcVideoActivity.this))
+						.into(imageView);
+			} else {
+				Glide.with(MyApplication.getAppContext())
+						//.load(R.drawable.zidonghuoqu1)
+						.load("http://121.46.3.20"+item.getTouxiang())
+						//.apply(myOptions)
+						.transform(new GlideCircleTransform(MyApplication.getAppContext(), 2, Color.parseColor("#ffffffff")))
+						//	.bitmapTransform(new GrayscaleTransformation(VlcVideoActivity.this))
+						.into(imageView);
+			}
+
+
+			RelativeLayout.LayoutParams ll = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+			ll.leftMargin = (dw / 7);
+			ll.topMargin = (dw / 14);
+			ll.width = (dw / 6);
+			ll.height = (dw / 6);
 			imageView.setLayoutParams(ll);
 			imageView.invalidate();
 
-			RecyclerView.LayoutParams  ll2= (RecyclerView.LayoutParams) toprl.getLayoutParams();
-			ll2.height=dh/2;
+			//字
+			RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) linearLayout.getLayoutParams();
+			layoutParams.leftMargin = (dw / 16);
+			layoutParams.topMargin = (dw / 12);
+			linearLayout.setLayoutParams(layoutParams);
+			linearLayout.invalidate();
+
+			RecyclerView.LayoutParams ll2 = (RecyclerView.LayoutParams) toprl.getLayoutParams();
+			ll2.height = (dh * 2) / 3;
 			toprl.setLayoutParams(ll2);
 			toprl.invalidate();
+
+			RelativeLayout.LayoutParams lp4 = (RelativeLayout.LayoutParams) left_im.getLayoutParams();
+			//左边图片
+			lp4.leftMargin = -(dw / 5);
+			lp4.width = dw / 5;
+			lp4.height = dw / 6;
+			left_im.setLayoutParams(lp4);
+			left_im.invalidate();
+
+			RelativeLayout.LayoutParams lp5 = (RelativeLayout.LayoutParams) right_im.getLayoutParams();
+			//右边图片
+			lp5.rightMargin = -(dw / 5);
+			lp5.width = dw / 5;
+			lp5.height = dh / 3;
+			right_im.setLayoutParams(lp5);
+			right_im.invalidate();
+
+			RelativeLayout.LayoutParams lp6 = (RelativeLayout.LayoutParams) booton_im.getLayoutParams();
+			//下面图片
+			lp6.bottomMargin = -(dw / 6);
+			lp6.height = dw / 6;
+			booton_im.setLayoutParams(lp6);
+			booton_im.invalidate();
 
 			SpringSystem springSystem = SpringSystem.create();
 			final Spring spring = springSystem.createSpring();
 			//两个参数分别是弹力系数和阻力系数
-			spring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(86, 6));
+			spring.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(100, 3));
 			// 添加弹簧监听器
 			spring.addListener(new SimpleSpringListener() {
-
 				@Override
 				public void onSpringUpdate(Spring spring) {
 					// value是一个符合弹力变化的一个数，我们根据value可以做出弹簧动画
 					float value = (float) spring.getCurrentValue();
-					//Log.d(TAG, "value:" + value);
+					left_im.setTranslationX(value);
+					//	Log.d(TAG, "value:" + value);
+					// float scale = value;
 					//基于Y轴的弹簧阻尼动画
-				//	helper.itemView.setTranslationY(value);
-
+					//	Log.d(TAG, "value:" + value);
 					// 对图片的伸缩动画
 					//float scale = 1f - (value * 0.5f);
-					helper.itemView.setScaleX(value);
-					helper.itemView.setScaleY(value);
+					//	helper.zhuangtai.setScaleX(value);
+					//zhuangtai.setScaleY(value);
 				}
 
+				@Override
+				public void onSpringEndStateChange(Spring spring) {
+					super.onSpringEndStateChange(spring);
+				}
 			});
 			// 设置动画结束值
-			spring.setEndValue(1f);
+			spring.setEndValue(dw / 5);
 
+			//右边图片
+			SpringSystem springSystem2 = SpringSystem.create();
+			final Spring spring2 = springSystem2.createSpring();
+			//两个参数分别是弹力系数和阻力系数
+			spring2.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(100, 3));
+			// 添加弹簧监听器
+			spring2.addListener(new SimpleSpringListener() {
+				@Override
+				public void onSpringUpdate(Spring spring) {
+					// value是一个符合弹力变化的一个数，我们根据value可以做出弹簧动画
+					float value = (float) spring.getCurrentValue();
+					right_im.setTranslationX(-value);
+					//	Log.d(TAG, "value:" + value);
+					// float scale = value;
+					//基于Y轴的弹簧阻尼动画
+					//	Log.d(TAG, "value:" + value);
+					// 对图片的伸缩动画
+					//float scale = 1f - (value * 0.5f);
+					//	helper.zhuangtai.setScaleX(value);
+					//zhuangtai.setScaleY(value);
+				}
+
+				@Override
+				public void onSpringEndStateChange(Spring spring) {
+					super.onSpringEndStateChange(spring);
+				}
+			});
+			// 设置动画结束值
+			spring2.setEndValue(dw / 5);
+
+			//下面图片
+			SpringSystem springSystem3 = SpringSystem.create();
+			final Spring spring3 = springSystem3.createSpring();
+			//两个参数分别是弹力系数和阻力系数
+			spring3.setSpringConfig(SpringConfig.fromOrigamiTensionAndFriction(100, 3));
+			// 添加弹簧监听器
+			spring3.addListener(new SimpleSpringListener() {
+				@Override
+				public void onSpringUpdate(Spring spring) {
+					// value是一个符合弹力变化的一个数，我们根据value可以做出弹簧动画
+					float value = (float) spring.getCurrentValue();
+					booton_im.setTranslationY(-value);
+					//	Log.d(TAG, "value:" + value);
+					// float scale = value;
+					//基于Y轴的弹簧阻尼动画
+					//	Log.d(TAG, "value:" + value);
+					// 对图片的伸缩动画
+					//float scale = 1f - (value * 0.5f);
+					//	helper.zhuangtai.setScaleX(value);
+					//zhuangtai.setScaleY(value);
+				}
+
+				@Override
+				public void onSpringEndStateChange(Spring spring) {
+					super.onSpringEndStateChange(spring);
+				}
+			});
+			// 设置动画结束值
+			spring3.setEndValue(dw / 6);
 		}
-
 
 	}
 
@@ -2053,7 +2157,7 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 					WBBean wbBean= gson.fromJson(jsonObject, WBBean.class);
 
 					if (wbBean.getType().equals("recognized")) { //识别
-						Log.d("WebsocketPushMsg", "识别出了");
+						//Log.d("WebsocketPushMsg", "识别出了");
 
 						final ShiBieBean dataBean = gson.fromJson(jsonObject, ShiBieBean.class);
 
@@ -2091,6 +2195,7 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 					}
              else if (wbBean.getType().equals("unrecognized")) {
 						//Log.d("WebsocketPushMsg", "识别出了陌生人");
+						if (baoCunBean.getIsShowMoshengren()){
 
 						JsonObject jsonObject1 = jsonObject.get("data").getAsJsonObject();
 
@@ -2124,6 +2229,7 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 							}catch (Exception e){
 								Log.d("WebsocketPushMsg", e.getMessage());
 							}
+						}
 						}
 					}
 				}
@@ -2422,8 +2528,6 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 					moShengRenBean2.setBytes(b);
 				//	moShengRenBean2.setUrl("http://192.168.2.7:8080/sign?cmd=signScan&subjectId="+zhaoPianBean.getId());
 
-
-
 				}
 
 				}catch (Exception e){
@@ -2528,7 +2632,7 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 //API大于23时使用下面的方式进行网络监听
 			}else {
 
-				Log.d(TAG, "API23");
+			//	Log.d(TAG, "API23");
 				//获得ConnectivityManager对象
 				ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 

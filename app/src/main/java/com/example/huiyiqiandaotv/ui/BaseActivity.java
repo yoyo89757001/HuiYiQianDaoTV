@@ -3,7 +3,6 @@ package com.example.huiyiqiandaotv.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.example.huiyiqiandaotv.MyApplication;
 import com.example.huiyiqiandaotv.R;
 import com.example.huiyiqiandaotv.beans.BaoCunBean;
@@ -33,20 +32,21 @@ public class BaseActivity extends Activity {
         switch (baoCunBean.getMoban()){
 
             case 1:
-                startActivity(new Intent(BaseActivity.this,YiDongNianHuiActivity.class));
-                finish();
-                break;
-            case 2:
+//                startActivity(new Intent(BaseActivity.this,YiDongNianHuiActivity.class));
+//                finish();
                 startActivity(new Intent(BaseActivity.this,DaLingDaoYanShiActivity.class));
                 finish();
                 break;
-            case 3:
+            case 2:
                 startActivity(new Intent(BaseActivity.this,DaLingDaoYanShiActivity2.class));
                 finish();
                 break;
-            case 4:
+            case 3:
                 startActivity(new Intent(BaseActivity.this,XinChunActivity.class));
                 finish();
+                break;
+            case 4:
+
 
                 break;
 
