@@ -6,7 +6,7 @@ android {
         applicationId "com.example.huiyiqiandaotv"
         minSdkVersion 19
         targetSdkVersion 21
-        versionCode 17
+        versionCode 19
         versionName "1.1.8"
         ndk {
             abiFilters "armeabi", "armeabi-v7a"
@@ -23,7 +23,7 @@ android {
     }
 
     greendao {
-        schemaVersion 3
+        schemaVersion 4
         targetGenDir 'src/main/java'
     }
 }

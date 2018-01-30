@@ -839,7 +839,7 @@ public class DaLingDaoYanShiActivity extends Activity implements RecytviewCash {
 				if (item.getTouxiang()!=null){
 
 					Glide.with(MyApplication.getAppContext())
-							.load(zhuji2+item.getTouxiang())
+							.load(baoCunBean.getTouxiangzhuji()+item.getTouxiang())
 							//	.load("http://121.46.3.20/"+item.getTouxiang())
 							//.apply(myOptions2)
 							.transform(new GlideCircleTransform(MyApplication.getAppContext(),4,Color.parseColor("#B00005")))
@@ -1011,7 +1011,7 @@ public class DaLingDaoYanShiActivity extends Activity implements RecytviewCash {
 					if (item.getTouxiang()!=null){
 						Glide.with(MyApplication.getAppContext())
 								//	.load(R.drawable.vvv)
-								.load("http://121.46.3.20"+item.getTouxiang())
+								.load(baoCunBean.getTouxiangzhuji()+item.getTouxiang())
 								//.apply(myOptions)
 								.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
 							//	.bitmapTransform(new BrightnessFilterTransformation(YiZhongYanShiActivity.this,-0.7f))

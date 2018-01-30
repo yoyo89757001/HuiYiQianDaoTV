@@ -1,10 +1,5 @@
 package com.example.huiyiqiandaotv.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,14 +23,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
-import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.badlogic.gdx.backends.android.AndroidFragmentApplication;
+import com.badoo.mobile.util.WeakHandler;
 import com.baidu.tts.client.SpeechSynthesizer;
 import com.baidu.tts.client.SpeechSynthesizerListener;
 import com.baidu.tts.client.TtsMode;
@@ -57,6 +54,7 @@ import com.example.huiyiqiandaotv.beans.TuPianBean;
 import com.example.huiyiqiandaotv.beans.User;
 import com.example.huiyiqiandaotv.beans.WBBean;
 import com.example.huiyiqiandaotv.beans.WeiShiBieBean;
+import com.example.huiyiqiandaotv.box2d.Box2DFragment;
 import com.example.huiyiqiandaotv.interfaces.RecytviewCash;
 import com.example.huiyiqiandaotv.service.AlarmReceiver;
 import com.example.huiyiqiandaotv.tts.control.InitConfig;
@@ -107,7 +105,7 @@ import okhttp3.ResponseBody;
 import sun.misc.BASE64Decoder;
 
 
-public class XinChunActivity extends Activity implements RecytviewCash {
+public class XinChunActivity extends FragmentActivity implements AndroidFragmentApplication.Callbacks,RecytviewCash {
 	private final static String TAG = "WebsocketPushMsg";
 //	private IjkVideoView ijkVideoView;
 	private MyReceiver myReceiver=null;
@@ -157,7 +155,14 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 	private String offlineVoice = OfflineResource.VOICE_FEMALE;
 	// 主控制类，所有合成控制方法从这个类开始
 	private MySyntherizer synthesizer;
-	//private WeakHandler weakHandler;
+	//box2d
+	private Box2DFragment m_box2dFgm;
+	private WeakHandler m_weakHandler = new WeakHandler();
+
+	private boolean m_bCrazyMode = false;
+	private int m_giftIndex = 1;
+	private int m_giftCounter = 0;
+	public FrameLayout m_container;
 
 
 	public  Handler handler=new Handler(new Handler.Callback() {
@@ -580,6 +585,14 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 		t1= (TextView) findViewById(R.id.t1);
 		t2= (TextView) findViewById(R.id.t2);
 
+		m_container = (FrameLayout) findViewById(R.id.lyt_container);
+		m_box2dFgm = new Box2DFragment();
+		getSupportFragmentManager().beginTransaction().add(R.id.lyt_container, m_box2dFgm).commit();
+		showBox2dFgmFullScreen();
+
+
+
+
 		typeFace1 = Typeface.createFromAsset(getAssets(), "fonts/xk.TTF");
 		t1.setTypeface(typeFace1);
 		if (baoCunBean.getWenzi()!=null)
@@ -744,10 +757,56 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 
 				SystemClock.sleep(10000);
 				sendBroadcast(new Intent(XinChunActivity.this,AlarmReceiver.class));
+				m_weakHandler.postDelayed(m_runnableSendStar, 50);
 			}
 		}).start();
 
 	}
+
+	private void showBox2dFgmFullScreen(){
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)m_container.getLayoutParams();
+		params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+		params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+		m_container.setLayoutParams(params);
+	}
+	private boolean m_testleft = false;
+	private Runnable m_runnableCrazyMode = new Runnable() {
+		@Override
+		public void run() {
+
+			m_box2dFgm.addGift(15);
+			m_testleft = !m_testleft;
+			m_weakHandler.postDelayed(m_runnableCrazyMode, 50);
+		}
+	};
+
+	private boolean m_testleft1 = false;
+	private int counter = 0;
+	private Runnable m_runnableSendGift = new Runnable() {
+		@Override
+		public void run() {
+			if (counter == m_giftCounter)
+			{
+				counter = 0;
+				return;
+			}
+			counter++;
+			m_box2dFgm.addGift(m_giftIndex);
+			m_testleft1 = !m_testleft1;
+			m_weakHandler.postDelayed(m_runnableSendGift, 50);
+		}
+	};
+
+	private boolean m_testleft2 = false;
+	private Runnable m_runnableSendStar = new Runnable() {
+		@Override
+		public void run() {
+			counter++;
+			m_box2dFgm.addStar(m_testleft2, true);
+			m_testleft2 = !m_testleft2;
+			m_weakHandler.postDelayed(m_runnableSendStar, 20);
+		}
+	};
 
 	protected void initialTts() {
 		// 设置初始化参数
@@ -778,6 +837,11 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 		// MIX_MODE_HIGH_SPEED_NETWORK ， 3G 4G wifi状态下使用在线，其它状态离线。在线状态下，请求超时1.2s自动转离线
 		// MIX_MODE_HIGH_SPEED_SYNTHESIZE, 2G 3G 4G wifi状态下使用在线，其它状态离线。在线状态下，请求超时1.2s自动转离线
 		return params;
+	}
+
+	@Override
+	public void exit() {
+
 	}
 
 	private class YuanGongAdapter extends RecyclerView.Adapter<YuanGongAdapter.ViewHolder> {
@@ -876,8 +940,7 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 				}
 				if (datas.get(position).getTouxiang()!=null){
 					Glide.with(MyApplication.getAppContext())
-							.load(zhuji2+datas.get(position).getTouxiang())
-						//	.load(zhuji+datas.get(position).getTouxiang())
+							.load(baoCunBean.getTouxiangzhuji()+datas.get(position).getTouxiang())
 							//.apply(myOptions2)
 							.transform(new GlideCircleTransform(MyApplication.getAppContext(),2,Color.parseColor("#ffffffff")))
 							//	.transform(new GlideRoundTransform(MyApplication.getAppContext(), 6))
@@ -1506,7 +1569,7 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 			if (item.getTouxiang() != null) {
 				Glide.with(MyApplication.getAppContext())
 						//	.load(R.drawable.vvv)
-						.load(zhuji+item.getTouxiang())
+						.load(baoCunBean.getTouxiangzhuji()+item.getTouxiang())
 					//	.load("http://121.46.3.20" + item.getTouxiang())
 						//.apply(myOptions)
 						.transform(new GlideCircleTransform(MyApplication.getAppContext(),0,Color.parseColor("#ffffffff")))
@@ -1993,7 +2056,10 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 		unregisterReceiver(myReceiver);
 		unregisterReceiver(netWorkStateReceiver);
 		synthesizer.release();
-
+		if (m_weakHandler!=null){
+			m_weakHandler.removeCallbacks(m_runnableSendStar);
+			m_weakHandler.removeCallbacks(m_runnableCrazyMode);
+		}
 
 		super.onDestroy();
 
@@ -2293,6 +2359,7 @@ public class XinChunActivity extends Activity implements RecytviewCash {
 		}
 
 	}
+
 
 
 

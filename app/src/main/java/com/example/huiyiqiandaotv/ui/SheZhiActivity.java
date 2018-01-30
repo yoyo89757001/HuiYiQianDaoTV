@@ -46,7 +46,14 @@ public class SheZhiActivity extends Activity implements View.OnClickListener, Vi
 
         baoCunBeanDao= MyApplication.myApplication.getDaoSession().getBaoCunBeanDao();
         baoCunBean=baoCunBeanDao.load(123456L);
-
+        if (baoCunBean.getWenzi()==null){
+            baoCunBean.setWenzi("中国电信");
+        }
+        if (baoCunBean.getTouxiangzhuji()==null){
+            baoCunBean.setTouxiangzhuji("http://121.46.3.20");
+        }
+        baoCunBeanDao.update(baoCunBean);
+        baoCunBean=baoCunBeanDao.load(123456L);
 
         setContentView(R.layout.activity_she_zhi);
 
@@ -295,15 +302,15 @@ public class SheZhiActivity extends Activity implements View.OnClickListener, Vi
                     @Override public void onAnimationEnd(Animator animation) {
 
                         final XiuGaiXinXiDialog dialog=new XiuGaiXinXiDialog(SheZhiActivity.this);
-                        if (baoCunBean.getZhanghuid()==0){
-                            dialog.setContents("设置会议Id","10000011");
+                        if (baoCunBean.getTouxiangzhuji()==null){
+                            dialog.setContents("设置头像主机地址)","http://121.46.3.20");
                         }else {
-                            dialog.setContents("设置会议Id",baoCunBean.getZhanghuid()+"");
+                            dialog.setContents("设置头像主机地址",baoCunBean.getTouxiangzhuji());
                         }
                         dialog.setOnQueRenListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                baoCunBean.setZhanghuid(Integer.valueOf(dialog.getContents()));
+                                baoCunBean.setTouxiangzhuji(dialog.getContents());
                                 baoCunBeanDao.update(baoCunBean);
                                 baoCunBean=baoCunBeanDao.load(123456L);
                                 dialog.dismiss();
